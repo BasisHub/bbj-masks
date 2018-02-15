@@ -1,7 +1,7 @@
 {
   "name": "bbj-masks",
   "version": "1.0.0",
-  "description": "Format Javascript Dates & Numbers using BBj date masks",
+  "description": "Format Javascript Dates & Numbers using BBj supported masks",
   "main": "Masks.js",
   "author": "Hyyan Abo Fakher",
   "license": "MIT",
