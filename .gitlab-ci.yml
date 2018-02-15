@@ -1,0 +1,15 @@
+stages:
+  - test
+
+before_script:
+  #Print general information
+  - pwd
+  - git --version
+  - node --version
+  - yarn -v
+  
+project_test:
+  stage: test
+  script:
+    - yarn install 
+    - yarn test
