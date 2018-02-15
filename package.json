@@ -1,0 +1,26 @@
+{
+  "name": "bbj-masks",
+  "version": "1.0.0",
+  "description": "Format Javascript Dates & Numbers using BBj date masks",
+  "main": "Masks.js",
+  "author": "Hyyan Abo Fakher",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "./node_modules/.bin/webpack --watch --progress",
+    "start:test": "./node_modules/.bin/mocha-webpack './test/**/*.js' --watch",
+    "test": "./node_modules/.bin/mocha-webpack './test/**/*.js'",
+    "build": "./node_modules/.bin/webpack"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "mocha": "^5.0.1",
+    "mocha-webpack": "^1.0.1",
+    "uglifyjs-webpack-plugin": "^1.1.8",
+    "webpack": "^3.11.0"
+  },
+  "dependencies": {
+    "number-format.js": "^1.1.11"
+  }
+}
