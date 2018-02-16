@@ -4,8 +4,8 @@ const path = require("path");
 
 module.exports = {
   entry: {
-    "bbj-masks": "./src/Masks.js",
-    "bbj-masks.min": "./src/Masks.js"
+    "bbj-masks": "./src/index.js",
+    "bbj-masks.min": "./src/index.js"
   },
   devtool: "source-map",
   output: {
@@ -19,7 +19,10 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: "babel-loader",
+        options: {
+          presets: ['@babel/preset-env']
+        }
       }
     ]
   },

@@ -6,8 +6,8 @@
  * file that was distributed with this source code.
  */
 
-import * as NumberMask from 'number-format.js/lib/format.js';
-import {DateMask} from './DateMask.js';
+import NumberMask from 'number-format.js/lib/format.js';
+import {default as DateMask} from './DateMask.js';
 
 /** 
  * Masks
@@ -16,7 +16,7 @@ import {DateMask} from './DateMask.js';
  * 
  * @author Hyyan Abo Fakher <habofakher@basis.com>
 */
-export class Masks {
+export default class Masks {
 
   /**
    * Mask a number according to bbj masking rules 
@@ -28,7 +28,7 @@ export class Masks {
    * 
    * {@link https://github.com/Mottie/javascript-number-formatter}
    */
-  static maskNumber(number, mask) {
+  static number(number, mask) {
     return NumberMask(mask, number);
   }
 
@@ -40,7 +40,7 @@ export class Masks {
    * 
    * @return {String} number masked with the given mask
    */
-  static maskDate(date, mask) {
+  static date(date, mask) {
     return new DateMask().maskDate(date, mask);
   }
 };

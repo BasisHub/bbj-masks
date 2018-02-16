@@ -13,8 +13,9 @@
     "build": "./node_modules/.bin/webpack"
   },
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
+    "babel-loader": "8.0.0-beta.0",
     "mocha": "^5.0.1",
     "mocha-webpack": "^1.0.1",
     "uglifyjs-webpack-plugin": "^1.1.8",

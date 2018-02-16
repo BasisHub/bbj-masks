@@ -75,23 +75,48 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_number_format_js_lib_format_js__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_number_format_js_lib_format_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_number_format_js_lib_format_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DateMask_js__ = __webpack_require__(2);
-/*
- * This file is part of bbj-masks lib.
- * (c) Basis Europe <eu@basis.com>
- * 
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "Masks", {
+  enumerable: true,
+  get: function get() {
+    return _Masks.default;
+  }
+});
 
+var _Masks = _interopRequireDefault(__webpack_require__(1));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _format = _interopRequireDefault(__webpack_require__(2));
+
+var _DateMask = _interopRequireDefault(__webpack_require__(3));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /** 
  * Masks
@@ -100,39 +125,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * 
  * @author Hyyan Abo Fakher <habofakher@basis.com>
 */
-class Masks {
-
-  /**
-   * Mask a number according to bbj masking rules 
-   * 
-   * @param {Number} number the number to format
-   * @param {String} mask the mask to use 
-   * 
-   * @return {String} number masked with the given mask
-   * 
-   * {@link https://github.com/Mottie/javascript-number-formatter}
-   */
-  static maskNumber(number, mask) {
-    return __WEBPACK_IMPORTED_MODULE_0_number_format_js_lib_format_js__(mask, number);
+var Masks =
+/*#__PURE__*/
+function () {
+  function Masks() {
+    _classCallCheck(this, Masks);
   }
 
-  /**
-   * Mask a date according to bbj masking rules 
-   * 
-   * @param {String} number the date to format
-   * @param {String} mask the mask to use 
-   * 
-   * @return {String} number masked with the given mask
-   */
-  static maskDate(date, mask) {
-    return new __WEBPACK_IMPORTED_MODULE_1__DateMask_js__["a" /* DateMask */]().maskDate(date, mask);
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["Masks"] = Masks;
+  _createClass(Masks, null, [{
+    key: "number",
+
+    /**
+     * Mask a number according to bbj masking rules 
+     * 
+     * @param {Number} number the number to format
+     * @param {String} mask the mask to use 
+     * 
+     * @return {String} number masked with the given mask
+     * 
+     * {@link https://github.com/Mottie/javascript-number-formatter}
+     */
+    value: function number(_number, mask) {
+      return (0, _format.default)(mask, _number);
+    }
+    /**
+     * Mask a date according to bbj masking rules 
+     * 
+     * @param {String} number the date to format
+     * @param {String} mask the mask to use 
+     * 
+     * @return {String} number masked with the given mask
+     */
+
+  }, {
+    key: "date",
+    value: function date(_date, mask) {
+      return new _DateMask.default().maskDate(_date, mask);
+    }
+  }]);
+
+  return Masks;
+}();
+
+exports.default = Masks;
 ;
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -258,10 +297,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -277,176 +329,179 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
  * 
  * @author Hyyan Abo Fakher <habofakher@basis.com>
 */
-class DateMask {
+var DateMask =
+/*#__PURE__*/
+function () {
+  function DateMask() {
+    _classCallCheck(this, DateMask);
+  }
 
-  /** 
-   * Mask date
-   * 
-   * Mask the passed date with the passed mask
-   * 
-   * @param {String} date date as a string
-   * @param {String} mask mask as a string
-   * 
-   * @return {String} a date masked witht the given mask
-   */
-  maskDate(date, mask) {
+  _createClass(DateMask, [{
+    key: "maskDate",
 
-    if (!date || !mask) throw new Error('Missing date/mask');
+    /** 
+     * Mask date
+     * 
+     * Mask the passed date with the passed mask
+     * 
+     * @param {String} date date as a string
+     * @param {String} mask mask as a string
+     * 
+     * @return {String} a date masked witht the given mask
+     */
+    value: function maskDate(date, mask) {
+      if (!date || !mask) throw new Error('Missing date/mask');
 
-    const dateDetails = this._parseDate(date);
-    const translations = this._buildTransilation(dateDetails);
+      var dateDetails = this._parseDate(date);
 
-    let result = mask;
-    for (var k in translations) {
-      result = result.replace(new RegExp('(%' + k + ')', 'g'), translations[k]);
+      var translations = this._buildTransilation(dateDetails);
+
+      var result = mask;
+
+      for (var k in translations) {
+        result = result.replace(new RegExp('(%' + k + ')', 'g'), translations[k]);
+      }
+
+      return result;
     }
+    /**
+     * Parse the passed date string adn return its detilas
+     * 
+     * @param {String} date date as a string
+     * 
+     * @return {Object} 
+     */
 
-    return result;
-  }
+  }, {
+    key: "_parseDate",
+    value: function _parseDate(date) {
+      var dateObject = new Date(date);
+      var hours24 = dateObject.getHours();
+      var hours12 = hours24 - 12;
+      hours12 = hours12 <= 12 ? hours12 : hours24;
+      hours12 = hours12 == 0 ? 12 : hours12;
 
-  /**
-   * Parse the passed date string adn return its detilas
-   * 
-   * @param {String} date date as a string
-   * 
-   * @return {Object} 
-   */
-  _parseDate(date) {
+      var dayOfYear = this._getDayOfYear(date); // const dayOfWeek = dateObject.getDay() ?
 
-    const dateObject = new Date(date);
 
-    const hours24 = dateObject.getHours();
-    let hours12 = hours24 - 12;
-    hours12 = hours12 <= 12 ? hours12 : hours24;
-    hours12 = hours12 == 0 ? 12 : hours12;
+      return {
+        "year": dateObject.getFullYear(),
+        "month": dateObject.getMonth() + 1,
+        "day": dateObject.getDate(),
+        "minutes": dateObject.getMinutes(),
+        "seconds": dateObject.getSeconds(),
+        "hours24": hours24,
+        "hours12": hours12,
+        "dayOfYear": dayOfYear,
+        "dayOfWeek": dateObject.getDay() + 1 // Sunday = 1 in BBj but Sunday = 0 in JS
 
-    const dayOfYear = this._getDayOfYear(date);
-    // const dayOfWeek = dateObject.getDay() ?
+      };
+    }
+    /**
+     * Get a map object which contains all possible forms of masks
+     * 
+     * @param {Object} dateDetails date details built by `_parseDate`
+     * 
+     * @return {Object} forms masks
+     */
 
-    return {
-      "year": dateObject.getFullYear(),
-      "month": dateObject.getMonth() + 1,
-      "day": dateObject.getDate(),
-      "minutes": dateObject.getMinutes(),
-      "seconds": dateObject.getSeconds(),
-      "hours24": hours24,
-      "hours12": hours12,
-      "dayOfYear": dayOfYear,
-      "dayOfWeek": dateObject.getDay() + 1 // Sunday = 1 in BBj but Sunday = 0 in JS
-    };
-  }
+  }, {
+    key: "_buildTransilation",
+    value: function _buildTransilation(dateDetails) {
+      return {
+        // year 
+        "Yz": dateDetails.year.toString().substr(-2),
+        "Ys": dateDetails.year,
+        "Yl": dateDetails.year,
+        "Yp": String.fromCharCode(dateDetails.year),
+        "Yd": dateDetails.year,
+        "Y": dateDetails.year,
+        // month
+        "Mz": String(dateDetails.month).length == 1 ? "0" + dateDetails.month : dateDetails.month,
+        "Ms": dateDetails.month,
+        "Ml": dateDetails.month,
+        "Mp": String.fromCharCode(dateDetails.month),
+        "Md": dateDetails.month,
+        "M": dateDetails.month,
+        // day
+        "Dz": String(dateDetails.day).length == 1 ? "0" + dateDetails.day : dateDetails.day,
+        "Ds": dateDetails.day,
+        "Dl": dateDetails.day,
+        "Dp": String.fromCharCode(dateDetails.day),
+        "Dd": dateDetails.day,
+        "D": dateDetails.day,
+        // hour 24
+        "Hz": String(dateDetails.hours24).length == 1 ? "0" + dateDetails.hours24 : dateDetails.hours24,
+        "Hs": dateDetails.hours24,
+        "Hl": dateDetails.hours24,
+        "Hp": String.fromCharCode(dateDetails.hours24),
+        "Hd": dateDetails.hours24,
+        "H": dateDetails.hours24,
+        // hour 12
+        "hz": String(dateDetails.hours12).length == 1 ? "0" + dateDetails.hours12 : dateDetails.hours12,
+        "hs": dateDetails.hours12,
+        "hl": dateDetails.hours12,
+        "hp": String.fromCharCode(dateDetails.hours12),
+        "hd": dateDetails.hours12,
+        "h": dateDetails.hours12,
+        // minutes
+        "mz": String(dateDetails.minutes).length == 1 ? "0" + dateDetails.minutes : dateDetails.minutes,
+        "ms": dateDetails.minutes,
+        "ml": dateDetails.minutes,
+        "mp": String.fromCharCode(dateDetails.minutes),
+        "md": dateDetails.minutes,
+        "m": dateDetails.minutes,
+        // seconds
+        "sz": String(dateDetails.seconds).length == 1 ? "0" + dateDetails.seconds : dateDetails.seconds,
+        "ss": dateDetails.seconds,
+        "sl": dateDetails.seconds,
+        "sp": String.fromCharCode(dateDetails.seconds),
+        "sd": dateDetails.seconds,
+        "s": dateDetails.seconds,
+        // AM , PM
+        "PP": dateDetails.hours24 > 12 ? "PM" : "PM",
+        "P": dateDetails.hours24 > 12 ? "PM" : "AM",
+        "pp": dateDetails.hours24 > 12 ? "pm" : "am",
+        "p": dateDetails.hours24 > 12 ? "pm" : "am",
+        // Day of Year
+        "Jz": String(dateDetails.dayOfYear).length == 1 ? "0" + dateDetails.dayOfYear : dateDetails.dayOfYear,
+        "Js": dateDetails.dayOfYear,
+        "Jl": dateDetails.dayOfYear,
+        "Jd": dateDetails.dayOfYear,
+        "J": dateDetails.dayOfYear,
+        // Day Of Week 
+        "Wz": String(dateDetails.dayOfWeek).length == 1 ? "0" + dateDetails.dayOfWeek : dateDetails.dayOfWeek,
+        "Ws": dateDetails.dayOfWeek,
+        "Wl": dateDetails.dayOfWeek,
+        "Wp": String.fromCharCode(dateDetails.dayOfWeek),
+        "Wd": dateDetails.dayOfWeek,
+        "W": dateDetails.dayOfWeek
+      };
+    }
+    /**
+     * Get the Day number within the year (1-366).
+     * 
+     * @param {String} date date as a string
+     * 
+     * @returns {Number}
+     */
 
-  /**
-   * Get a map object which contains all possible forms of masks
-   * 
-   * @param {Object} dateDetails date details built by `_parseDate`
-   * 
-   * @return {Object} forms masks
-   */
-  _buildTransilation(dateDetails) {
+  }, {
+    key: "_getDayOfYear",
+    value: function _getDayOfYear(date) {
+      var now = new Date(date);
+      var start = new Date(now.getFullYear(), 0, 0);
+      var diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+      var oneDay = 1000 * 60 * 60 * 24;
+      var day = Math.floor(diff / oneDay);
+      return day;
+    }
+  }]);
 
-    return {
+  return DateMask;
+}();
 
-      // year 
-      "Yz": dateDetails.year.toString().substr(-2),
-      "Ys": dateDetails.year,
-      "Yl": dateDetails.year,
-      "Yp": String.fromCharCode(dateDetails.year),
-      "Yd": dateDetails.year,
-      "Y": dateDetails.year,
-
-      // month
-      "Mz": String(dateDetails.month).length == 1 ? "0" + dateDetails.month : dateDetails.month,
-      "Ms": dateDetails.month,
-      "Ml": dateDetails.month,
-      "Mp": String.fromCharCode(dateDetails.month),
-      "Md": dateDetails.month,
-      "M": dateDetails.month,
-
-      // day
-      "Dz": String(dateDetails.day).length == 1 ? "0" + dateDetails.day : dateDetails.day,
-      "Ds": dateDetails.day,
-      "Dl": dateDetails.day,
-      "Dp": String.fromCharCode(dateDetails.day),
-      "Dd": dateDetails.day,
-      "D": dateDetails.day,
-
-      // hour 24
-      "Hz": String(dateDetails.hours24).length == 1 ? "0" + dateDetails.hours24 : dateDetails.hours24,
-      "Hs": dateDetails.hours24,
-      "Hl": dateDetails.hours24,
-      "Hp": String.fromCharCode(dateDetails.hours24),
-      "Hd": dateDetails.hours24,
-      "H": dateDetails.hours24,
-
-      // hour 12
-      "hz": String(dateDetails.hours12).length == 1 ? "0" + dateDetails.hours12 : dateDetails.hours12,
-      "hs": dateDetails.hours12,
-      "hl": dateDetails.hours12,
-      "hp": String.fromCharCode(dateDetails.hours12),
-      "hd": dateDetails.hours12,
-      "h": dateDetails.hours12,
-
-      // minutes
-      "mz": String(dateDetails.minutes).length == 1 ? "0" + dateDetails.minutes : dateDetails.minutes,
-      "ms": dateDetails.minutes,
-      "ml": dateDetails.minutes,
-      "mp": String.fromCharCode(dateDetails.minutes),
-      "md": dateDetails.minutes,
-      "m": dateDetails.minutes,
-
-      // seconds
-      "sz": String(dateDetails.seconds).length == 1 ? "0" + dateDetails.seconds : dateDetails.seconds,
-      "ss": dateDetails.seconds,
-      "sl": dateDetails.seconds,
-      "sp": String.fromCharCode(dateDetails.seconds),
-      "sd": dateDetails.seconds,
-      "s": dateDetails.seconds,
-
-      // AM , PM
-      "PP": dateDetails.hours24 > 12 ? "PM" : "PM",
-      "P": dateDetails.hours24 > 12 ? "PM" : "AM",
-      "pp": dateDetails.hours24 > 12 ? "pm" : "am",
-      "p": dateDetails.hours24 > 12 ? "pm" : "am",
-
-      // Day of Year
-      "Jz": String(dateDetails.dayOfYear).length == 1 ? "0" + dateDetails.dayOfYear : dateDetails.dayOfYear,
-      "Js": dateDetails.dayOfYear,
-      "Jl": dateDetails.dayOfYear,
-      "Jd": dateDetails.dayOfYear,
-      "J": dateDetails.dayOfYear,
-
-      // Day Of Week 
-      "Wz": String(dateDetails.dayOfWeek).length == 1 ? "0" + dateDetails.dayOfWeek : dateDetails.dayOfWeek,
-      "Ws": dateDetails.dayOfWeek,
-      "Wl": dateDetails.dayOfWeek,
-      "Wp": String.fromCharCode(dateDetails.dayOfWeek),
-      "Wd": dateDetails.dayOfWeek,
-      "W": dateDetails.dayOfWeek
-    };
-  }
-
-  /**
-   * Get the Day number within the year (1-366).
-   * 
-   * @param {String} date date as a string
-   * 
-   * @returns {Number}
-   */
-  _getDayOfYear(date) {
-
-    const now = new Date(date);
-    const start = new Date(now.getFullYear(), 0, 0);
-
-    var diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
-    var oneDay = 1000 * 60 * 60 * 24;
-    var day = Math.floor(diff / oneDay);
-
-    return day;
-  }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = DateMask;
-
+exports.default = DateMask;
 
 /***/ })
 /******/ ]);

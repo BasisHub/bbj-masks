@@ -13,7 +13,7 @@
  * 
  * @author Hyyan Abo Fakher <habofakher@basis.com>
 */
-export class DateMask {
+export default class DateMask {
 
   /** 
    * Mask date

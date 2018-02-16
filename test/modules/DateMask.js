@@ -7,8 +7,8 @@
  */
 
 const assert = require('assert');
-const DateMask = require("../src/DateMask.js").default;
-const datesProvider = require("./providers/DatesProvider.js");
+const DateMask = require("../../src/modules/DateMask.js").default;
+const datesProvider = require("../providers/DatesProvider.js");
 
 describe('maskDate', () => {
 
