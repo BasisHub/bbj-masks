@@ -350,7 +350,8 @@ function () {
      * @return {String} a date masked witht the given mask
      */
     value: function maskDate(date, mask) {
-      if (!date || !mask) throw new Error('Missing date/mask');
+      if (!date) return;
+      if (!mask) return date;
 
       var dateDetails = this._parseDate(date);
 

@@ -12,18 +12,6 @@ const datesProvider = require("../providers/DatesProvider.js");
 
 describe('maskDate', () => {
 
-  it('throws an error if date is not passed', () => {
-    assert.throws(() => {
-      new DateMask().maskDate(null, '');
-    }, Error, /Missing date\/maskdsfsdf/);
-  });
-
-  it('throws an error if mask is not passed', () => {
-    assert.throws(() => {
-      new DateMask().maskDate(new Date().toString(), '');
-    }, Error, /Missing date\/maskdsfsdf/);
-  });
-
   describe('_parseDate returns data details as object', () => {
 
     const date = "2018-02-15 14:01:06"

@@ -27,8 +27,9 @@ export default class DateMask {
    */
   maskDate(date, mask) {
 
-    if (!date || !mask) throw new Error('Missing date/mask');
-
+    if (!date) return;
+    if (!mask) return date;
+  
     const dateDetails = this._parseDate(date);
     const translations = this._buildTransilation(dateDetails);
 
