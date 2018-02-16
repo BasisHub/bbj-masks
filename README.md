@@ -44,8 +44,8 @@ console.log(formattedDate) // -> 18 - 02 - 15
 | %d      | × |Day number within the week (1-7, differs by locale). Available in BBj 16.0 and higher
 | %y      | × |	Base year of the current week, available in BBj 16.0 and higher. The first few days of January may fall into the last week of the previous year. The last few days of December may fall into the first week of the following year.|
 
-| Modifier          | Supported     | Description| Note|
-|:-------------: |:-------------:|:----------|:--------:|
+| Modifier          | Supported     | Description|
+|:-------------: |:-------------:|:----------|
 | %z      | ✓ |Zero-fill|
 | %s      | ✓ |Short text|
 | %l      | ✓ |Long text|
