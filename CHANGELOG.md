@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.2.1 - 22/02/2018
+
+* Update `package.json` with the correct version
 ## v1.2.0 - 21/02/2018
 
 * Update `package.json` with the correct main file
