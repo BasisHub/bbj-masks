@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2 - 23/02/2018
+
+* Improved webpack config to handle `BBj` namespace correclty 
+
 ## v1.2.1 - 22/02/2018
 
 * Update `package.json` with the correct version

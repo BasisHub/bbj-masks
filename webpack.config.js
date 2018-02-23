@@ -11,7 +11,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "[name].js",
-    library: "BBj",
+    library: ["BBj", "Masks"],
     libraryTarget: "umd"
   },
   module: {

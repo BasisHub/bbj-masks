@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["BBj"] = factory();
+		exports["Masks"] = factory();
 	else
-		root["BBj"] = factory();
+		root["BBj"] = root["BBj"] || {}, root["BBj"]["Masks"] = factory();
 })(typeof self !== 'undefined' ? self : this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -83,95 +83,52 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "Masks", {
-  enumerable: true,
-  get: function get() {
-    return _Masks.default;
-  }
-});
+exports.number = number;
+exports.date = date;
 
-var _Masks = _interopRequireDefault(__webpack_require__(1));
+var _format = _interopRequireDefault(__webpack_require__(1));
+
+var _DateMask = _interopRequireDefault(__webpack_require__(2));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+  * Mask a number according to bbj masking rules 
+  * 
+  * @param {Number} number the number to format
+  * @param {String} mask the mask to use 
+  * 
+  * @return {String} number masked with the given mask
+  * 
+  * {@link https://github.com/Mottie/javascript-number-formatter}
+  */
+function number(number, mask) {
+  return (0, _format.default)(mask, number);
+}
+/**
+ * Mask a date according to bbj masking rules 
+ * 
+ * @param {String} number the date to format
+ * @param {String} mask the mask to use 
+ * 
+ * @return {String} number masked with the given mask
+ */
+
+
+function date(date, mask) {
+  return new _DateMask.default().maskDate(date, mask);
+}
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _format = _interopRequireDefault(__webpack_require__(2));
-
-var _DateMask = _interopRequireDefault(__webpack_require__(3));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-/** 
- * Masks
- * 
- * Handle BBj dates and number masking 
- * 
- * @author Hyyan Abo Fakher <habofakher@basis.com>
-*/
-var Masks =
-/*#__PURE__*/
-function () {
-  function Masks() {
-    _classCallCheck(this, Masks);
-  }
-
-  _createClass(Masks, null, [{
-    key: "number",
-
-    /**
-     * Mask a number according to bbj masking rules 
-     * 
-     * @param {Number} number the number to format
-     * @param {String} mask the mask to use 
-     * 
-     * @return {String} number masked with the given mask
-     * 
-     * {@link https://github.com/Mottie/javascript-number-formatter}
-     */
-    value: function number(_number, mask) {
-      return (0, _format.default)(mask, _number);
-    }
-    /**
-     * Mask a date according to bbj masking rules 
-     * 
-     * @param {String} number the date to format
-     * @param {String} mask the mask to use 
-     * 
-     * @return {String} number masked with the given mask
-     */
-
-  }, {
-    key: "date",
-    value: function date(_date, mask) {
-      return new _DateMask.default().maskDate(_date, mask);
-    }
-  }]);
-
-  return Masks;
-}();
-
-exports.default = Masks;
-;
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -297,7 +254,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
