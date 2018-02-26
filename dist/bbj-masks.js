@@ -335,9 +335,7 @@ function () {
     value: function _parseDate(date) {
       var dateObject = new Date(date);
       var hours24 = dateObject.getHours();
-      var hours12 = hours24 - 12;
-      hours12 = hours12 <= 12 ? hours12 : hours24;
-      hours12 = hours12 == 0 ? 12 : hours12;
+      var hours12 = hours24 % 12 || 12;
 
       var dayOfYear = this._getDayOfYear(date); // const dayOfWeek = dateObject.getDay() ?
 
