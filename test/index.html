@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BBj Masks</title>
+  <!-- Load libraries start -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/4.1.2/chai.min.js"></script>
+  <!-- Load libraries  end -->
+</head>
+
+<body>
+  <!-- Mocha initialization start -->
+  <div id="mocha"></div>
+  <script>
+    mocha.setup('bdd');
+  </script>
+  <!-- Mocha initialization end -->
+
+  <!-- Load our package and test files start -->
+  <script src="../dist/bbj-masks-bundle.js"></script>
+  <script src="./providers/DatesProvider.js"></script>
+  <script src="./modules/DateMask.js"></script>
+  <!-- Load our package and test files end -->
+
+  <!-- Run tests start -->
+  <script>
+    mocha.checkLeaks();
+    mocha.run();
+  </script>
+  <!-- Run tests end -->
+</body>
+
+</html>

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.4 - 26/02/2018
+
+* Add `DateJs` as optional deps for IE11
+
 ## v1.2.3 - 26/02/2018
 
 * Fix 24 hours are wrongly formatted 

@@ -6,16 +6,16 @@
  * file that was distributed with this source code.
  */
 
-const assert = require('assert');
-const DateMask = require("../../src/modules/DateMask.js").default;
-const datesProvider = require("../providers/DatesProvider.js");
+var assert = typeof chai !== "undefined" ? chai.assert : require('assert');
+var DateMask = typeof BBj !== "undefined" ? BBj.Masks.DateMask : require("../../src/modules/DateMask.js").default;
+var datesProvider = typeof DatesProvider !== "undefined" ? DatesProvider : require("../providers/DatesProvider.js");
 
-describe('maskDate', () => {
+describe('DateMask', function () {
 
-  describe('_parseDate returns data details as object', () => {
+  describe('_parseDate returns data details as object', function () {
 
-    const date = "2018-02-15 14:01:06"
-    const expected = {
+    var date = "2018-02-15 14:01:06"
+    var expected = {
       "year": 2018,
       "month": 2,
       "day": 15,
@@ -25,25 +25,27 @@ describe('maskDate', () => {
       "hours12": 2
     };
 
-    const parsed = new DateMask()._parseDate(date);
+    var parsed = new DateMask()._parseDate(date);
 
-    for (const key in parsed) {
+    for (var key in parsed) {
 
-      it(`${key} in (${date}) is ${expected[key]}`, () => {
-        if (expected.hasOwnProperty(key)) {
-          assert.equal(parsed[key], expected[key]);
-        }
-      })
+      if (expected.hasOwnProperty(key)) {
+        it(key + " in (" + date + ") is " + expected[key], function () {
+          if (expected.hasOwnProperty(key)) {
+            assert.equal(parsed[key], expected[key]);
+          }
+        })
+      }
     }
   });
 
-  describe("_detDayOfYear", () => {
+  describe("_detDayOfYear", function () {
 
-    it('returns 46 for 2018-02-15', () => {
+    it('returns 46 for 2018-02-15', function () {
       assert.equal(new DateMask()._getDayOfYear("2018-02-15"), 46);
     })
 
-    it('returns 46 for 2018-02-16', () => {
+    it('returns 47 for 2018-02-16', function () {
       assert.equal(new DateMask()._getDayOfYear("2018-02-16"), 47);
     })
   });
@@ -52,10 +54,10 @@ describe('maskDate', () => {
 
     for (let x = 0; x < datesProvider.length; x++) {
 
-      const item = datesProvider[x];
+      var item = datesProvider[x];
       it(
-        `date = ${item.date} , format = ${item.mask} , masked = ${item.expected}`,
-        () => {
+        "date =" + item.date + ", format = " + item.mask + ", masked = " + item.expected,
+        function () {
 
           assert.equal(
             new DateMask().maskDate(item.date, item.mask),

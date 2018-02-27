@@ -85,6 +85,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.number = number;
 exports.date = date;
+Object.defineProperty(exports, "DateMask", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.default;
+  }
+});
 
 var _format = _interopRequireDefault(__webpack_require__(1));
 
@@ -333,7 +339,8 @@ function () {
   }, {
     key: "_parseDate",
     value: function _parseDate(date) {
-      var dateObject = new Date(date);
+      var dateObject = Date.parse(date);
+      if (!(dateObject instanceof Date)) dateObject = new Date(date);
       var hours24 = dateObject.getHours();
       var hours12 = hours24 % 12 || 12;
 

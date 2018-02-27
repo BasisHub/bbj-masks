@@ -8,8 +8,9 @@
 
 
 import NumberMask from 'number-format.js/lib/format.js';
-import { default as DateMask } from './modules/DateMask.js';
+import DateMask from './modules/DateMask.js';
 
+export {DateMask};
 
 /**
   * Mask a number according to bbj masking rules 

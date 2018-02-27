@@ -435,6 +435,10 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+Datejs@datejs/Datejs:
+  version "1.0.0"
+  resolved "https://codeload.github.com/datejs/Datejs/tar.gz/a72399570889031d19f5fbc23095f840a32db968"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"

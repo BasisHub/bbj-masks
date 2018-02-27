@@ -5,7 +5,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+ 
 /** 
  * DateMask
  * 
@@ -29,7 +29,7 @@ export default class DateMask {
 
     if (!date) return;
     if (!mask) return date;
-  
+
     const dateDetails = this._parseDate(date);
     const translations = this._buildTransilation(dateDetails);
 
@@ -53,7 +53,8 @@ export default class DateMask {
    */
   _parseDate(date) {
 
-    const dateObject = new Date(date);
+    let dateObject = Date.parse(date);
+    if (!(dateObject instanceof Date)) dateObject = new Date(date);
 
     const hours24 = dateObject.getHours();
     let hours12 = (hours24 % 12) || 12;
@@ -69,8 +70,8 @@ export default class DateMask {
       "seconds": dateObject.getSeconds(),
       "hours24": hours24,
       "hours12": hours12,
-      "dayOfYear" : dayOfYear,
-      "dayOfWeek" : dateObject.getDay() + 1  // Sunday = 1 in BBj but Sunday = 0 in JS
+      "dayOfYear": dayOfYear,
+      "dayOfWeek": dateObject.getDay() + 1  // Sunday = 1 in BBj but Sunday = 0 in JS
     };
   }
 
@@ -144,8 +145,8 @@ export default class DateMask {
       // AM , PM
       "PP": dateDetails.hours24 > 12 ? "PM" : "PM",
       "P": dateDetails.hours24 > 12 ? "PM" : "AM",
-      "pp": dateDetails.hours24 > 12 ? "pm" :"am",
-      "p": dateDetails.hours24 > 12 ? "pm" :"am",
+      "pp": dateDetails.hours24 > 12 ? "pm" : "am",
+      "p": dateDetails.hours24 > 12 ? "pm" : "am",
 
       // Day of Year
       "Jz": String(dateDetails.dayOfYear).length == 1 ? "0" + dateDetails.dayOfYear : dateDetails.dayOfYear,
