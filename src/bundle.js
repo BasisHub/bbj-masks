@@ -6,6 +6,6 @@
  * file that was distributed with this source code.
  */
 
- import 'Datejs';
+import 'Datejs';
+export * from './index.js';
 
- export * from './index.js';

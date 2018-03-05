@@ -70,197 +70,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.number = number;
-exports.date = date;
-Object.defineProperty(exports, "DateMask", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask.default;
-  }
-});
-
-var _format = _interopRequireDefault(__webpack_require__(1));
-
-var _DateMask = _interopRequireDefault(__webpack_require__(2));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
- * This file is part of bbj-masks lib.
- * (c) Basis Europe <eu@basis.com>
- * 
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
-/**
-  * Mask a number according to bbj masking rules 
-  * 
-  * @param {Number} number the number to format
-  * @param {String} mask the mask to use 
-  * 
-  * @return {String} number masked with the given mask
-  * 
-  * {@link https://github.com/Mottie/javascript-number-formatter}
-  */
-function number(number, mask) {
-  return (0, _format.default)(mask, number);
-}
-/**
- * Mask a date according to bbj masking rules 
- * 
- * @param {String} number the date to format
- * @param {String} mask the mask to use 
- * 
- * @return {String} number masked with the given mask
- */
-
-
-function date(date, mask) {
-  return new _DateMask.default().maskDate(date, mask);
-}
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * javascript-number-formatter
- * Lightweight & Fast JavaScript Number Formatter
- *
- * @preserve IntegraXor Web SCADA - JavaScript Number Formatter (http://www.integraxor.com/)
- * @author KPL
- * @maintainer Rob Garrison
- * @copyright 2017 ecava
- * @license MIT
- * @link http://mottie.github.com/javascript-number-formatter/
- * @version 1.1.11
- */
-/*jshint browser:true */
-/* global define, module */
-(function ( root, factory ) {
-	if ( true ) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if ( typeof module === 'object' ) {
-		module.exports = factory();
-	} else {
-		root.format = factory();
-	}
-}( this, function () {
-
-	return function ( mask, value ) {
-		'use strict';
-		if ( !mask || isNaN( +value ) ) {
-			return value; // return as it is.
-		}
-
-		var isNegative, result, decimal, group, posLeadZero, posTrailZero, posSeparator,
-			part, szSep, integer,
-
-			// find prefix/suffix
-			len = mask.length,
-			start = mask.search( /[0-9\-\+#]/ ),
-			prefix = start > 0 ? mask.substring( 0, start ) : '',
-			// reverse string: not an ideal method if there are surrogate pairs
-			str = mask.split( '' ).reverse().join( '' ),
-			end = str.search( /[0-9\-\+#]/ ),
-			offset = len - end,
-			substr = mask.substring( offset, offset + 1 ),
-			indx = offset + ( ( substr === '.' || ( substr === ',' )) ? 1 : 0 ),
-			suffix = end > 0 ? mask.substring( indx, len ) : '';
-
-		// mask with prefix & suffix removed
-		mask = mask.substring( start, indx );
-
-		// convert any string to number according to formation sign.
-		value = mask.charAt( 0 ) === '-' ? -value : +value;
-		isNegative = value < 0 ? value = -value : 0; // process only abs(), and turn on flag.
-
-		// search for separator for grp & decimal, anything not digit, not +/- sign, not #.
-		result = mask.match( /[^\d\-\+#]/g );
-		decimal = ( result && result[ result.length - 1 ] ) || '.'; // treat the right most symbol as decimal
-		group = ( result && result[ 1 ] && result[ 0 ] ) || ',';  // treat the left most symbol as group separator
-
-		// split the decimal for the format string if any.
-		mask = mask.split( decimal );
-		// Fix the decimal first, toFixed will auto fill trailing zero.
-		value = value.toFixed( mask[ 1 ] && mask[ 1 ].length );
-		value = +( value ) + ''; // convert number to string to trim off *all* trailing decimal zero(es)
-
-		// fill back any trailing zero according to format
-		posTrailZero = mask[ 1 ] && mask[ 1 ].lastIndexOf( '0' ); // look for last zero in format
-		part = value.split( '.' );
-		// integer will get !part[1]
-		if ( !part[ 1 ] || ( part[ 1 ] && part[ 1 ].length <= posTrailZero ) ) {
-			value = ( +value ).toFixed( posTrailZero + 1 );
-		}
-		szSep = mask[ 0 ].split( group ); // look for separator
-		mask[ 0 ] = szSep.join( '' ); // join back without separator for counting the pos of any leading 0.
-
-		posLeadZero = mask[ 0 ] && mask[ 0 ].indexOf( '0' );
-		if ( posLeadZero > -1 ) {
-			while ( part[ 0 ].length < ( mask[ 0 ].length - posLeadZero ) ) {
-				part[ 0 ] = '0' + part[ 0 ];
-			}
-		} else if ( +part[ 0 ] === 0 ) {
-			part[ 0 ] = '';
-		}
-
-		value = value.split( '.' );
-		value[ 0 ] = part[ 0 ];
-
-		// process the first group separator from decimal (.) only, the rest ignore.
-		// get the length of the last slice of split result.
-		posSeparator = ( szSep[ 1 ] && szSep[ szSep.length - 1 ].length );
-		if ( posSeparator ) {
-			integer = value[ 0 ];
-			str = '';
-			offset = integer.length % posSeparator;
-			len = integer.length;
-			for ( indx = 0; indx < len; indx++ ) {
-				str += integer.charAt( indx ); // ie6 only support charAt for sz.
-				// -posSeparator so that won't trail separator on full length
-				/*jshint -W018 */
-				if ( !( ( indx - offset + 1 ) % posSeparator ) && indx < len - posSeparator ) {
-					str += group;
-				}
-			}
-			value[ 0 ] = str;
-		}
-		value[ 1 ] = ( mask[ 1 ] && value[ 1 ] ) ? decimal + value[ 1 ] : '';
-
-		// remove negative sign if result is zero
-		result = value.join( '' );
-		if ( result === '0' || result === '' ) {
-			// remove negative sign if result is zero
-			isNegative = false;
-		}
-
-		// put back any negation, combine integer and fraction, and add back prefix & suffix
-		return prefix + ( ( isNegative ? '-' : '' ) + result ) + suffix;
-	};
-
-} ));
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -465,6 +279,236 @@ function () {
 }();
 
 exports.default = DateMask;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "DateMask", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.default;
+  }
+});
+Object.defineProperty(exports, "Types", {
+  enumerable: true,
+  get: function get() {
+    return _Types.default;
+  }
+});
+
+var _DateMask = _interopRequireDefault(__webpack_require__(0));
+
+var _Types = _interopRequireDefault(__webpack_require__(2));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _format = _interopRequireDefault(__webpack_require__(3));
+
+var _DateMask = _interopRequireDefault(__webpack_require__(0));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/** 
+ * DateMask
+ * 
+ * Handle BBj dates masking 
+ * 
+ * @author Hyyan Abo Fakher <habofakher@basis.com>
+*/
+var Types =
+/*#__PURE__*/
+function () {
+  function Types() {
+    _classCallCheck(this, Types);
+  }
+
+  _createClass(Types, null, [{
+    key: "number",
+
+    /**
+     * Mask a number according to bbj masking rules 
+     * 
+     * @param {Number} number the number to format
+     * @param {String} mask the mask to use 
+     * 
+     * @return {String} number masked with the given mask
+     * 
+     * {@link https://github.com/Mottie/javascript-number-formatter}
+     */
+    value: function number(_number, mask) {
+      return (0, _format.default)(mask, _number);
+    }
+    /**
+     * Mask a date according to bbj masking rules 
+     * 
+     * @param {String} number the date to format
+     * @param {String} mask the mask to use 
+     * 
+     * @return {String} number masked with the given mask
+     */
+
+  }, {
+    key: "date",
+    value: function date(_date, mask) {
+      return new _DateMask.default().maskDate(_date, mask);
+    }
+  }]);
+
+  return Types;
+}();
+
+exports.default = Types;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
+ * javascript-number-formatter
+ * Lightweight & Fast JavaScript Number Formatter
+ *
+ * @preserve IntegraXor Web SCADA - JavaScript Number Formatter (http://www.integraxor.com/)
+ * @author KPL
+ * @maintainer Rob Garrison
+ * @copyright 2017 ecava
+ * @license MIT
+ * @link http://mottie.github.com/javascript-number-formatter/
+ * @version 1.1.11
+ */
+/*jshint browser:true */
+/* global define, module */
+(function ( root, factory ) {
+	if ( true ) {
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else if ( typeof module === 'object' ) {
+		module.exports = factory();
+	} else {
+		root.format = factory();
+	}
+}( this, function () {
+
+	return function ( mask, value ) {
+		'use strict';
+		if ( !mask || isNaN( +value ) ) {
+			return value; // return as it is.
+		}
+
+		var isNegative, result, decimal, group, posLeadZero, posTrailZero, posSeparator,
+			part, szSep, integer,
+
+			// find prefix/suffix
+			len = mask.length,
+			start = mask.search( /[0-9\-\+#]/ ),
+			prefix = start > 0 ? mask.substring( 0, start ) : '',
+			// reverse string: not an ideal method if there are surrogate pairs
+			str = mask.split( '' ).reverse().join( '' ),
+			end = str.search( /[0-9\-\+#]/ ),
+			offset = len - end,
+			substr = mask.substring( offset, offset + 1 ),
+			indx = offset + ( ( substr === '.' || ( substr === ',' )) ? 1 : 0 ),
+			suffix = end > 0 ? mask.substring( indx, len ) : '';
+
+		// mask with prefix & suffix removed
+		mask = mask.substring( start, indx );
+
+		// convert any string to number according to formation sign.
+		value = mask.charAt( 0 ) === '-' ? -value : +value;
+		isNegative = value < 0 ? value = -value : 0; // process only abs(), and turn on flag.
+
+		// search for separator for grp & decimal, anything not digit, not +/- sign, not #.
+		result = mask.match( /[^\d\-\+#]/g );
+		decimal = ( result && result[ result.length - 1 ] ) || '.'; // treat the right most symbol as decimal
+		group = ( result && result[ 1 ] && result[ 0 ] ) || ',';  // treat the left most symbol as group separator
+
+		// split the decimal for the format string if any.
+		mask = mask.split( decimal );
+		// Fix the decimal first, toFixed will auto fill trailing zero.
+		value = value.toFixed( mask[ 1 ] && mask[ 1 ].length );
+		value = +( value ) + ''; // convert number to string to trim off *all* trailing decimal zero(es)
+
+		// fill back any trailing zero according to format
+		posTrailZero = mask[ 1 ] && mask[ 1 ].lastIndexOf( '0' ); // look for last zero in format
+		part = value.split( '.' );
+		// integer will get !part[1]
+		if ( !part[ 1 ] || ( part[ 1 ] && part[ 1 ].length <= posTrailZero ) ) {
+			value = ( +value ).toFixed( posTrailZero + 1 );
+		}
+		szSep = mask[ 0 ].split( group ); // look for separator
+		mask[ 0 ] = szSep.join( '' ); // join back without separator for counting the pos of any leading 0.
+
+		posLeadZero = mask[ 0 ] && mask[ 0 ].indexOf( '0' );
+		if ( posLeadZero > -1 ) {
+			while ( part[ 0 ].length < ( mask[ 0 ].length - posLeadZero ) ) {
+				part[ 0 ] = '0' + part[ 0 ];
+			}
+		} else if ( +part[ 0 ] === 0 ) {
+			part[ 0 ] = '';
+		}
+
+		value = value.split( '.' );
+		value[ 0 ] = part[ 0 ];
+
+		// process the first group separator from decimal (.) only, the rest ignore.
+		// get the length of the last slice of split result.
+		posSeparator = ( szSep[ 1 ] && szSep[ szSep.length - 1 ].length );
+		if ( posSeparator ) {
+			integer = value[ 0 ];
+			str = '';
+			offset = integer.length % posSeparator;
+			len = integer.length;
+			for ( indx = 0; indx < len; indx++ ) {
+				str += integer.charAt( indx ); // ie6 only support charAt for sz.
+				// -posSeparator so that won't trail separator on full length
+				/*jshint -W018 */
+				if ( !( ( indx - offset + 1 ) % posSeparator ) && indx < len - posSeparator ) {
+					str += group;
+				}
+			}
+			value[ 0 ] = str;
+		}
+		value[ 1 ] = ( mask[ 1 ] && value[ 1 ] ) ? decimal + value[ 1 ] : '';
+
+		// remove negative sign if result is zero
+		result = value.join( '' );
+		if ( result === '0' || result === '' ) {
+			// remove negative sign if result is zero
+			isNegative = false;
+		}
+
+		// put back any negation, combine integer and fraction, and add back prefix & suffix
+		return prefix + ( ( isNegative ? '-' : '' ) + result ) + suffix;
+	};
+
+} ));
+
 
 /***/ })
 /******/ ]);

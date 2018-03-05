@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.0 - 05/03/2018
+
+* Move masks static functions To `Types` class
+
 ## v1.2.4 - 26/02/2018
 
 * Add `DateJs` as optional deps for IE11
