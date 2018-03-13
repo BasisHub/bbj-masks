@@ -15,10 +15,10 @@ Include the library file
 The you can use it as the following code shows
 
 ```js
-const formattedNumber = BBj.Masks.number(1234567.890 , "#,##0.####")
+const formattedNumber = BBj.Masks.Types.number(1234567.890 , "#,##0.####")
 console.log(formattedNumber) // -> 1,234,567.89
 
-const formattedDate = BBj.Masks.date('2018-02-15 14:01:06' , "%Yz - %Mz - %Dz")
+const formattedDate = BBj.Masks.Types.date('2018-02-15 14:01:06' , "%Yz - %Mz - %Dz")
 console.log(formattedDate) // -> 18 - 02 - 15
 ```
 
