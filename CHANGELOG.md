@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.1 - 13/03/2018
+
+* Use [hyyan/javascript-number-formatter](https://github.com/hyyan/javascript-number-formatter)#v2.0.0 for numbers formatting
+
 ## v1.3.0 - 05/03/2018
 
 * Move masks static functions To `Types` class

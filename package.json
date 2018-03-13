@@ -22,6 +22,6 @@
   },
   "dependencies": {
     "Datejs": "datejs/Datejs",
-    "number-format.js": "^1.1.11"
+    "number-format.js": "https://github.com/hyyan/javascript-number-formatter#v2.0.0"
   }
 }
