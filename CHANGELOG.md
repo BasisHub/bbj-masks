@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.2 - 19/04/2018
+
+* Update to [hyyan/javascript-number-formatter#v2.0.1](https://github.com/hyyan/javascript-number-formatter)#v2.0.0 for numbers formatting
+
 ## v1.3.1 - 13/03/2018
 
 * Use [hyyan/javascript-number-formatter](https://github.com/hyyan/javascript-number-formatter)#v2.0.0 for numbers formatting

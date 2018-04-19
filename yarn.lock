@@ -2474,9 +2474,9 @@ npmlog@^4.0.2:
     gauge "~2.7.3"
     set-blocking "~2.0.0"
 
-"number-format.js@https://github.com/hyyan/javascript-number-formatter#v2.0.0":
-  version "2.0.0"
-  resolved "https://github.com/hyyan/javascript-number-formatter#61d4bca4489386fe9b277a9abf3d72b0a99b53dd"
+"number-format.js@https://github.com/hyyan/javascript-number-formatter#^v2.0.0":
+  version "2.0.1"
+  resolved "https://github.com/hyyan/javascript-number-formatter#c5e6fa56579906bf9dc3867b09bf3a51ad4356a1"
 
 number-is-nan@^1.0.0:
   version "1.0.1"

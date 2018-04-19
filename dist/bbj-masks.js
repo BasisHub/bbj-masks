@@ -398,7 +398,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
  * @copyright 2018 ecava
  * @license MIT
  * @link http://mottie.github.com/javascript-number-formatter/
- * @version 1.1.11
+ * @version v2.0.0
  */
 /*jshint browser:true */
 /* global define, module */
@@ -417,9 +417,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 	return function (mask, value) {
 		'use strict';
-		if (!mask || isNaN(+value)) {
+		if (!mask) {
 			return value; // return as it is.
-		}
+		} 
+
+		if(!value && value !== 0) {
+			return value; // return as it is.
+		} 
 
 		var isNegative, result, decimal, group, posLeadZero, posTrailZero, posSeparator,
 			part, szSep, integer, maskHasNegativeSign, maskHasPositiveSign,
