@@ -7,5 +7,6 @@
  */
 
 export {default as DateMask} from "./modules/DateMask.js";
+export {default as NumberMask} from "./modules/NumberMask.js";
 export {default as Types} from "./modules/Types.js";
 

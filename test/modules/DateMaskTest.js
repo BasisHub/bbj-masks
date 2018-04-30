@@ -52,20 +52,19 @@ describe('DateMask', function () {
 
   describe('Accepts all bbj date masks', function () {
 
-    for (let x = 0; x < datesProvider.length; x++) {
-
-      var item = datesProvider[x];
-      it(
-        "date =" + item.date + ", format = " + item.mask + ", masked = " + item.expected,
+    datesProvider.forEach(function (item) {
+      describe(
+        "date =" + item.date + ", mask = " + item.mask,
         function () {
-
-          assert.equal(
-            new DateMask().maskDate(item.date, item.mask),
-            item.expected
-          );
+          it('should returns ' + (item.expected ? item.expected : 'nothing'), function () {
+            assert.equal(
+              new DateMask().maskDate(item.date, item.mask),
+              item.expected
+            );
+          });
         }
       );
-    }
+    });
   });
 
 });

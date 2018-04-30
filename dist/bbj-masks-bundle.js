@@ -290,24 +290,218 @@ exports.default = DateMask;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "DateMask", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask.default;
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ * 
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/** 
+ * NumberMask
+ * 
+ * Handle BBj numbers masking 
+ * 
+ * @author Hyyan Abo Fakher <habofakher@basis.com>
+*/
+var NumberMask =
+/*#__PURE__*/
+function () {
+  function NumberMask() {
+    _classCallCheck(this, NumberMask);
   }
-});
-Object.defineProperty(exports, "Types", {
-  enumerable: true,
-  get: function get() {
-    return _Types.default;
-  }
-});
 
-var _DateMask = _interopRequireDefault(__webpack_require__(0));
+  _createClass(NumberMask, [{
+    key: "maskNumber",
+    value: function maskNumber(number, mask) {
+      var maskLength = mask.length;
+      if (0 === maskLength) return number; // Get magnitude and precision of MASK
 
-var _Types = _interopRequireDefault(__webpack_require__(2));
+      var maskBeforeDecimal = 0;
+      var maskAfterDecimal = 0;
+      var foundDecimal = false;
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+      for (var i = 0; i < maskLength; ++i) {
+        var m = mask.charAt(i);
+
+        if (m == '0' || m == '#') {
+          if (foundDecimal) ++maskAfterDecimal;else ++maskBeforeDecimal;
+        } else if (m == '.') foundDecimal = true;
+      }
+
+      var num = this.__round(number, maskAfterDecimal);
+
+      var digits = this.__toCharArray(num); // Get magnitude and precision of NUMBER
+
+
+      var numLen = digits.length;
+      var numBeforeDecimal = 0;
+      var numAfterDecimal = 0;
+      foundDecimal = false;
+
+      for (var _i = 0; _i < numLen; _i++) {
+        if (digits[_i] == '.') foundDecimal = true;else {
+          if (foundDecimal) ++numAfterDecimal;else ++numBeforeDecimal;
+        }
+      } // always ignore mask overflow
+
+
+      if (numBeforeDecimal > maskBeforeDecimal) return number.toString(); // round if mask is for a lower precision number
+
+      if (numAfterDecimal > maskAfterDecimal) {
+        num = this.__round(num, maskAfterDecimal);
+        digits = this.__toCharArray(num);
+        numLen = digits.length; // Get new magnitude and precision of NUMBER
+
+        numBeforeDecimal = 0;
+        numAfterDecimal = 0;
+        foundDecimal = false;
+
+        for (var _i2 = 0; _i2 < numLen; _i2++) {
+          if (digits[_i2] == '.') foundDecimal = true;else {
+            if (foundDecimal) ++numAfterDecimal;else ++numBeforeDecimal;
+          }
+        } // always ignore mask overflow
+
+
+        if (numBeforeDecimal > maskBeforeDecimal) {
+          return number.toString();
+        }
+      }
+
+      var isNegative = Math.sign(num) === -1;
+      var emitDecimal = numLen > 0 || mask.indexOf('0') >= 0;
+      var foundZero = false;
+      var currency = false;
+      var buffer = '';
+      foundDecimal = false;
+
+      for (var numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {
+        var _m = mask.charAt(maskPos);
+
+        switch (_m) {
+          case '0':
+            --maskBeforeDecimal;
+
+            if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {
+              buffer += digits[numPos];
+              ++numPos;
+            } else {
+              buffer += '0';
+              foundZero = true;
+            }
+
+            break;
+
+          case '#':
+            --maskBeforeDecimal;
+
+            if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {
+              buffer += digits[numPos];
+              ++numPos;
+            } else {
+              if (foundDecimal) buffer += '0';
+            }
+
+            break;
+
+          case ',':
+            if (foundZero || numPos > 0) buffer += ',';
+            break;
+
+          case '-':
+          case '(':
+          case ')':
+            if (isNegative) buffer += _m;
+            break;
+
+          case '+':
+            buffer += isNegative ? '-' : '+';
+            break;
+
+          case '.':
+            if (foundDecimal) buffer += _m;else {
+              if (emitDecimal) buffer += '.';
+              foundDecimal = true;
+              ++numPos;
+            }
+            break;
+          // case '&':
+          // case '@':
+          //   currency = true;
+          //   buffer += m;
+          //   break;
+
+          case 'C':
+            if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {
+              if (isNegative) buffer += 'CR';
+              ++maskPos;
+            } else buffer += _m;
+
+            break;
+
+          case 'D':
+            if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {
+              buffer += isNegative ? "CR" : "DR";
+              ++maskPos;
+            } else buffer += _m;
+
+            break;
+
+          case 'B':
+            buffer += ' ';
+            break;
+
+          default:
+            buffer += _m;
+            break;
+        }
+      }
+
+      return buffer;
+    }
+  }, {
+    key: "__shift",
+    value: function __shift(number, precision, reverseShift) {
+      if (reverseShift) precision = -precision;
+      var numArray = ("" + number).split("e");
+      return +(numArray[0] + "e" + (numArray[1] ? +numArray[1] + precision : precision));
+    }
+  }, {
+    key: "__round",
+    value: function __round(number, precision) {
+      return this.__shift(Math.round(this.__shift(number, precision, false)), precision, true);
+    }
+  }, {
+    key: "__toCharArray",
+    value: function __toCharArray(number) {
+      var signum = Math.sign(number);
+      var chars = [];
+
+      if (signum !== 0) {
+        var string = signum < 0 ? "".concat(-1 * number.toString()) : number.toString();
+        if (string.length > 1 && string.charAt(0) == '0') string = string.substring(1); // The string contains only [0-9] and '.'
+
+        chars = string.split('');
+      }
+
+      return chars;
+    }
+  }]);
+
+  return NumberMask;
+}();
+
+exports.default = NumberMask;
 
 /***/ }),
 /* 2 */
@@ -319,9 +513,46 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "DateMask", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.default;
+  }
+});
+Object.defineProperty(exports, "NumberMask", {
+  enumerable: true,
+  get: function get() {
+    return _NumberMask.default;
+  }
+});
+Object.defineProperty(exports, "Types", {
+  enumerable: true,
+  get: function get() {
+    return _Types.default;
+  }
+});
+
+var _DateMask = _interopRequireDefault(__webpack_require__(0));
+
+var _NumberMask = _interopRequireDefault(__webpack_require__(1));
+
+var _Types = _interopRequireDefault(__webpack_require__(3));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 exports.default = void 0;
 
-var _format = _interopRequireDefault(__webpack_require__(3));
+var _NumberMask = _interopRequireDefault(__webpack_require__(1));
 
 var _DateMask = _interopRequireDefault(__webpack_require__(0));
 
@@ -357,11 +588,9 @@ function () {
      * @param {String} mask the mask to use 
      * 
      * @return {String} number masked with the given mask
-     * 
-     * {@link https://github.com/Mottie/javascript-number-formatter}
      */
     value: function number(_number, mask) {
-      return (0, _format.default)(mask, _number);
+      return new _NumberMask.default().maskNumber(_number, mask);
     }
     /**
      * Mask a date according to bbj masking rules 
@@ -385,146 +614,6 @@ function () {
 exports.default = Types;
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
- * javascript-number-formatter
- * Lightweight & Fast JavaScript Number Formatter
- *
- * @preserve IntegraXor Web SCADA - JavaScript Number Formatter (http://www.integraxor.com/)
- * @author KPL
- * @maintainer Rob Garrison
- * @copyright 2018 ecava
- * @license MIT
- * @link http://mottie.github.com/javascript-number-formatter/
- * @version v2.0.0
- */
-/*jshint browser:true */
-/* global define, module */
-(function (root, factory) {
-	if (true) {
-		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	} else if (typeof module === 'object') {
-		module.exports = factory();
-	} else {
-		root.format = factory();
-	}
-}(this, function () {
-
-	return function (mask, value) {
-		'use strict';
-		if (!mask) {
-			return value; // return as it is.
-		} 
-
-		if(!value && value !== 0) {
-			return value; // return as it is.
-		} 
-
-		var isNegative, result, decimal, group, posLeadZero, posTrailZero, posSeparator,
-			part, szSep, integer, maskHasNegativeSign, maskHasPositiveSign,
-
-			// find prefix/suffix
-			len = mask.length,
-			start = mask.search(/[0-9\-\+#]/),
-			prefix = start > 0 ? mask.substring(0, start) : '',
-			// reverse string: not an ideal method if there are surrogate pairs
-			str = mask.split('').reverse().join(''),
-			end = str.search(/[0-9\-\+#]/),
-			offset = len - end,
-			substr = mask.substring(offset, offset + 1),
-			indx = offset + ((substr === '.' || (substr === ',')) ? 1 : 0),
-			suffix = end > 0 ? mask.substring(indx, len) : '';
-
-		// mask with prefix & suffix removed
-		mask = mask.substring(start, indx);
-
-		maskHasNegativeSign = mask.charAt(0) === '-';
-		maskHasPositiveSign = mask.charAt(0) === '+';
-
-		// convert any string to number according to formation sign.
-		isNegative = value < 0 ? (value = -value) : 0; // process only abs(), and turn on flag.
-
-		// search for separator for grp & decimal, anything not digit, not +/- sign, not #.
-		result = mask.match(/[^\d\-\+#]/g);
-		decimal = (result && result[result.length - 1]) || '.'; // treat the right most symbol as decimal
-		group = (result && result[1] && result[0]) || ',';  // treat the left most symbol as group separator
-
-		// split the decimal for the format string if any.
-		mask = mask.split(decimal);
-		// Fix the decimal first, toFixed will auto fill trailing zero.
-		value = value.toFixed(mask[1] && mask[1].length);
-		value = +(value) + ''; // convert number to string to trim off *all* trailing decimal zero(es)
-
-		// fill back any trailing zero according to format
-		posTrailZero = mask[1] && mask[1].lastIndexOf('0'); // look for last zero in format
-		part = value.split('.');
-		// integer will get !part[1]
-		if (!part[1] || (part[1] && part[1].length <= posTrailZero)) {
-			value = (+value).toFixed(posTrailZero + 1);
-		}
-		szSep = mask[0].split(group); // look for separator
-		mask[0] = szSep.join(''); // join back without separator for counting the pos of any leading 0.
-
-		posLeadZero = mask[0] && mask[0].indexOf('0');
-		if (posLeadZero > -1) {
-			while (part[0].length < (mask[0].length - posLeadZero)) {
-				part[0] = '0' + part[0];
-			}
-		} else if (+part[0] === 0) {
-			part[0] = '';
-		}
-
-		value = value.split('.');
-		value[0] = part[0];
-
-		// process the first group separator from decimal (.) only, the rest ignore.
-		// get the length of the last slice of split result.
-		posSeparator = (szSep[1] && szSep[szSep.length - 1].length);
-		if (posSeparator) {
-			integer = value[0];
-			str = '';
-			offset = integer.length % posSeparator;
-			len = integer.length;
-			for (indx = 0; indx < len; indx++) {
-				str += integer.charAt(indx); // ie6 only support charAt for sz.
-				// -posSeparator so that won't trail separator on full length
-				/*jshint -W018 */
-				if (!((indx - offset + 1) % posSeparator) && indx < len - posSeparator) {
-					str += group;
-				}
-			}
-			value[0] = str;
-		}
-		value[1] = (mask[1] && value[1]) ? decimal + value[1] : '';
-
-		// remove negative sign if result is zero
-		result = value.join('');
-		if (result === '0' || result === '') {
-			// remove negative sign if result is zero
-			isNegative = false;
-		}
-
-		// put back any negation, combine integer and fraction, and add back prefix & suffix
-		return prefix +
-			(
-				(
-					!isNegative && maskHasPositiveSign ? '+' :
-						isNegative && maskHasPositiveSign ? '-' :
-							(isNegative && maskHasNegativeSign) ? '-' : ''
-				) + result
-			) +
-			suffix;
-	};
-
-}));
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -537,7 +626,7 @@ Object.defineProperty(exports, "__esModule", {
 
 __webpack_require__(5);
 
-var _index = __webpack_require__(1);
+var _index = __webpack_require__(2);
 
 Object.keys(_index).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

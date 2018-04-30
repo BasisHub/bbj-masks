@@ -6,7 +6,8 @@
  * file that was distributed with this source code.
  */
 
-import NumberMask from 'number-format.js/lib/format.js';
+// import NumberMask from 'number-format.js/lib/format.js';
+import NumberMask from './NumberMask.js';
 import DateMask from './DateMask.js';
 
 /** 
@@ -25,11 +26,9 @@ export default class Types {
    * @param {String} mask the mask to use 
    * 
    * @return {String} number masked with the given mask
-   * 
-   * {@link https://github.com/Mottie/javascript-number-formatter}
    */
   static number(number, mask) {
-    return NumberMask(mask, number);
+    return new NumberMask().maskNumber(number,mask);
   }
 
   /**
