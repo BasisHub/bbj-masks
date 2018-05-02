@@ -25,7 +25,7 @@ describe('DateMask', function () {
       "hours12": 2
     };
 
-    var parsed = new DateMask()._parseDate(date);
+    var parsed = DateMask._parseDate(date);
 
     for (var key in parsed) {
 
@@ -41,12 +41,12 @@ describe('DateMask', function () {
 
   describe("_detDayOfYear", function () {
 
-    it('returns 46 for 2018-02-15', function () {
-      assert.equal(new DateMask()._getDayOfYear("2018-02-15"), 46);
+    it('should returns 46 for 2018-02-15', function () {
+      assert.equal(DateMask._getDayOfYear("2018-02-15"), 46);
     })
 
-    it('returns 47 for 2018-02-16', function () {
-      assert.equal(new DateMask()._getDayOfYear("2018-02-16"), 47);
+    it('should returns 47 for 2018-02-16', function () {
+      assert.equal(DateMask._getDayOfYear("2018-02-16"), 47);
     })
   });
 
@@ -58,7 +58,7 @@ describe('DateMask', function () {
         function () {
           it('should returns ' + (item.expected ? item.expected : 'nothing'), function () {
             assert.equal(
-              new DateMask().maskDate(item.date, item.mask),
+              DateMask.maskDate(item.date, item.mask),
               item.expected
             );
           });

@@ -6,14 +6,13 @@
  * file that was distributed with this source code.
  */
 
-// import NumberMask from 'number-format.js/lib/format.js';
 import NumberMask from './NumberMask.js';
 import DateMask from './DateMask.js';
 
 /** 
- * DateMask
+ * Types
  * 
- * Handle BBj dates masking 
+ * Handle BBj masking 
  * 
  * @author Hyyan Abo Fakher <habofakher@basis.com>
 */
@@ -28,7 +27,7 @@ export default class Types {
    * @return {String} number masked with the given mask
    */
   static number(number, mask) {
-    return new NumberMask().maskNumber(number,mask);
+    return NumberMask.maskNumber(number,mask);
   }
 
   /**
@@ -40,7 +39,7 @@ export default class Types {
    * @return {String} number masked with the given mask
    */
   static date(date, mask) {
-    return new DateMask().maskDate(date, mask);
+    return DateMask.maskDate(date, mask);
   }
 
 }

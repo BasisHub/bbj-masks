@@ -20,14 +20,14 @@ describe('NumberMask', function () {
         function () {
           it('should returns ' + (item.expected ? item.expected : 'nothing'), function () {
             assert.deepEqual(
-              new NumberMask().maskNumber(item.number, item.mask),
+              NumberMask.maskNumber(item.number, item.mask),
               item.expected
             );
           });
         }
       );
-    });
-    
+    }); // end loop
+
   });
 
 });

@@ -25,13 +25,13 @@ export default class DateMask {
    * 
    * @return {String} a date masked witht the given mask
    */
-  maskDate(date, mask) {
+  static maskDate(date, mask) {
 
     if (!date) return;
     if (!mask) return date;
 
-    const dateDetails = this._parseDate(date);
-    const translations = this._buildTransilation(dateDetails);
+    const dateDetails = DateMask._parseDate(date);
+    const translations = DateMask._buildTransilation(dateDetails);
 
     let result = mask;
     for (var k in translations) {
@@ -51,7 +51,7 @@ export default class DateMask {
    * 
    * @return {Object} 
    */
-  _parseDate(date) {
+  static _parseDate(date) {
 
     let dateObject = Date.parse(date);
     if (!(dateObject instanceof Date)) dateObject = new Date(date);
@@ -59,7 +59,7 @@ export default class DateMask {
     const hours24 = dateObject.getHours();
     let hours12 = (hours24 % 12) || 12;
 
-    const dayOfYear = this._getDayOfYear(date);
+    const dayOfYear = DateMask._getDayOfYear(date);
     // const dayOfWeek = dateObject.getDay() ?
 
     return {
@@ -82,7 +82,7 @@ export default class DateMask {
    * 
    * @return {Object} forms masks
    */
-  _buildTransilation(dateDetails) {
+  static _buildTransilation(dateDetails) {
 
     return {
 
@@ -172,9 +172,11 @@ export default class DateMask {
    * 
    * @returns {Number}
    */
-  _getDayOfYear(date) {
+  static _getDayOfYear(date) {
 
-    const now = new Date(date);
+    let now = Date.parse(date);
+    if (!(now instanceof Date)) now = new Date(date);
+
     const start = new Date(now.getFullYear(), 0, 0);
 
     var diff = (now - start) + ((start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000);

@@ -113,7 +113,7 @@ function () {
     _classCallCheck(this, DateMask);
   }
 
-  _createClass(DateMask, [{
+  _createClass(DateMask, null, [{
     key: "maskDate",
 
     /** 
@@ -130,9 +130,9 @@ function () {
       if (!date) return;
       if (!mask) return date;
 
-      var dateDetails = this._parseDate(date);
+      var dateDetails = DateMask._parseDate(date);
 
-      var translations = this._buildTransilation(dateDetails);
+      var translations = DateMask._buildTransilation(dateDetails);
 
       var result = mask;
 
@@ -158,7 +158,7 @@ function () {
       var hours24 = dateObject.getHours();
       var hours12 = hours24 % 12 || 12;
 
-      var dayOfYear = this._getDayOfYear(date); // const dayOfWeek = dateObject.getDay() ?
+      var dayOfYear = DateMask._getDayOfYear(date); // const dayOfWeek = dateObject.getDay() ?
 
 
       return {
@@ -266,7 +266,8 @@ function () {
   }, {
     key: "_getDayOfYear",
     value: function _getDayOfYear(date) {
-      var now = new Date(date);
+      var now = Date.parse(date);
+      if (!(now instanceof Date)) now = new Date(date);
       var start = new Date(now.getFullYear(), 0, 0);
       var diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
       var oneDay = 1000 * 60 * 60 * 24;
@@ -320,8 +321,17 @@ function () {
     _classCallCheck(this, NumberMask);
   }
 
-  _createClass(NumberMask, [{
+  _createClass(NumberMask, null, [{
     key: "maskNumber",
+
+    /**
+     * Mask the given number with the given mask according to BBj rules
+     * 
+     * @param {Number} number the number to format
+     * @param {String} mask the mask to use for formatting
+     * 
+     * @returns {String} the masked number
+     */
     value: function maskNumber(number, mask) {
       var maskLength = mask.length;
       if (0 === maskLength) return number; // Get magnitude and precision of MASK
@@ -338,9 +348,9 @@ function () {
         } else if (m == '.') foundDecimal = true;
       }
 
-      var num = this.__round(number, maskAfterDecimal);
+      var num = NumberMask._round(number, maskAfterDecimal);
 
-      var digits = this.__toCharArray(num); // Get magnitude and precision of NUMBER
+      var digits = NumberMask._toCharArray(num); // Get magnitude and precision of NUMBER
 
 
       var numLen = digits.length;
@@ -358,8 +368,8 @@ function () {
       if (numBeforeDecimal > maskBeforeDecimal) return number.toString(); // round if mask is for a lower precision number
 
       if (numAfterDecimal > maskAfterDecimal) {
-        num = this.__round(num, maskAfterDecimal);
-        digits = this.__toCharArray(num);
+        num = NumberMask._round(num, maskAfterDecimal);
+        digits = NumberMask._toCharArray(num);
         numLen = digits.length; // Get new magnitude and precision of NUMBER
 
         numBeforeDecimal = 0;
@@ -378,7 +388,7 @@ function () {
         }
       }
 
-      var isNegative = Math.sign(num) === -1;
+      var isNegative = NumberMask._getSign(num) === -1;
       var emitDecimal = numLen > 0 || mask.indexOf('0') >= 0;
       var foundZero = false;
       var currency = false;
@@ -470,21 +480,22 @@ function () {
       return buffer;
     }
   }, {
-    key: "__shift",
-    value: function __shift(number, precision, reverseShift) {
+    key: "_shift",
+    value: function _shift(number, precision, reverseShift) {
       if (reverseShift) precision = -precision;
       var numArray = ("" + number).split("e");
       return +(numArray[0] + "e" + (numArray[1] ? +numArray[1] + precision : precision));
     }
   }, {
-    key: "__round",
-    value: function __round(number, precision) {
-      return this.__shift(Math.round(this.__shift(number, precision, false)), precision, true);
+    key: "_round",
+    value: function _round(number, precision) {
+      return NumberMask._shift(Math.round(NumberMask._shift(number, precision, false)), precision, true);
     }
   }, {
-    key: "__toCharArray",
-    value: function __toCharArray(number) {
-      var signum = Math.sign(number);
+    key: "_toCharArray",
+    value: function _toCharArray(number) {
+      var signum = NumberMask._getSign(number);
+
       var chars = [];
 
       if (signum !== 0) {
@@ -495,6 +506,21 @@ function () {
       }
 
       return chars;
+    }
+    /**
+     * Returns the sign of a number
+     * 
+     * @param {Number} x number
+     * @returns {Number} A number representing the sign of the given argument. 
+     *                   If the argument is a positive number, negative number, positive zero 
+     *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.
+     *                   Otherwise, NaN is returned.
+     */
+
+  }, {
+    key: "_getSign",
+    value: function _getSign(x) {
+      return (x > 0) - (x < 0) || +x;
     }
   }]);
 
@@ -565,9 +591,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /** 
- * DateMask
+ * Types
  * 
- * Handle BBj dates masking 
+ * Handle BBj masking 
  * 
  * @author Hyyan Abo Fakher <habofakher@basis.com>
 */
@@ -590,7 +616,7 @@ function () {
      * @return {String} number masked with the given mask
      */
     value: function number(_number, mask) {
-      return new _NumberMask.default().maskNumber(_number, mask);
+      return _NumberMask.default.maskNumber(_number, mask);
     }
     /**
      * Mask a date according to bbj masking rules 
@@ -604,7 +630,7 @@ function () {
   }, {
     key: "date",
     value: function date(_date, mask) {
-      return new _DateMask.default().maskDate(_date, mask);
+      return _DateMask.default.maskDate(_date, mask);
     }
   }]);
 

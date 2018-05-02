@@ -15,7 +15,15 @@
 */
 export default class NumberMask {
 
-  maskNumber(number, mask) {
+  /**
+   * Mask the given number with the given mask according to BBj rules
+   * 
+   * @param {Number} number the number to format
+   * @param {String} mask the mask to use for formatting
+   * 
+   * @returns {String} the masked number
+   */
+  static maskNumber(number, mask) {
 
     const maskLength = mask.length;
     if (0 === maskLength) return number;
@@ -32,8 +40,8 @@ export default class NumberMask {
       } else if (m == '.') foundDecimal = true;
     }
 
-    let num = this.__round(number, maskAfterDecimal);
-    let digits = this.__toCharArray(num);
+    let num = NumberMask._round(number, maskAfterDecimal);
+    let digits = NumberMask._toCharArray(num);
 
     // Get magnitude and precision of NUMBER
     let numLen = digits.length;
@@ -54,8 +62,8 @@ export default class NumberMask {
     // round if mask is for a lower precision number
     if (numAfterDecimal > maskAfterDecimal) {
 
-      num = this.__round(num, maskAfterDecimal);
-      digits = this.__toCharArray(num);
+      num = NumberMask._round(num, maskAfterDecimal);
+      digits = NumberMask._toCharArray(num);
       numLen = digits.length;
 
       // Get new magnitude and precision of NUMBER
@@ -76,7 +84,7 @@ export default class NumberMask {
       }
     }
 
-    const isNegative = Math.sign(num) === -1;
+    const isNegative = NumberMask._getSign(num) === -1;
     let emitDecimal = numLen > 0 || mask.indexOf('0') >= 0;
     let foundZero = false;
     let currency = false;
@@ -166,25 +174,25 @@ export default class NumberMask {
     return buffer;
   }
 
-  __shift(number, precision, reverseShift) {
+  static _shift(number, precision, reverseShift) {
     
     if (reverseShift) precision = -precision;
     var numArray = ("" + number).split("e");
     return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
   }
 
-  __round(number, precision) {
+  static _round(number, precision) {
 
-    return this.__shift(
-      Math.round(this.__shift(number, precision, false)),
+    return NumberMask._shift(
+      Math.round(NumberMask._shift(number, precision, false)),
       precision,
       true
     );
   }
 
-  __toCharArray(number) {
+  static _toCharArray(number) {
 
-    const signum = Math.sign(number);
+    const signum = NumberMask._getSign(number);
     let chars = [];
 
     if (signum !== 0) {
@@ -201,6 +209,19 @@ export default class NumberMask {
     }
 
     return chars;
+  }
+
+  /**
+   * Returns the sign of a number
+   * 
+   * @param {Number} x number
+   * @returns {Number} A number representing the sign of the given argument. 
+   *                   If the argument is a positive number, negative number, positive zero 
+   *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.
+   *                   Otherwise, NaN is returned.
+   */
+  static _getSign(x){
+    return ((x > 0) - (x < 0)) || +x;
   }
 }
 

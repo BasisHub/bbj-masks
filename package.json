@@ -21,7 +21,6 @@
     "webpack": "^3.11.0"
   },
   "dependencies": {
-    "Datejs": "datejs/Datejs",
-    "number-format.js": "https://github.com/hyyan/javascript-number-formatter#^v2.0.0"
+    "Datejs": "datejs/Datejs"
   }
 }
