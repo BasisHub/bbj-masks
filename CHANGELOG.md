@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.4.0 - 02/05/2018
+
+* Remove [javascript-number-formatter] dependency
+* Implement BBj number masking
+* Improve tests
+* Fix ie11 issue `Date can not be parsed`
+ 
+
 ## v1.3.2 - 19/04/2018
 
 * Update to [hyyan/javascript-number-formatter#v2.0.1](https://github.com/hyyan/javascript-number-formatter)#v2.0.0 for numbers formatting

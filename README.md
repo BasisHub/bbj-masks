@@ -9,14 +9,14 @@ A library to format Javascript Dates & Numbers using BBj supported masks.
 Include the library file 
 
 ```js 
- <script src="dist/bbj-masks.min.js"></script>
+ <script src="dist/bbj-masks-bundle.js"></script>
 ```
 
 The you can use it as the following code shows
 
 ```js
-const formattedNumber = BBj.Masks.Types.number(1234567.890 , "#,##0.####")
-console.log(formattedNumber) // -> 1,234,567.89
+const formattedNumber = BBj.Masks.Types.number(-5000.123456789 , "$ -#,##0.######")
+console.log(formattedNumber) // -> $ -5,000.123457
 
 const formattedDate = BBj.Masks.Types.date('2018-02-15 14:01:06' , "%Yz - %Mz - %Dz")
 console.log(formattedDate) // -> 18 - 02 - 15
@@ -63,19 +63,15 @@ console.log(formattedDate) // -> 18 - 02 - 15
 | *      | ✓ |The asterisk "*" is inserted into the number.|
 | .      | ✓ |The decimal point is replaced by a decimal point if any digits appear in the output mask. Otherwise, it is replaced by the fill character. After the decimal point, the fill character becomes a space.|
 | $      | ✓ |The dollar sign always results in a dollar sign.|
-| (      | × |left parenthesis results in a "(" if the number is negative, or the fill character if positive.|
-| )      | × |A right parenthesis results in a ")" if the number is negative, or the fill character if positive.|
-| )      | × |A right parenthesis results in a ")" if the number is negative, or the fill character if positive.|
-| CR      | × |	The characters "CR" are inserted into the number if the number is negative. Two spaces are inserted if the number is positive.|
-| DR      | × |	The characters "CR" are inserted into the number if the number is negative. The characters "DR" are inserted if the number is positive.|
-| B      | × | The upper case "B" always becomes a space. Any other character is simply copied to the result.positive.|
-
-[See Examples Table](http://mottie.github.io/javascript-number-formatter/)
+| (      | ✓ |left parenthesis results in a "(" if the number is negative, or the fill character if positive.|
+| )      | ✓ |A right parenthesis results in a ")" if the number is negative, or the fill character if positive.|
+| )      | ✓ |A right parenthesis results in a ")" if the number is negative, or the fill character if positive.|
+| CR      | ✓ |	The characters "CR" are inserted into the number if the number is negative. Two spaces are inserted if the number is positive.|
+| DR      | ✓ |	The characters "CR" are inserted into the number if the number is negative. The characters "DR" are inserted if the number is positive.|
+| B      | ✓ | The upper case "B" always becomes a space. Any other character is simply copied to the result.positive.|
 
 ## Commands 
 
 * Install deps : `yarn install`
 * Run Tests : `yarn Test`
 * Build : `yarn build`
-
-
