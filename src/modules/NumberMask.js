@@ -23,7 +23,7 @@ export default class NumberMask {
    * 
    * @returns {String} the masked number
    */
-  static maskNumber(number, mask) {
+  static mask(number, mask) {
 
     const maskLength = mask.length;
     if (0 === maskLength) return number;
@@ -140,13 +140,7 @@ export default class NumberMask {
             ++numPos;
           }
           break;
-
-        // case '&':
-        // case '@':
-        //   currency = true;
-        //   buffer += m;
-        //   break;
-
+          
         case 'C':
           if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {
             if (isNegative) buffer += 'CR';

@@ -27,7 +27,7 @@ export default class Types {
    * @return {String} number masked with the given mask
    */
   static number(number, mask) {
-    return NumberMask.maskNumber(number,mask);
+    return NumberMask.mask(number,mask);
   }
 
   /**
@@ -39,7 +39,7 @@ export default class Types {
    * @return {String} number masked with the given mask
    */
   static date(date, mask) {
-    return DateMask.maskDate(date, mask);
+    return DateMask.mask(date, mask);
   }
 
 }

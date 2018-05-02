@@ -25,7 +25,7 @@ export default class DateMask {
    * 
    * @return {String} a date masked witht the given mask
    */
-  static maskDate(date, mask) {
+  static mask(date, mask) {
 
     if (!date) return;
     if (!mask) return date;

@@ -20,7 +20,7 @@ describe('NumberMask', function () {
         function () {
           it('should returns ' + (item.expected ? item.expected : 'nothing'), function () {
             assert.deepEqual(
-              NumberMask.maskNumber(item.number, item.mask),
+              NumberMask.mask(item.number, item.mask),
               item.expected
             );
           });

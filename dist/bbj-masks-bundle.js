@@ -114,7 +114,7 @@ function () {
   }
 
   _createClass(DateMask, null, [{
-    key: "maskDate",
+    key: "mask",
 
     /** 
      * Mask date
@@ -126,15 +126,15 @@ function () {
      * 
      * @return {String} a date masked witht the given mask
      */
-    value: function maskDate(date, mask) {
+    value: function mask(date, _mask) {
       if (!date) return;
-      if (!mask) return date;
+      if (!_mask) return date;
 
       var dateDetails = DateMask._parseDate(date);
 
       var translations = DateMask._buildTransilation(dateDetails);
 
-      var result = mask;
+      var result = _mask;
 
       for (var k in translations) {
         result = result.replace(new RegExp('(%' + k + ')', 'g'), translations[k]);
@@ -322,7 +322,7 @@ function () {
   }
 
   _createClass(NumberMask, null, [{
-    key: "maskNumber",
+    key: "mask",
 
     /**
      * Mask the given number with the given mask according to BBj rules
@@ -332,8 +332,8 @@ function () {
      * 
      * @returns {String} the masked number
      */
-    value: function maskNumber(number, mask) {
-      var maskLength = mask.length;
+    value: function mask(number, _mask) {
+      var maskLength = _mask.length;
       if (0 === maskLength) return number; // Get magnitude and precision of MASK
 
       var maskBeforeDecimal = 0;
@@ -341,7 +341,7 @@ function () {
       var foundDecimal = false;
 
       for (var i = 0; i < maskLength; ++i) {
-        var m = mask.charAt(i);
+        var m = _mask.charAt(i);
 
         if (m == '0' || m == '#') {
           if (foundDecimal) ++maskAfterDecimal;else ++maskBeforeDecimal;
@@ -389,14 +389,14 @@ function () {
       }
 
       var isNegative = NumberMask._getSign(num) === -1;
-      var emitDecimal = numLen > 0 || mask.indexOf('0') >= 0;
+      var emitDecimal = numLen > 0 || _mask.indexOf('0') >= 0;
       var foundZero = false;
       var currency = false;
       var buffer = '';
       foundDecimal = false;
 
       for (var numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {
-        var _m = mask.charAt(maskPos);
+        var _m = _mask.charAt(maskPos);
 
         switch (_m) {
           case '0':
@@ -445,14 +445,9 @@ function () {
               ++numPos;
             }
             break;
-          // case '&':
-          // case '@':
-          //   currency = true;
-          //   buffer += m;
-          //   break;
 
           case 'C':
-            if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {
+            if (maskPos < maskLength - 1 && _mask.charAt(maskPos + 1) == 'R') {
               if (isNegative) buffer += 'CR';
               ++maskPos;
             } else buffer += _m;
@@ -616,7 +611,7 @@ function () {
      * @return {String} number masked with the given mask
      */
     value: function number(_number, mask) {
-      return _NumberMask.default.maskNumber(_number, mask);
+      return _NumberMask.default.mask(_number, mask);
     }
     /**
      * Mask a date according to bbj masking rules 
@@ -630,7 +625,7 @@ function () {
   }, {
     key: "date",
     value: function date(_date, mask) {
-      return _DateMask.default.maskDate(_date, mask);
+      return _DateMask.default.mask(_date, mask);
     }
   }]);
 

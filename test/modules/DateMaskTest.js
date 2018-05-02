@@ -58,7 +58,7 @@ describe('DateMask', function () {
         function () {
           it('should returns ' + (item.expected ? item.expected : 'nothing'), function () {
             assert.equal(
-              DateMask.maskDate(item.date, item.mask),
+              DateMask.mask(item.date, item.mask),
               item.expected
             );
           });
