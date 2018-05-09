@@ -619,7 +619,7 @@ function () {
     value: function number(_number, mask) {
       var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
-      return _NumberMask.default.mask(_number, mask);
+      return _NumberMask.default.mask(_number, mask, groupingSeparator, decimalSeparator);
     }
     /**
      * Mask a date according to bbj masking rules 
