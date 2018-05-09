@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.0 - 09/05/2018
+
+* Add the ability to replace the group and decimal separators for masked numbers
+
 ## v1.4.0 - 02/05/2018
 
 * Remove [javascript-number-formatter] dependency

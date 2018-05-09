@@ -20,10 +20,12 @@ export default class NumberMask {
    * 
    * @param {Number} number the number to format
    * @param {String} mask the mask to use for formatting
+   * @param {String} groupingSeparator a char which will be used as a grouping separator
+   * @param {String} decimalSeparator a char which will be used as a decimal separator
    * 
    * @returns {String} the masked number
    */
-  static mask(number, mask) {
+  static mask(number, mask, groupingSeparator = ',', decimalSeparator = '.') {
 
     const maskLength = mask.length;
     if (0 === maskLength) return number;
@@ -119,7 +121,7 @@ export default class NumberMask {
           break;
 
         case ',':
-          if (foundZero || numPos > 0) buffer += ',';
+          if (foundZero || numPos > 0) buffer += groupingSeparator;
           break;
 
         case '-':
@@ -135,12 +137,12 @@ export default class NumberMask {
         case '.':
           if (foundDecimal) buffer += m;
           else {
-            if (emitDecimal) buffer += '.';
+            if (emitDecimal) buffer += decimalSeparator;
             foundDecimal = true;
             ++numPos;
           }
           break;
-          
+
         case 'C':
           if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {
             if (isNegative) buffer += 'CR';
@@ -169,7 +171,7 @@ export default class NumberMask {
   }
 
   static _shift(number, precision, reverseShift) {
-    
+
     if (reverseShift) precision = -precision;
     var numArray = ("" + number).split("e");
     return +(numArray[0] + "e" + (numArray[1] ? (+numArray[1] + precision) : precision));
@@ -214,7 +216,7 @@ export default class NumberMask {
    *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.
    *                   Otherwise, NaN is returned.
    */
-  static _getSign(x){
+  static _getSign(x) {
     return ((x > 0) - (x < 0)) || +x;
   }
 }

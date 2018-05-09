@@ -15,12 +15,15 @@ describe('NumberMask', function () {
   describe('Accepts all bbj number masks', function () {
 
     numbersProvider.forEach(function (item) {
+      let group = item.hasOwnProperty('groupingSep') ? item.groupingSep : ',';
+      let decimal = item.hasOwnProperty('decimalSeparator') ? item.decimalSeparator : '.';
+
       describe(
-        "number = " + item.number + ", mask = " + item.mask,
+        "number = " + item.number + ", mask = " + item.mask + ", groupSep = '" + group + "', decimalSep = '" + decimal+"'",
         function () {
           it('should returns ' + (item.expected ? item.expected : 'nothing'), function () {
             assert.deepEqual(
-              NumberMask.mask(item.number, item.mask),
+              NumberMask.mask(item.number, item.mask, group, decimal),
               item.expected
             );
           });

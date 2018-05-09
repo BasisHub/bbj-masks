@@ -329,10 +329,14 @@ function () {
      * 
      * @param {Number} number the number to format
      * @param {String} mask the mask to use for formatting
+     * @param {String} groupingSeparator a char which will be used as a grouping separator
+     * @param {String} decimalSeparator a char which will be used as a decimal separator
      * 
      * @returns {String} the masked number
      */
     value: function mask(number, _mask) {
+      var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
+      var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       var maskLength = _mask.length;
       if (0 === maskLength) return number; // Get magnitude and precision of MASK
 
@@ -425,7 +429,7 @@ function () {
             break;
 
           case ',':
-            if (foundZero || numPos > 0) buffer += ',';
+            if (foundZero || numPos > 0) buffer += groupingSeparator;
             break;
 
           case '-':
@@ -440,7 +444,7 @@ function () {
 
           case '.':
             if (foundDecimal) buffer += _m;else {
-              if (emitDecimal) buffer += '.';
+              if (emitDecimal) buffer += decimalSeparator;
               foundDecimal = true;
               ++numPos;
             }
@@ -607,10 +611,14 @@ function () {
      * 
      * @param {Number} number the number to format
      * @param {String} mask the mask to use 
+     * @param {String} groupingSeparator a char which will be used as a grouping separator
+     * @param {String} decimalSeparator a char which will be used as a decimal separator
      * 
      * @return {String} number masked with the given mask
      */
     value: function number(_number, mask) {
+      var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
+      var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       return _NumberMask.default.mask(_number, mask);
     }
     /**

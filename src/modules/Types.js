@@ -23,11 +23,13 @@ export default class Types {
    * 
    * @param {Number} number the number to format
    * @param {String} mask the mask to use 
+   * @param {String} groupingSeparator a char which will be used as a grouping separator
+   * @param {String} decimalSeparator a char which will be used as a decimal separator
    * 
    * @return {String} number masked with the given mask
    */
-  static number(number, mask) {
-    return NumberMask.mask(number,mask);
+  static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {
+    return NumberMask.mask(number, mask);
   }
 
   /**

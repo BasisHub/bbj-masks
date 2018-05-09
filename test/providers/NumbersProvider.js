@@ -32,6 +32,10 @@
       { number: -5000.123456789, mask: '#,##0.######', expected: "5,000.123457" },
       { number: -5000.123456789, mask: '$ #,##0.######', expected: "$ 5,000.123457" },
       { number: -5000.123456789, mask: '$ -#,##0.######', expected: "$ -5,000.123457" },
+
+      // separators
+      { number: 1234, mask: '##,##0', groupingSep:".", decimalSeparator: ",", expected: "1.234" },
+      { number: -5000.123456789, mask: '+#,##0.######', groupingSep:".", decimalSeparator: ",", expected: "-5.000,123457" },
     ];
   
     if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
