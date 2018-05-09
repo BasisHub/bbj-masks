@@ -29,7 +29,7 @@ export default class Types {
    * @return {String} number masked with the given mask
    */
   static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {
-    return NumberMask.mask(number, mask);
+    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator);
   }
 
   /**

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.5.1 - 09/05/2018
+
+* Fix group and decimal separators are not passed to the formatter in `BBj.Masks.Types`
+
 ## v1.5.0 - 09/05/2018
 
 * Add the ability to replace the group and decimal separators for masked numbers
