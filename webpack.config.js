@@ -7,8 +7,8 @@ module.exports = {
     "bbj-masks": "./src/index.js",
     "bbj-masks.min": "./src/index.js",
 
-    "bbj-masks-bundle": "./src/bundle.js",
-    "bbj-masks-bundle.min": "./src/bundle.js"
+    "bbj-masks.bundle": "./src/bundle.js",
+    "bbj-masks.bundle.min": "./src/bundle.js"
   },
   devtool: "source-map",
   output: {

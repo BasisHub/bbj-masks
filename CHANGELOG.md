@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.6.0 - 28/06/2018
+
+* Change output file names in dist
+* Define `bbj-masks.bundle.js` as main file in `package.json`
+
 ## v1.5.1 - 09/05/2018
 
 * Fix group and decimal separators are not passed to the formatter in `BBj.Masks.Types`
