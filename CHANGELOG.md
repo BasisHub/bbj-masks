@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.8.0 - 22/08/2018
+
+* Add License 
+
 ## v1.7.0 - 22/08/2018
 
 * Remove Datejs from deps to resolve the license issue
