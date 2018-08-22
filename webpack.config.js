@@ -5,10 +5,7 @@ const path = require("path");
 module.exports = {
   entry: {
     "bbj-masks": "./src/index.js",
-    "bbj-masks.min": "./src/index.js",
-
-    "bbj-masks.bundle": "./src/bundle.js",
-    "bbj-masks.bundle.min": "./src/bundle.js"
+    "bbj-masks.min": "./src/index.js"
   },
   devtool: "source-map",
   output: {

@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.7.0 - 22/08/2018
+
+* Remove Datejs from deps to resolve the license issue
+
 ## v1.6.0 - 28/06/2018
 
 * Change output file names in dist

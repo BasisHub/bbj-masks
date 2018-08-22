@@ -3,7 +3,7 @@
   "description": "Format Javascript Dates & Numbers using BBj supported masks",
   "main": "dist/bbj-masks.bundle.js",
   "author": "Hyyan Abo Fakher",
-  "version": "v1.6.0",
+  "version": "v1.7.0",
   "private": true,
   "scripts": {
     "watch": "./node_modules/.bin/webpack --watch --progress",
@@ -19,8 +19,5 @@
     "mocha-webpack": "^1.0.1",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^3.11.0"
-  },
-  "dependencies": {
-    "Datejs": "datejs/Datejs"
   }
 }

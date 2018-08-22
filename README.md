@@ -9,7 +9,7 @@ A library to format Javascript Dates & Numbers using BBj supported masks.
 Include the library file 
 
 ```js 
- <script src="dist/bbj-masks-bundle.js"></script>
+ <script src="dist/bbj-masks.js"></script>
 ```
 
 The you can use it as the following code shows
@@ -21,6 +21,9 @@ console.log(formattedNumber) // -> $ -5,000.123457
 const formattedDate = BBj.Masks.Types.date('2018-02-15 14:01:06' , "%Yz - %Mz - %Dz")
 console.log(formattedDate) // -> 18 - 02 - 15
 ```
+
+**Note : To support IE11 browser include the [Datejs library](http://www.datejs.com/)**
+
 
 ## Difference Between BBj & JS
 
