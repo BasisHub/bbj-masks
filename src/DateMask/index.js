@@ -6,9 +6,6 @@
  * file that was distributed with this source code.
  */
 
-import NumberMask from './NumberMask'
 import DateMask from './DateMask'
-import StringMask from './StringMask'
-import Types from './Types'
 
-export { NumberMask, DateMask, StringMask, Types }
+export default DateMask

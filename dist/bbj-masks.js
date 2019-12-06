@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -85,204 +85,119 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+var _NumberMask = _interopRequireDefault(__webpack_require__(4));
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-/** 
- * DateMask
- * 
- * Handle BBj dates masking 
- * 
- * @author Hyyan Abo Fakher <habofakher@basis.com>
-*/
-var DateMask =
-/*#__PURE__*/
-function () {
-  function DateMask() {
-    _classCallCheck(this, DateMask);
-  }
-
-  _createClass(DateMask, null, [{
-    key: "mask",
-
-    /** 
-     * Mask date
-     * 
-     * Mask the passed date with the passed mask
-     * 
-     * @param {String} date date as a string
-     * @param {String} mask mask as a string
-     * 
-     * @return {String} a date masked witht the given mask
-     */
-    value: function mask(date, _mask) {
-      if (!date) return;
-      if (!_mask) return date;
-
-      var dateDetails = DateMask._parseDate(date);
-
-      var translations = DateMask._buildTransilation(dateDetails);
-
-      var result = _mask;
-
-      for (var k in translations) {
-        result = result.replace(new RegExp('(%' + k + ')', 'g'), translations[k]);
-      }
-
-      return result;
-    }
-    /**
-     * Parse the passed date string adn return its detilas
-     * 
-     * @param {String} date date as a string
-     * 
-     * @return {Object} 
-     */
-
-  }, {
-    key: "_parseDate",
-    value: function _parseDate(date) {
-      var dateObject = Date.parse(date);
-      if (!(dateObject instanceof Date)) dateObject = new Date(date);
-      var hours24 = dateObject.getHours();
-      var hours12 = hours24 % 12 || 12;
-
-      var dayOfYear = DateMask._getDayOfYear(date); // const dayOfWeek = dateObject.getDay() ?
-
-
-      return {
-        "year": dateObject.getFullYear(),
-        "month": dateObject.getMonth() + 1,
-        "day": dateObject.getDate(),
-        "minutes": dateObject.getMinutes(),
-        "seconds": dateObject.getSeconds(),
-        "hours24": hours24,
-        "hours12": hours12,
-        "dayOfYear": dayOfYear,
-        "dayOfWeek": dateObject.getDay() + 1 // Sunday = 1 in BBj but Sunday = 0 in JS
-
-      };
-    }
-    /**
-     * Get a map object which contains all possible forms of masks
-     * 
-     * @param {Object} dateDetails date details built by `_parseDate`
-     * 
-     * @return {Object} forms masks
-     */
-
-  }, {
-    key: "_buildTransilation",
-    value: function _buildTransilation(dateDetails) {
-      return {
-        // year 
-        "Yz": dateDetails.year.toString().substr(-2),
-        "Ys": dateDetails.year,
-        "Yl": dateDetails.year,
-        "Yp": String.fromCharCode(dateDetails.year),
-        "Yd": dateDetails.year,
-        "Y": dateDetails.year,
-        // month
-        "Mz": String(dateDetails.month).length == 1 ? "0" + dateDetails.month : dateDetails.month,
-        "Ms": dateDetails.month,
-        "Ml": dateDetails.month,
-        "Mp": String.fromCharCode(dateDetails.month),
-        "Md": dateDetails.month,
-        "M": dateDetails.month,
-        // day
-        "Dz": String(dateDetails.day).length == 1 ? "0" + dateDetails.day : dateDetails.day,
-        "Ds": dateDetails.day,
-        "Dl": dateDetails.day,
-        "Dp": String.fromCharCode(dateDetails.day),
-        "Dd": dateDetails.day,
-        "D": dateDetails.day,
-        // hour 24
-        "Hz": String(dateDetails.hours24).length == 1 ? "0" + dateDetails.hours24 : dateDetails.hours24,
-        "Hs": dateDetails.hours24,
-        "Hl": dateDetails.hours24,
-        "Hp": String.fromCharCode(dateDetails.hours24),
-        "Hd": dateDetails.hours24,
-        "H": dateDetails.hours24,
-        // hour 12
-        "hz": String(dateDetails.hours12).length == 1 ? "0" + dateDetails.hours12 : dateDetails.hours12,
-        "hs": dateDetails.hours12,
-        "hl": dateDetails.hours12,
-        "hp": String.fromCharCode(dateDetails.hours12),
-        "hd": dateDetails.hours12,
-        "h": dateDetails.hours12,
-        // minutes
-        "mz": String(dateDetails.minutes).length == 1 ? "0" + dateDetails.minutes : dateDetails.minutes,
-        "ms": dateDetails.minutes,
-        "ml": dateDetails.minutes,
-        "mp": String.fromCharCode(dateDetails.minutes),
-        "md": dateDetails.minutes,
-        "m": dateDetails.minutes,
-        // seconds
-        "sz": String(dateDetails.seconds).length == 1 ? "0" + dateDetails.seconds : dateDetails.seconds,
-        "ss": dateDetails.seconds,
-        "sl": dateDetails.seconds,
-        "sp": String.fromCharCode(dateDetails.seconds),
-        "sd": dateDetails.seconds,
-        "s": dateDetails.seconds,
-        // AM , PM
-        "PP": dateDetails.hours24 > 12 ? "PM" : "PM",
-        "P": dateDetails.hours24 > 12 ? "PM" : "AM",
-        "pp": dateDetails.hours24 > 12 ? "pm" : "am",
-        "p": dateDetails.hours24 > 12 ? "pm" : "am",
-        // Day of Year
-        "Jz": String(dateDetails.dayOfYear).length == 1 ? "0" + dateDetails.dayOfYear : dateDetails.dayOfYear,
-        "Js": dateDetails.dayOfYear,
-        "Jl": dateDetails.dayOfYear,
-        "Jd": dateDetails.dayOfYear,
-        "J": dateDetails.dayOfYear,
-        // Day Of Week 
-        "Wz": String(dateDetails.dayOfWeek).length == 1 ? "0" + dateDetails.dayOfWeek : dateDetails.dayOfWeek,
-        "Ws": dateDetails.dayOfWeek,
-        "Wl": dateDetails.dayOfWeek,
-        "Wp": String.fromCharCode(dateDetails.dayOfWeek),
-        "Wd": dateDetails.dayOfWeek,
-        "W": dateDetails.dayOfWeek
-      };
-    }
-    /**
-     * Get the Day number within the year (1-366).
-     * 
-     * @param {String} date date as a string
-     * 
-     * @returns {Number}
-     */
-
-  }, {
-    key: "_getDayOfYear",
-    value: function _getDayOfYear(date) {
-      var now = Date.parse(date);
-      if (!(now instanceof Date)) now = new Date(date);
-      var start = new Date(now.getFullYear(), 0, 0);
-      var diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
-      var oneDay = 1000 * 60 * 60 * 24;
-      var day = Math.floor(diff / oneDay);
-      return day;
-    }
-  }]);
-
-  return DateMask;
-}();
-
-exports.default = DateMask;
+var _default = _NumberMask.default;
+exports.default = _default;
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _DateMask = _interopRequireDefault(__webpack_require__(5));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+var _default = _DateMask.default;
+exports.default = _default;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _StringMask = _interopRequireDefault(__webpack_require__(6));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+var _default = _StringMask.default;
+exports.default = _default;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "NumberMask", {
+  enumerable: true,
+  get: function get() {
+    return _NumberMask.default;
+  }
+});
+Object.defineProperty(exports, "DateMask", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.default;
+  }
+});
+Object.defineProperty(exports, "StringMask", {
+  enumerable: true,
+  get: function get() {
+    return _StringMask.default;
+  }
+});
+Object.defineProperty(exports, "Types", {
+  enumerable: true,
+  get: function get() {
+    return _Types.default;
+  }
+});
+
+var _NumberMask = _interopRequireDefault(__webpack_require__(0));
+
+var _DateMask = _interopRequireDefault(__webpack_require__(1));
+
+var _StringMask = _interopRequireDefault(__webpack_require__(2));
+
+var _Types = _interopRequireDefault(__webpack_require__(7));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -302,18 +217,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
- * 
+ *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-/** 
+/**
  * NumberMask
- * 
- * Handle BBj numbers masking 
- * 
+ *
+ * A javascript implementation for BBj numbers masking 
+ *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
-*/
+ */
 var NumberMask =
 /*#__PURE__*/
 function () {
@@ -326,12 +241,12 @@ function () {
 
     /**
      * Mask the given number with the given mask according to BBj rules
-     * 
+     *
      * @param {Number} number the number to format
      * @param {String} mask the mask to use for formatting
      * @param {String} groupingSeparator a char which will be used as a grouping separator
      * @param {String} decimalSeparator a char which will be used as a decimal separator
-     * 
+     *
      * @returns {String} the masked number
      */
     value: function mask(number, _mask) {
@@ -460,7 +375,7 @@ function () {
 
           case 'D':
             if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {
-              buffer += isNegative ? "CR" : "DR";
+              buffer += isNegative ? 'CR' : 'DR';
               ++maskPos;
             } else buffer += _m;
 
@@ -482,8 +397,8 @@ function () {
     key: "_shift",
     value: function _shift(number, precision, reverseShift) {
       if (reverseShift) precision = -precision;
-      var numArray = ("" + number).split("e");
-      return +(numArray[0] + "e" + (numArray[1] ? +numArray[1] + precision : precision));
+      var numArray = ('' + number).split('e');
+      return +(numArray[0] + 'e' + (numArray[1] ? +numArray[1] + precision : precision));
     }
   }, {
     key: "_round",
@@ -508,10 +423,10 @@ function () {
     }
     /**
      * Returns the sign of a number
-     * 
+     *
      * @param {Number} x number
-     * @returns {Number} A number representing the sign of the given argument. 
-     *                   If the argument is a positive number, negative number, positive zero 
+     * @returns {Number} A number representing the sign of the given argument.
+     *                   If the argument is a positive number, negative number, positive zero
      *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.
      *                   Otherwise, NaN is returned.
      */
@@ -526,47 +441,11 @@ function () {
   return NumberMask;
 }();
 
-exports.default = NumberMask;
+var _default = NumberMask;
+exports.default = _default;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "DateMask", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask.default;
-  }
-});
-Object.defineProperty(exports, "NumberMask", {
-  enumerable: true,
-  get: function get() {
-    return _NumberMask.default;
-  }
-});
-Object.defineProperty(exports, "Types", {
-  enumerable: true,
-  get: function get() {
-    return _Types.default;
-  }
-});
-
-var _DateMask = _interopRequireDefault(__webpack_require__(0));
-
-var _NumberMask = _interopRequireDefault(__webpack_require__(1));
-
-var _Types = _interopRequireDefault(__webpack_require__(3));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ }),
-/* 3 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -577,9 +456,405 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _NumberMask = _interopRequireDefault(__webpack_require__(1));
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var _DateMask = _interopRequireDefault(__webpack_require__(0));
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/**
+ * DateMask
+ *
+ * A javascript implementation for BBj dates masking 
+ *
+ * @author Hyyan Abo Fakher <habofakher@basis.com>
+ */
+var DateMask =
+/*#__PURE__*/
+function () {
+  function DateMask() {
+    _classCallCheck(this, DateMask);
+  }
+
+  _createClass(DateMask, null, [{
+    key: "mask",
+
+    /**
+     * Mask date
+     *
+     * Mask the passed date with the passed mask
+     *
+     * @param {String} date date as a string
+     * @param {String} mask mask as a string
+     *
+     * @return {String} a date masked witht the given mask
+     */
+    value: function mask(date, _mask) {
+      if (!date) return;
+      if (!_mask) return date;
+
+      var dateDetails = DateMask._parseDate(date);
+
+      var translations = DateMask._buildTransilation(dateDetails);
+
+      var result = _mask;
+
+      for (var k in translations) {
+        result = result.replace(new RegExp('(%' + k + ')', 'g'), translations[k]);
+      }
+
+      return result;
+    }
+    /**
+     * Parse the passed date string adn return its detilas
+     *
+     * @param {String} date date as a string
+     *
+     * @return {Object}
+     */
+
+  }, {
+    key: "_parseDate",
+    value: function _parseDate(date) {
+      var dateObject = Date.parse(date);
+      if (!(dateObject instanceof Date)) dateObject = new Date(date);
+      var hours24 = dateObject.getHours();
+      var hours12 = hours24 % 12 || 12;
+
+      var dayOfYear = DateMask._getDayOfYear(date); // const dayOfWeek = dateObject.getDay() ?
+
+
+      return {
+        year: dateObject.getFullYear(),
+        month: dateObject.getMonth() + 1,
+        day: dateObject.getDate(),
+        minutes: dateObject.getMinutes(),
+        seconds: dateObject.getSeconds(),
+        hours24: hours24,
+        hours12: hours12,
+        dayOfYear: dayOfYear,
+        dayOfWeek: dateObject.getDay() + 1 // Sunday = 1 in BBj but Sunday = 0 in JS
+
+      };
+    }
+    /**
+     * Get a map object which contains all possible forms of masks
+     *
+     * @param {Object} dateDetails date details built by `_parseDate`
+     *
+     * @return {Object} forms masks
+     */
+
+  }, {
+    key: "_buildTransilation",
+    value: function _buildTransilation(dateDetails) {
+      return {
+        // year
+        Yz: dateDetails.year.toString().substr(-2),
+        Ys: dateDetails.year,
+        Yl: dateDetails.year,
+        Yp: String.fromCharCode(dateDetails.year),
+        Yd: dateDetails.year,
+        Y: dateDetails.year,
+        // month
+        Mz: String(dateDetails.month).length == 1 ? '0' + dateDetails.month : dateDetails.month,
+        Ms: dateDetails.month,
+        Ml: dateDetails.month,
+        Mp: String.fromCharCode(dateDetails.month),
+        Md: dateDetails.month,
+        M: dateDetails.month,
+        // day
+        Dz: String(dateDetails.day).length == 1 ? '0' + dateDetails.day : dateDetails.day,
+        Ds: dateDetails.day,
+        Dl: dateDetails.day,
+        Dp: String.fromCharCode(dateDetails.day),
+        Dd: dateDetails.day,
+        D: dateDetails.day,
+        // hour 24
+        Hz: String(dateDetails.hours24).length == 1 ? '0' + dateDetails.hours24 : dateDetails.hours24,
+        Hs: dateDetails.hours24,
+        Hl: dateDetails.hours24,
+        Hp: String.fromCharCode(dateDetails.hours24),
+        Hd: dateDetails.hours24,
+        H: dateDetails.hours24,
+        // hour 12
+        hz: String(dateDetails.hours12).length == 1 ? '0' + dateDetails.hours12 : dateDetails.hours12,
+        hs: dateDetails.hours12,
+        hl: dateDetails.hours12,
+        hp: String.fromCharCode(dateDetails.hours12),
+        hd: dateDetails.hours12,
+        h: dateDetails.hours12,
+        // minutes
+        mz: String(dateDetails.minutes).length == 1 ? '0' + dateDetails.minutes : dateDetails.minutes,
+        ms: dateDetails.minutes,
+        ml: dateDetails.minutes,
+        mp: String.fromCharCode(dateDetails.minutes),
+        md: dateDetails.minutes,
+        m: dateDetails.minutes,
+        // seconds
+        sz: String(dateDetails.seconds).length == 1 ? '0' + dateDetails.seconds : dateDetails.seconds,
+        ss: dateDetails.seconds,
+        sl: dateDetails.seconds,
+        sp: String.fromCharCode(dateDetails.seconds),
+        sd: dateDetails.seconds,
+        s: dateDetails.seconds,
+        // AM , PM
+        PP: dateDetails.hours24 > 12 ? 'PM' : 'PM',
+        P: dateDetails.hours24 > 12 ? 'PM' : 'AM',
+        pp: dateDetails.hours24 > 12 ? 'pm' : 'am',
+        p: dateDetails.hours24 > 12 ? 'pm' : 'am',
+        // Day of Year
+        Jz: String(dateDetails.dayOfYear).length == 1 ? '0' + dateDetails.dayOfYear : dateDetails.dayOfYear,
+        Js: dateDetails.dayOfYear,
+        Jl: dateDetails.dayOfYear,
+        Jd: dateDetails.dayOfYear,
+        J: dateDetails.dayOfYear,
+        // Day Of Week
+        Wz: String(dateDetails.dayOfWeek).length == 1 ? '0' + dateDetails.dayOfWeek : dateDetails.dayOfWeek,
+        Ws: dateDetails.dayOfWeek,
+        Wl: dateDetails.dayOfWeek,
+        Wp: String.fromCharCode(dateDetails.dayOfWeek),
+        Wd: dateDetails.dayOfWeek,
+        W: dateDetails.dayOfWeek
+      };
+    }
+    /**
+     * Get the Day number within the year (1-366).
+     *
+     * @param {String} date date as a string
+     *
+     * @returns {Number}
+     */
+
+  }, {
+    key: "_getDayOfYear",
+    value: function _getDayOfYear(date) {
+      var now = Date.parse(date);
+      if (!(now instanceof Date)) now = new Date(date);
+      var start = new Date(now.getFullYear(), 0, 0);
+      var diff = now - start + (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+      var oneDay = 1000 * 60 * 60 * 24;
+      var day = Math.floor(diff / oneDay);
+      return day;
+    }
+  }]);
+
+  return DateMask;
+}();
+
+var _default = DateMask;
+exports.default = _default;
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+var isNumberRegex = /^\d+$/;
+var isWhitespaceRegex = /\s/;
+var punctuationList = '!"#$%&\'()*+,-./:;<=>?@[]^_`{|}~';
+/**
+ * Check if the given string is in lower case
+ *
+ * @param {String} str
+ */
+
+var isLowerCase = function isLowerCase(str) {
+  return str == str.toLowerCase() && str != str.toUpperCase();
+};
+/**
+ * Check if the given string is in upper case
+ *
+ * @param {String} str
+ */
+
+
+var isUpperCase = function isUpperCase(str) {
+  return str == str.toUpperCase() && str != str.toLowerCase();
+};
+/**
+ * NumberMask
+ *
+ * A javascript implementation for BBj numbers masking
+ *
+ * @author Hyyan Abo Fakher <habofakher@basis.com>
+ */
+
+
+var StringMask =
+/*#__PURE__*/
+function () {
+  function StringMask() {
+    _classCallCheck(this, StringMask);
+  }
+
+  _createClass(StringMask, null, [{
+    key: "mask",
+
+    /**
+     * Mask the given string with the given mask according to BBj rules
+     *
+     * @param {String} str the string to mask
+     * @param {String} mask the mask to use for formatting
+     *
+     * @returns {String} the masked string
+     */
+    value: function mask(str, _mask) {
+      str = String(str);
+      _mask = String(_mask);
+      var maskLen = _mask.length;
+      var strLen = str.length;
+      if (strLen > maskLen) return str; // friendly silent fail
+
+      var result = new Array(maskLen);
+      var strPos = 0; // to keep track of the current position in the str
+
+      var maskByte = '';
+      var strByte = '';
+
+      for (var i = 0; i < maskLen; i++) {
+        maskByte = _mask.charAt(i);
+        strByte = str.charAt(strPos);
+
+        switch (maskByte) {
+          case 'X':
+            // match any character
+            result[i] = strPos < strLen ? strByte : ' ';
+            ++strPos;
+            break;
+
+          case 'A':
+            // match letter; force upper case
+            result[i] = strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte)) ? strByte.toUpperCase() // force upper case
+            : ' ';
+            ++strPos;
+            break;
+
+          case 'a':
+            // match letter
+            result[i] = strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte)) ? strByte : ' ';
+            ++strPos;
+            break;
+
+          case '0':
+            // match digit
+            result[i] = strPos < strLen && isNumberRegex.test(strByte) ? strByte : ' ';
+            ++strPos;
+            break;
+
+          case 'Z':
+            // match letter or digit; force upper case
+            result[i] = strPos < strLen && (isNumberRegex.test(strByte) || isLowerCase(strByte) || isUpperCase(strByte)) ? strByte.toUpperCase() // force upper case
+            : ' ';
+            ++strPos;
+            break;
+
+          case 'z':
+            // match letter or digit
+            result[i] = strPos < strLen && (isNumberRegex.test(strByte) || isLowerCase(strByte) || isUpperCase(strByte)) ? strByte : ' ';
+            ++strPos;
+            break;
+
+          case 'U':
+            // match letter (force upper case), digit, whitespace or punctuation.
+            if (isLowerCase(strByte)) {
+              result[i] = strByte.toUpperCase();
+            } else if (isUpperCase(strByte) || isNumberRegex.test(strByte) || isWhitespaceRegex.test(strByte) || punctuationList.indexOf(strByte) > -1) {
+              result[i] = strByte;
+            } else {
+              result[i] = ' ';
+            }
+
+            ++strPos;
+            break;
+
+          default:
+            result[i] = maskByte;
+            break;
+        }
+      }
+
+      return result.join('');
+    }
+  }]);
+
+  return StringMask;
+}();
+
+var _default = StringMask;
+exports.default = _default;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _Types = _interopRequireDefault(__webpack_require__(8));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+var _default = _Types.default;
+exports.default = _default;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _NumberMask = _interopRequireDefault(__webpack_require__(0));
+
+var _DateMask = _interopRequireDefault(__webpack_require__(1));
+
+var _StringMask = _interopRequireDefault(__webpack_require__(2));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -589,13 +864,13 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-/** 
+/**
  * Types
- * 
- * Handle BBj masking 
- * 
+ *
+ * BBj masks factory
+ *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
-*/
+ */
 var Types =
 /*#__PURE__*/
 function () {
@@ -607,13 +882,13 @@ function () {
     key: "number",
 
     /**
-     * Mask a number according to bbj masking rules 
-     * 
+     * Mask a number according to bbj masking rules
+     *
      * @param {Number} number the number to format
-     * @param {String} mask the mask to use 
+     * @param {String} mask the mask to use
      * @param {String} groupingSeparator a char which will be used as a grouping separator
      * @param {String} decimalSeparator a char which will be used as a decimal separator
-     * 
+     *
      * @return {String} number masked with the given mask
      */
     value: function number(_number, mask) {
@@ -622,11 +897,11 @@ function () {
       return _NumberMask.default.mask(_number, mask, groupingSeparator, decimalSeparator);
     }
     /**
-     * Mask a date according to bbj masking rules 
-     * 
+     * Mask a date according to bbj masking rules
+     *
      * @param {String} number the date to format
-     * @param {String} mask the mask to use 
-     * 
+     * @param {String} mask the mask to use
+     *
      * @return {String} number masked with the given mask
      */
 
@@ -635,12 +910,27 @@ function () {
     value: function date(_date, mask) {
       return _DateMask.default.mask(_date, mask);
     }
+    /**
+     * Mask the given string with the given mask according to BBj rules
+     *
+     * @param {String} str the string to mask
+     * @param {String} mask the mask to use for formatting
+     *
+     * @returns {String} the masked string
+     */
+
+  }, {
+    key: "string",
+    value: function string(str, mask) {
+      return _StringMask.default.mask(str, mask);
+    }
   }]);
 
   return Types;
 }();
 
-exports.default = Types;
+var _default = Types;
+exports.default = _default;
 
 /***/ })
 /******/ ]);

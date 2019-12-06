@@ -1,10 +1,10 @@
 {
   "name": "bbj-masks",
-  "description": "Format Javascript Dates & Numbers using BBj supported masks",
+  "description": "Format Javascript Dates , Numbers & Strings using BBj masks",
   "main": "dist/bbj-masks.bundle.js",
-  "author": "Hyyan Abo Fakher",
-  "version": "v1.7.0",
-  "private": true,
+  "author": "eu@basis.com",
+  "version": "v1.8.0",
+  "private": false,
   "scripts": {
     "watch": "./node_modules/.bin/webpack --watch --progress",
     "watch:test": "./node_modules/.bin/mocha-webpack './test/**/*.js' --watch",

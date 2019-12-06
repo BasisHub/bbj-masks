@@ -2,7 +2,7 @@
 
 [![pipeline status](https://git.storesandbox.de/hyyan/bbj-masks/badges/master/pipeline.svg)](https://git.storesandbox.de/hyyan/bbj-masks/commits/master)
 
-A library to format Javascript Dates & Numbers using BBj supported masks.
+A library to format Javascript Dates , Numbers & Strings using BBj supported masks.
 
 ## Usage 
 
@@ -20,14 +20,15 @@ console.log(formattedNumber) // -> $ -5,000.123457
 
 const formattedDate = BBj.Masks.Types.date('2018-02-15 14:01:06' , "%Yz - %Mz - %Dz")
 console.log(formattedDate) // -> 18 - 02 - 15
+
+const formattedDate = BBj.Masks.Types.string('abcdefg' , "XX-XXX-XX")
+console.log(formattedDate) // -> ab-cde-fg
 ```
 
 **Note : To support IE11 browser include the [Datejs library](http://www.datejs.com/)**
 
 
-## Difference Between BBj & JS
-
-### Dates
+## Dates
 
 | Mask          | Supported     | Description|  Note|
 |:-------------: |:-------------:|:----------|:--------:|
@@ -73,8 +74,21 @@ console.log(formattedDate) // -> 18 - 02 - 15
 | DR      | ✓ |	The characters "CR" are inserted into the number if the number is negative. The characters "DR" are inserted if the number is positive.|
 | B      | ✓ | The upper case "B" always becomes a space. Any other character is simply copied to the result.positive.|
 
+## Strings
+
+| Mask          | Supported     | Description|
+|:-------------: |:-------------:|:----------|
+| X      | ✓ | Any printable character.|
+| a      | ✓ | Any alphabetic character.|
+| 0      | ✓ | Any digit. |
+| z      | ✓ | Any digit or alphabetic character. |
+| Z      | ✓ | Any digit or alphabetic character. Converts lower-case alphabetic characters to upper case. |
+
+
+
 ## Commands 
 
 * Install deps : `yarn install`
 * Run Tests : `yarn Test`
 * Build : `yarn build`
+
