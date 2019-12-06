@@ -83,8 +83,7 @@ console.log(formattedDate) // -> ab-cde-fg
 | 0      | ✓ | Any digit. |
 | z      | ✓ | Any digit or alphabetic character. |
 | Z      | ✓ | Any digit or alphabetic character. Converts lower-case alphabetic characters to upper case. |
-
-
+| U      | ✓ | Any digit , alphabetic character , whitespace or punctuation. Converts lower-case alphabetic characters to upper case. |
 
 ## Commands 
 
