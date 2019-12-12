@@ -35,13 +35,16 @@ class Types {
   /**
    * Mask a date according to bbj masking rules
    *
-   * @param {String} number the date to format
-   * @param {String} mask the mask to use
+   * @param {String} date date as a string
+   * @param {String} mask mask as a string
+   * @param {String} locale the language to use ex(en-US). default is to the system language
+   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+   *                          timezone
    *
    * @return {String} number masked with the given mask
    */
-  static date(date, mask) {
-    return DateMask.mask(date, mask)
+  static date(date, mask, locale, timezone) {
+    return DateMask.mask(date, mask, locale, timezone)
   }
 
   /**

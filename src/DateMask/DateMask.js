@@ -6,10 +6,26 @@
  * file that was distributed with this source code.
  */
 
+import { utcToZonedTime } from 'date-fns-tz'
+
+const ASCII_CHARS = /[^\x20-\x7E]/g
+const getDayOfYear = date => {
+  const start = new Date(date.getFullYear(), 0, 0)
+
+  const diff =
+    date -
+    start +
+    (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000
+  const oneDay = 1000 * 60 * 60 * 24
+  const day = Math.floor(diff / oneDay)
+
+  return day
+}
+
 /**
  * DateMask
  *
- * A javascript implementation for BBj dates masking 
+ * A javascript implementation for BBj dates masking
  *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
@@ -21,62 +37,66 @@ class DateMask {
    *
    * @param {String} date date as a string
    * @param {String} mask mask as a string
+   * @param {String} locale the language to use ex(en-US). default is to the system language
+   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+   *                          timezone
    *
-   * @return {String} a date masked witht the given mask
+   * @return {String} a date masked with the given mask
    */
-  static mask(date, mask) {
-    if (!date) return
+  static mask(date, mask, locale, timezone) {
+    if (!date) return ''
     if (!mask) return date
 
-    const dateDetails = DateMask._parseDate(date)
-    const translations = DateMask._buildTransilation(dateDetails)
+    timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+    locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'
+
+    const dateObject = utcToZonedTime(date, timezone)
+    const translation = DateMask._buildTranslation({
+      year: dateObject.getFullYear(),
+      month: dateObject.getMonth() + 1,
+      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' })
+        .format(dateObject)
+        .replace(ASCII_CHARS, ''),
+      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' })
+        .format(dateObject)
+        .replace(ASCII_CHARS, ''),
+      day: dateObject.getDate(),
+      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' })
+        .format(dateObject)
+        .replace(ASCII_CHARS, ''),
+      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' })
+        .format(dateObject)
+        .replace(ASCII_CHARS, ''),
+      minutes: dateObject.getMinutes(),
+      seconds: dateObject.getSeconds(),
+      get hours24() {
+        return dateObject.getHours()
+      },
+      get hours12() {
+        return this.hours24 % 12 || 12
+      },
+      dayOfYear: getDayOfYear(dateObject),
+      dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS
+      locale,
+      timezone
+    })
 
     let result = mask
-    for (var k in translations) {
-      result = result.replace(new RegExp('(%' + k + ')', 'g'), translations[k])
+    for (var k in translation) {
+      result = result.replace(new RegExp('(%' + k + ')', 'g'), translation[k])
     }
 
     return result
   }
 
   /**
-   * Parse the passed date string adn return its detilas
-   *
-   * @param {String} date date as a string
-   *
-   * @return {Object}
-   */
-  static _parseDate(date) {
-    let dateObject = Date.parse(date)
-    if (!(dateObject instanceof Date)) dateObject = new Date(date)
-
-    const hours24 = dateObject.getHours()
-    let hours12 = hours24 % 12 || 12
-
-    const dayOfYear = DateMask._getDayOfYear(date)
-    // const dayOfWeek = dateObject.getDay() ?
-
-    return {
-      year: dateObject.getFullYear(),
-      month: dateObject.getMonth() + 1,
-      day: dateObject.getDate(),
-      minutes: dateObject.getMinutes(),
-      seconds: dateObject.getSeconds(),
-      hours24: hours24,
-      hours12: hours12,
-      dayOfYear: dayOfYear,
-      dayOfWeek: dateObject.getDay() + 1 // Sunday = 1 in BBj but Sunday = 0 in JS
-    }
-  }
-
-  /**
    * Get a map object which contains all possible forms of masks
    *
-   * @param {Object} dateDetails date details built by `_parseDate`
+   * @param {Object} dateDetails date
    *
    * @return {Object} forms masks
    */
-  static _buildTransilation(dateDetails) {
+  static _buildTranslation(dateDetails) {
     return {
       // year
       Yz: dateDetails.year.toString().substr(-2),
@@ -91,8 +111,8 @@ class DateMask {
         String(dateDetails.month).length == 1
           ? '0' + dateDetails.month
           : dateDetails.month,
-      Ms: dateDetails.month,
-      Ml: dateDetails.month,
+      Ms: dateDetails.monthShort,
+      Ml: dateDetails.monthLong,
       Mp: String.fromCharCode(dateDetails.month),
       Md: dateDetails.month,
       M: dateDetails.month,
@@ -102,8 +122,8 @@ class DateMask {
         String(dateDetails.day).length == 1
           ? '0' + dateDetails.day
           : dateDetails.day,
-      Ds: dateDetails.day,
-      Dl: dateDetails.day,
+      Ds: dateDetails.dayShort,
+      Dl: dateDetails.dayLong,
       Dp: String.fromCharCode(dateDetails.day),
       Dd: dateDetails.day,
       D: dateDetails.day,
@@ -179,29 +199,6 @@ class DateMask {
       Wd: dateDetails.dayOfWeek,
       W: dateDetails.dayOfWeek
     }
-  }
-
-  /**
-   * Get the Day number within the year (1-366).
-   *
-   * @param {String} date date as a string
-   *
-   * @returns {Number}
-   */
-  static _getDayOfYear(date) {
-    let now = Date.parse(date)
-    if (!(now instanceof Date)) now = new Date(date)
-
-    const start = new Date(now.getFullYear(), 0, 0)
-
-    var diff =
-      now -
-      start +
-      (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000
-    var oneDay = 1000 * 60 * 60 * 24
-    var day = Math.floor(diff / oneDay)
-
-    return day
   }
 }
 

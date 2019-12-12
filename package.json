@@ -19,5 +19,9 @@
     "mocha-webpack": "^1.0.1",
     "uglifyjs-webpack-plugin": "^1.1.8",
     "webpack": "^3.11.0"
+  },
+  "dependencies": {
+    "date-fns": "^2.8.1",
+    "date-fns-tz": "^1.0.8"
   }
 }
