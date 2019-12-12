@@ -125,7 +125,29 @@
       mask: '%Y-%Mz-%Dz %Hz:%mz:%sz',
       expected: '2013-10-24 00:22:00',
       timezone: 'Asia/Damascus'
-    }
+    },
+
+    // Week number
+    { date: '2019-12-15TZ', mask: '%wz', expected: '50', locale: 'de' },
+    { date: '2019-12-15Z', mask: '%ws', expected: '50', locale: 'de' },
+    { date: '2019-12-15Z', mask: '%wl', expected: '50', locale: 'de' },
+    {
+      date: '2019-12-15Z',
+      mask: '%wp',
+      expected: String.fromCharCode('50'),
+      locale: 'de'
+    },
+    { date: '2019-12-15Z', mask: '%wd', expected: '50', locale: 'de' },
+    { date: '2019-12-15Z', mask: '%w', expected: '50', locale: 'de' },
+
+    // Week number edge cases
+    { date: '2019-12-28Z', mask: '%w', expected: '52', locale: 'en' },
+    { date: '2019-12-29Z', mask: '%w', expected: '1', locale: 'en' },
+    { date: '2019-12-30Z', mask: '%w', expected: '1', locale: 'en' },
+
+    { date: '2019-12-28Z', mask: '%w', expected: '52', locale: 'de' },
+    { date: '2019-12-29Z', mask: '%w', expected: '52', locale: 'de' },
+    { date: '2019-12-30Z', mask: '%w', expected: '1', locale: 'de' }
   ]
 
   if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {

@@ -7,8 +7,10 @@
  */
 
 import { utcToZonedTime } from 'date-fns-tz'
+import { getWeekStartByLocale } from 'weekstart'
 
 const ASCII_CHARS = /[^\x20-\x7E]/g
+
 const getDayOfYear = date => {
   const start = new Date(date.getFullYear(), 0, 0)
 
@@ -20,6 +22,16 @@ const getDayOfYear = date => {
   const day = Math.floor(diff / oneDay)
 
   return day
+}
+
+const getWeekNumber = function(date, weekStart) {
+  const d = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  )
+  const dayNum = d.getUTCDay() - (weekStart - 1) || 7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
 }
 
 /**
@@ -77,6 +89,7 @@ class DateMask {
       },
       dayOfYear: getDayOfYear(dateObject),
       dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS
+      weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),
       locale,
       timezone
     })
@@ -197,7 +210,18 @@ class DateMask {
       Wl: dateDetails.dayOfWeek,
       Wp: String.fromCharCode(dateDetails.dayOfWeek),
       Wd: dateDetails.dayOfWeek,
-      W: dateDetails.dayOfWeek
+      W: dateDetails.dayOfWeek,
+
+      // week number
+      wz:
+        String(dateDetails.weekNumber).length == 1
+          ? '0' + dateDetails.weekNumber
+          : dateDetails.weekNumber,
+      ws: dateDetails.weekNumber,
+      wl: dateDetails.weekNumber,
+      wp: String.fromCharCode(dateDetails.weekNumber),
+      wd: dateDetails.weekNumber,
+      w: dateDetails.weekNumber
     }
   }
 }
