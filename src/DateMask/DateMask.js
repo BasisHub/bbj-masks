@@ -62,6 +62,15 @@ class DateMask {
     timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
     locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'
 
+    // check time
+    if (
+      /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(
+        date
+      )
+    ) {
+      date = `1970-01-01T${date}`
+    }
+
     const dateObject = utcToZonedTime(date, timezone)
     const translation = DateMask._buildTranslation({
       year: dateObject.getFullYear(),

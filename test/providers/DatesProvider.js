@@ -147,7 +147,34 @@
 
     { date: '2019-12-28Z', mask: '%w', expected: '52', locale: 'de' },
     { date: '2019-12-29Z', mask: '%w', expected: '52', locale: 'de' },
-    { date: '2019-12-30Z', mask: '%w', expected: '1', locale: 'de' }
+    { date: '2019-12-30Z', mask: '%w', expected: '1', locale: 'de' },
+
+    // only time
+    { date: '05:03:03Z', mask: '%Hz:%mz:%sz', expected: '06:03:03' }, // Timezone is Europe/Berlin
+    {
+      date: '05:03:03Z',
+      mask: '%Hz:%mz:%sz',
+      expected: '07:03:03',
+      timezone: 'Asia/Damascus'
+    },
+    {
+      date: '05:03:03Z',
+      mask: '%Hz:%mz:%sz',
+      expected: '05:03:03',
+      timezone: 'UTC'
+    },
+    {
+      date: '05:03:03+06:00',
+      mask: '%Hz:%mz:%sz',
+      expected: '01:03:03',
+      timezone: 'Asia/Damascus'
+    },
+    {
+      date: '05:03:03+06:00',
+      mask: '%Hz:%mz:%sz',
+      expected: '15:03:03',
+      timezone: 'America/Los_Angeles' // UTC -08
+    }
   ]
 
   if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
