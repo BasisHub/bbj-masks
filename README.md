@@ -6,6 +6,8 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/BasisHub/bbj-masks)
 ![David](https://img.shields.io/david/BasisHub/bbj-masks)
 
+[Pages](https://basishub.github.io/bbj-masks/) | [API](https://basishub.github.io/bbj-masks/docs/api/) <br>
+
 A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.
 
 ## Browsers support
