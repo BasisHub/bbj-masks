@@ -16,7 +16,7 @@ A small library to format Javascript Dates , Numbers & Strings using BBj support
 | :---------: | :---------: | :---------: | :---------: | :---------: |
 | IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
-**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/)
+**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/) polyfill
 
 ## Install
 
