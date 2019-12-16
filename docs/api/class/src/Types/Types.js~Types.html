@@ -30,6 +30,9 @@
   <ul>
     
   <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDayOfYear">getDayOfYear</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekNumber">getWeekNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekStartByLocale">getWeekStartByLocale</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
@@ -161,7 +164,7 @@
       <div>
         
         
-        <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules</p>
+        <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules`</p>
 </div>
       </div>
     </td>
@@ -231,14 +234,16 @@
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">locale</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: Browser&apos;s locale</li></ul></td>
       <td data-ice="description"><p>the language to use ex(en-US). default is to the system language</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">timezone</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: System timezone</li></ul></td>
       <td data-ice="description"><p>the time zone descriptor (e.g. America/Los_Angeles). default to the system
                          timezone</p>
 </td>
@@ -321,20 +326,22 @@
       <td data-ice="name" class="code" data-depth="0">mask</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
-      <td data-ice="description"><p>the mask to use</p>
+      <td data-ice="description"><p>the mask to use for formatting</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">groupingSeparator</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: ,</li></ul></td>
       <td data-ice="description"><p>a char which will be used as a grouping separator</p>
 </td>
     </tr>
 <tr data-ice="property" data-depth="0">
       <td data-ice="name" class="code" data-depth="0">decimalSeparator</td>
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
-      <td data-ice="appendix"></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: .</li></ul></td>
       <td data-ice="description"><p>a char which will be used as a decimal separator</p>
 </td>
     </tr>
@@ -392,7 +399,7 @@
   
   
   
-  <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules</p>
+  <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules`</p>
 </div>
 
   

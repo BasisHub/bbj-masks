@@ -6,6 +6,12 @@
  * file that was distributed with this source code.
  */
 
-import DateMask from './DateMask'
+import {
+  getDayOfYear,
+  getWeekNumber,
+  getWeekStartByLocale,
+  default as DateMask
+} from './DateMask'
 
+export { getDayOfYear, getWeekNumber, getWeekStartByLocale }
 export default DateMask

@@ -22,9 +22,9 @@ class Types {
    * Mask a number according to bbj masking rules
    *
    * @param {Number} number the number to format
-   * @param {String} mask the mask to use
-   * @param {String} groupingSeparator a char which will be used as a grouping separator
-   * @param {String} decimalSeparator a char which will be used as a decimal separator
+   * @param {String} mask the mask to use for formatting
+   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
+   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
    *
    * @return {String} number masked with the given mask
    */
@@ -37,8 +37,8 @@ class Types {
    *
    * @param {String} date date as a string
    * @param {String} mask mask as a string
-   * @param {String} locale the language to use ex(en-US). default is to the system language
-   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language
+   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system
    *                          timezone
    *
    * @return {String} number masked with the given mask
@@ -48,7 +48,7 @@ class Types {
   }
 
   /**
-   * Mask the given string with the given mask according to BBj rules
+   * Mask the given string with the given mask according to BBj rules`
    *
    * @param {String} str the string to mask
    * @param {String} mask the mask to use for formatting

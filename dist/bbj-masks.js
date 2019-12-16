@@ -815,14 +815,36 @@ exports["default"] = _default;
 "use strict";
 
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "getDayOfYear", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.getDayOfYear;
+  }
+});
+Object.defineProperty(exports, "getWeekNumber", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.getWeekNumber;
+  }
+});
+Object.defineProperty(exports, "getWeekStartByLocale", {
+  enumerable: true,
+  get: function get() {
+    return _DateMask.getWeekStartByLocale;
+  }
+});
 exports["default"] = void 0;
 
-var _DateMask = _interopRequireDefault(__webpack_require__(17));
+var _DateMask = _interopRequireWildcard(__webpack_require__(17));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 /*
  * This file is part of bbj-masks lib.
@@ -1488,6 +1510,8 @@ exports["default"] = _default;
 "use strict";
 
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -1515,16 +1539,37 @@ Object.defineProperty(exports, "Types", {
     return _Types["default"];
   }
 });
+exports.Utils = void 0;
 
 var _NumberMask = _interopRequireDefault(__webpack_require__(6));
 
-var _DateMask = _interopRequireDefault(__webpack_require__(7));
+var _DateMask = _interopRequireWildcard(__webpack_require__(7));
 
 var _StringMask = _interopRequireDefault(__webpack_require__(14));
 
 var _Types = _interopRequireDefault(__webpack_require__(53));
 
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+var Utils = {
+  Dates: {
+    getDayOfYear: _DateMask.getDayOfYear,
+    getWeekNumber: _DateMask.getWeekNumber,
+    getWeekStartByLocale: _DateMask.getWeekStartByLocale
+  }
+};
+exports.Utils = Utils;
 
 /***/ }),
 /* 16 */
@@ -1574,8 +1619,8 @@ function () {
      *
      * @param {Number} number the number to format
      * @param {String} mask the mask to use for formatting
-     * @param {String} groupingSeparator a char which will be used as a grouping separator
-     * @param {String} decimalSeparator a char which will be used as a decimal separator
+     * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
+     * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
      *
      * @returns {String} the masked number
      */
@@ -1784,7 +1829,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.getWeekNumber = exports.getDayOfYear = exports.getWeekStartByLocale = void 0;
 
 var _dateFnsTz = __webpack_require__(18);
 
@@ -1797,6 +1842,27 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 var ASCII_CHARS = /[^\x20-\x7E]/g;
+/**
+ * Find out when the first day of the week based on the passed locale
+ *
+ * @param {locale} locale
+ *
+ * @return {Number} a number 0 = sunday , 1 = monday , ....
+ */
+
+var getWeekStartByLocale = function getWeekStartByLocale(locale) {
+  return (0, _weekstart.getWeekStartByLocale)(locale);
+};
+/**
+ *  Get day number in the year of the passed date
+ *
+ * @param {Date} date
+ *
+ * @return {Number} day number
+ */
+
+
+exports.getWeekStartByLocale = getWeekStartByLocale;
 
 var getDayOfYear = function getDayOfYear(date) {
   var start = new Date(date.getFullYear(), 0, 0);
@@ -1805,6 +1871,17 @@ var getDayOfYear = function getDayOfYear(date) {
   var day = Math.floor(diff / oneDay);
   return day;
 };
+/**
+ * Get the Week Number in the passed date
+ *
+ * @param {Date} date - Date object
+ * @param {Number} weekStart A number which defines the first day of the week (0  = sunday , 1 = monday , ...)
+ *
+ * @returns {Number} the week number
+ */
+
+
+exports.getDayOfYear = getDayOfYear;
 
 var getWeekNumber = function getWeekNumber(date, weekStart) {
   var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
@@ -1821,6 +1898,8 @@ var getWeekNumber = function getWeekNumber(date, weekStart) {
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
 
+
+exports.getWeekNumber = getWeekNumber;
 
 var DateMask =
 /*#__PURE__*/
@@ -1839,8 +1918,8 @@ function () {
      *
      * @param {String} date date as a string
      * @param {String} mask mask as a string
-     * @param {String} locale the language to use ex(en-US). default is to the system language
-     * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+     * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language
+     * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system
      *                          timezone
      *
      * @return {String} a date masked with the given mask
@@ -1887,7 +1966,7 @@ function () {
         dayOfYear: getDayOfYear(dateObject),
         dayOfWeek: dateObject.getDay() + 1,
         // Sunday = 1 in BBj but Sunday = 0 in JS
-        weekNumber: getWeekNumber(dateObject, (0, _weekstart.getWeekStartByLocale)(locale)),
+        weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),
         locale: locale,
         timezone: timezone
       });
@@ -5318,9 +5397,9 @@ function () {
      * Mask a number according to bbj masking rules
      *
      * @param {Number} number the number to format
-     * @param {String} mask the mask to use
-     * @param {String} groupingSeparator a char which will be used as a grouping separator
-     * @param {String} decimalSeparator a char which will be used as a decimal separator
+     * @param {String} mask the mask to use for formatting
+     * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
+     * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
      *
      * @return {String} number masked with the given mask
      */
@@ -5334,8 +5413,8 @@ function () {
      *
      * @param {String} date date as a string
      * @param {String} mask mask as a string
-     * @param {String} locale the language to use ex(en-US). default is to the system language
-     * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+     * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language
+     * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system
      *                          timezone
      *
      * @return {String} number masked with the given mask
@@ -5347,7 +5426,7 @@ function () {
       return _DateMask["default"].mask(_date, mask, locale, timezone);
     }
     /**
-     * Mask the given string with the given mask according to BBj rules
+     * Mask the given string with the given mask according to BBj rules`
      *
      * @param {String} str the string to mask
      * @param {String} mask the mask to use for formatting

@@ -7,11 +7,29 @@
  */
 
 import { utcToZonedTime } from 'date-fns-tz'
-import { getWeekStartByLocale } from 'weekstart'
+import { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'
 
 const ASCII_CHARS = /[^\x20-\x7E]/g
 
-const getDayOfYear = date => {
+/**
+ * Find out when the first day of the week based on the passed locale
+ *
+ * @param {locale} locale
+ *
+ * @return {Number} a number 0 = sunday , 1 = monday , ....
+ */
+export const getWeekStartByLocale = locale => {
+  return originalGetWeekStartByLocale(locale)
+}
+
+/**
+ *  Get day number in the year of the passed date
+ *
+ * @param {Date} date
+ *
+ * @return {Number} day number
+ */
+export const getDayOfYear = date => {
   const start = new Date(date.getFullYear(), 0, 0)
 
   const diff =
@@ -24,7 +42,15 @@ const getDayOfYear = date => {
   return day
 }
 
-const getWeekNumber = function(date, weekStart) {
+/**
+ * Get the Week Number in the passed date
+ *
+ * @param {Date} date - Date object
+ * @param {Number} weekStart A number which defines the first day of the week (0  = sunday , 1 = monday , ...)
+ *
+ * @returns {Number} the week number
+ */
+export const getWeekNumber = function(date, weekStart) {
   const d = new Date(
     Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
   )
@@ -49,8 +75,8 @@ class DateMask {
    *
    * @param {String} date date as a string
    * @param {String} mask mask as a string
-   * @param {String} locale the language to use ex(en-US). default is to the system language
-   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language
+   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system
    *                          timezone
    *
    * @return {String} a date masked with the given mask

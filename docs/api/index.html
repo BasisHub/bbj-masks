@@ -30,6 +30,9 @@
   <ul>
     
   <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDayOfYear">getDayOfYear</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekNumber">getWeekNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekStartByLocale">getWeekStartByLocale</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
@@ -37,10 +40,12 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="bbj-masks">BBj Masks</h1><p><img src="https://img.shields.io/github/license/BasisHub/bbj-masks" alt="GitHub">
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="bbj-masks">BBj Masks</h1><p><a href="https://travis-ci.com/BasisHub/bbj-masks"><img src="https://travis-ci.com/BasisHub/bbj-masks.svg?branch=master" alt="Build Status"></a>
+<img src="https://img.shields.io/github/license/BasisHub/bbj-masks" alt="GitHub">
 <img src="https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js" alt="GitHub file size in bytes">
 <img src="https://img.shields.io/github/v/tag/BasisHub/bbj-masks" alt="GitHub tag (latest by date)">
 <img src="https://img.shields.io/david/BasisHub/bbj-masks" alt="David"></p>
+<p><a href="https://basishub.github.io/bbj-masks/">Pages</a> | <a href="https://basishub.github.io/bbj-masks/docs/api/">API</a> <br></p>
 <p>A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks.</p>
 <h2 id="browsers-support">Browsers support</h2><table>
 <thead>
@@ -62,10 +67,10 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Note :</strong> To support IE11 browser include the <a href="https://github.com/formatjs/date-time-format-timezone/">date-time-format-timezone</a> polyfill</p>
 <h2 id="install">Install</h2><pre><code><code class="source-code prettyprint">$ npm install BasisHub/bbj-masks
 $ yarn add BasisHub/bbj-masks</code>
-</code></pre><p><strong>Note :</strong> To support IE11 browser include the <a href="https://github.com/formatjs/date-time-format-timezone/">date-time-format-timezone</a></p>
-<h2 id="usage">Usage</h2><pre><code class="lang-js"><code class="source-code prettyprint">const formattedNumber = BBj.Masks.Types.number(
+</code></pre><h2 id="usage">Usage</h2><pre><code class="lang-js"><code class="source-code prettyprint">const formattedNumber = BBj.Masks.Types.number(
   -5000.123456789,
   &apos;$ -#,##0.######&apos;
 )

@@ -24,6 +24,24 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "bbj-masks/src/datemask/datemask.js~getdayofyear",
+    "function/index.html#static-function-getDayOfYear",
+    "<span>getDayOfYear</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "function"
+  ],
+  [
+    "bbj-masks/src/datemask/datemask.js~getweeknumber",
+    "function/index.html#static-function-getWeekNumber",
+    "<span>getWeekNumber</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "function"
+  ],
+  [
+    "bbj-masks/src/datemask/datemask.js~getweekstartbylocale",
+    "function/index.html#static-function-getWeekStartByLocale",
+    "<span>getWeekStartByLocale</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "function"
+  ],
+  [
     "src/.external-ecmascript.js~array",
     "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
     "src/.external-ecmascript.js~Array",
@@ -318,12 +336,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/datemask/index.js",
-    "file/src/DateMask/index.js.html",
-    "src/DateMask/index.js",
-    "file"
-  ],
-  [
     "src/numbermask/numbermask.js",
     "file/src/NumberMask/NumberMask.js.html",
     "src/NumberMask/NumberMask.js",
@@ -336,12 +348,6 @@ window.esdocSearchIndex = [
     "method"
   ],
   [
-    "src/numbermask/index.js",
-    "file/src/NumberMask/index.js.html",
-    "src/NumberMask/index.js",
-    "file"
-  ],
-  [
     "src/stringmask/stringmask.js",
     "file/src/StringMask/StringMask.js.html",
     "src/StringMask/StringMask.js",
@@ -352,12 +358,6 @@ window.esdocSearchIndex = [
     "class/src/StringMask/StringMask.js~StringMask.html#static-method-mask",
     "src/StringMask/StringMask.js~StringMask.mask",
     "method"
-  ],
-  [
-    "src/stringmask/index.js",
-    "file/src/StringMask/index.js.html",
-    "src/StringMask/index.js",
-    "file"
   ],
   [
     "src/types/types.js",
@@ -382,17 +382,5 @@ window.esdocSearchIndex = [
     "class/src/Types/Types.js~Types.html#static-method-string",
     "src/Types/Types.js~Types.string",
     "method"
-  ],
-  [
-    "src/types/index.js",
-    "file/src/Types/index.js.html",
-    "src/Types/index.js",
-    "file"
-  ],
-  [
-    "src/index.js",
-    "file/src/index.js.html",
-    "src/index.js",
-    "file"
   ]
 ]

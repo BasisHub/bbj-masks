@@ -7,8 +7,22 @@
  */
 
 import NumberMask from './NumberMask'
-import DateMask from './DateMask'
+import {
+  getDayOfYear,
+  getWeekNumber,
+  getWeekStartByLocale,
+  default as DateMask
+} from './DateMask'
+
 import StringMask from './StringMask'
 import Types from './Types'
 
-export { NumberMask, DateMask, StringMask, Types }
+const Utils = {
+  Dates: {
+    getDayOfYear,
+    getWeekNumber,
+    getWeekStartByLocale
+  }
+}
+
+export { NumberMask, DateMask, StringMask, Types, Utils }

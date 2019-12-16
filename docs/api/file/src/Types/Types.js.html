@@ -30,6 +30,9 @@
   <ul>
     
   <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDayOfYear">getDayOfYear</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekNumber">getWeekNumber</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekStartByLocale">getWeekStartByLocale</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
@@ -62,9 +65,9 @@ class Types {
    * Mask a number according to bbj masking rules
    *
    * @param {Number} number the number to format
-   * @param {String} mask the mask to use
-   * @param {String} groupingSeparator a char which will be used as a grouping separator
-   * @param {String} decimalSeparator a char which will be used as a decimal separator
+   * @param {String} mask the mask to use for formatting
+   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
+   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
    *
    * @return {String} number masked with the given mask
    */
@@ -77,8 +80,8 @@ class Types {
    *
    * @param {String} date date as a string
    * @param {String} mask mask as a string
-   * @param {String} locale the language to use ex(en-US). default is to the system language
-   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+   * @param {String} [locale=Browser&apos;s locale] the language to use ex(en-US). default is to the system language
+   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system
    *                          timezone
    *
    * @return {String} number masked with the given mask
@@ -88,7 +91,7 @@ class Types {
   }
 
   /**
-   * Mask the given string with the given mask according to BBj rules
+   * Mask the given string with the given mask according to BBj rules`
    *
    * @param {String} str the string to mask
    * @param {String} mask the mask to use for formatting

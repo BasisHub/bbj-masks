@@ -567,9 +567,9 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/DateMask/DateMask.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport { utcToZonedTime } from 'date-fns-tz'\r\nimport { getWeekStartByLocale } from 'weekstart'\r\n\r\nconst ASCII_CHARS = /[^\\x20-\\x7E]/g\r\n\r\nconst getDayOfYear = date => {\r\n  const start = new Date(date.getFullYear(), 0, 0)\r\n\r\n  const diff =\r\n    date -\r\n    start +\r\n    (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000\r\n  const oneDay = 1000 * 60 * 60 * 24\r\n  const day = Math.floor(diff / oneDay)\r\n\r\n  return day\r\n}\r\n\r\nconst getWeekNumber = function(date, weekStart) {\r\n  const d = new Date(\r\n    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())\r\n  )\r\n  const dayNum = d.getUTCDay() - (weekStart - 1) || 7\r\n  d.setUTCDate(d.getUTCDate() + 4 - dayNum)\r\n  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))\r\n  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)\r\n}\r\n\r\n/**\r\n * DateMask\r\n *\r\n * A javascript implementation for BBj dates masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass DateMask {\r\n  /**\r\n   * Mask date\r\n   *\r\n   * Mask the passed date with the passed mask\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} locale the language to use ex(en-US). default is to the system language\r\n   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} a date masked with the given mask\r\n   */\r\n  static mask(date, mask, locale, timezone) {\r\n    if (!date) return ''\r\n    if (!mask) return date\r\n\r\n    timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone\r\n    locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'\r\n\r\n    // check time\r\n    if (\r\n      /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(\r\n        date\r\n      )\r\n    ) {\r\n      date = `1970-01-01T${date}`\r\n    }\r\n\r\n    const dateObject = utcToZonedTime(date, timezone)\r\n    const translation = DateMask._buildTranslation({\r\n      year: dateObject.getFullYear(),\r\n      month: dateObject.getMonth() + 1,\r\n      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' })\r\n        .format(dateObject)\r\n        .replace(ASCII_CHARS, ''),\r\n      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' })\r\n        .format(dateObject)\r\n        .replace(ASCII_CHARS, ''),\r\n      day: dateObject.getDate(),\r\n      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' })\r\n        .format(dateObject)\r\n        .replace(ASCII_CHARS, ''),\r\n      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' })\r\n        .format(dateObject)\r\n        .replace(ASCII_CHARS, ''),\r\n      minutes: dateObject.getMinutes(),\r\n      seconds: dateObject.getSeconds(),\r\n      get hours24() {\r\n        return dateObject.getHours()\r\n      },\r\n      get hours12() {\r\n        return this.hours24 % 12 || 12\r\n      },\r\n      dayOfYear: getDayOfYear(dateObject),\r\n      dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS\r\n      weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),\r\n      locale,\r\n      timezone\r\n    })\r\n\r\n    let result = mask\r\n    for (var k in translation) {\r\n      result = result.replace(new RegExp('(%' + k + ')', 'g'), translation[k])\r\n    }\r\n\r\n    return result\r\n  }\r\n\r\n  /**\r\n   * Get a map object which contains all possible forms of masks\r\n   *\r\n   * @param {Object} dateDetails date\r\n   *\r\n   * @return {Object} forms masks\r\n   */\r\n  static _buildTranslation(dateDetails) {\r\n    return {\r\n      // year\r\n      Yz: dateDetails.year.toString().substr(-2),\r\n      Ys: dateDetails.year,\r\n      Yl: dateDetails.year,\r\n      Yp: String.fromCharCode(dateDetails.year),\r\n      Yd: dateDetails.year,\r\n      Y: dateDetails.year,\r\n\r\n      // month\r\n      Mz:\r\n        String(dateDetails.month).length == 1\r\n          ? '0' + dateDetails.month\r\n          : dateDetails.month,\r\n      Ms: dateDetails.monthShort,\r\n      Ml: dateDetails.monthLong,\r\n      Mp: String.fromCharCode(dateDetails.month),\r\n      Md: dateDetails.month,\r\n      M: dateDetails.month,\r\n\r\n      // day\r\n      Dz:\r\n        String(dateDetails.day).length == 1\r\n          ? '0' + dateDetails.day\r\n          : dateDetails.day,\r\n      Ds: dateDetails.dayShort,\r\n      Dl: dateDetails.dayLong,\r\n      Dp: String.fromCharCode(dateDetails.day),\r\n      Dd: dateDetails.day,\r\n      D: dateDetails.day,\r\n\r\n      // hour 24\r\n      Hz:\r\n        String(dateDetails.hours24).length == 1\r\n          ? '0' + dateDetails.hours24\r\n          : dateDetails.hours24,\r\n      Hs: dateDetails.hours24,\r\n      Hl: dateDetails.hours24,\r\n      Hp: String.fromCharCode(dateDetails.hours24),\r\n      Hd: dateDetails.hours24,\r\n      H: dateDetails.hours24,\r\n\r\n      // hour 12\r\n      hz:\r\n        String(dateDetails.hours12).length == 1\r\n          ? '0' + dateDetails.hours12\r\n          : dateDetails.hours12,\r\n      hs: dateDetails.hours12,\r\n      hl: dateDetails.hours12,\r\n      hp: String.fromCharCode(dateDetails.hours12),\r\n      hd: dateDetails.hours12,\r\n      h: dateDetails.hours12,\r\n\r\n      // minutes\r\n      mz:\r\n        String(dateDetails.minutes).length == 1\r\n          ? '0' + dateDetails.minutes\r\n          : dateDetails.minutes,\r\n      ms: dateDetails.minutes,\r\n      ml: dateDetails.minutes,\r\n      mp: String.fromCharCode(dateDetails.minutes),\r\n      md: dateDetails.minutes,\r\n      m: dateDetails.minutes,\r\n\r\n      // seconds\r\n      sz:\r\n        String(dateDetails.seconds).length == 1\r\n          ? '0' + dateDetails.seconds\r\n          : dateDetails.seconds,\r\n      ss: dateDetails.seconds,\r\n      sl: dateDetails.seconds,\r\n      sp: String.fromCharCode(dateDetails.seconds),\r\n      sd: dateDetails.seconds,\r\n      s: dateDetails.seconds,\r\n\r\n      // AM , PM\r\n      PP: dateDetails.hours24 > 12 ? 'PM' : 'PM',\r\n      P: dateDetails.hours24 > 12 ? 'PM' : 'AM',\r\n      pp: dateDetails.hours24 > 12 ? 'pm' : 'am',\r\n      p: dateDetails.hours24 > 12 ? 'pm' : 'am',\r\n\r\n      // Day of Year\r\n      Jz:\r\n        String(dateDetails.dayOfYear).length == 1\r\n          ? '0' + dateDetails.dayOfYear\r\n          : dateDetails.dayOfYear,\r\n      Js: dateDetails.dayOfYear,\r\n      Jl: dateDetails.dayOfYear,\r\n      Jd: dateDetails.dayOfYear,\r\n      J: dateDetails.dayOfYear,\r\n\r\n      // Day Of Week\r\n      Wz:\r\n        String(dateDetails.dayOfWeek).length == 1\r\n          ? '0' + dateDetails.dayOfWeek\r\n          : dateDetails.dayOfWeek,\r\n      Ws: dateDetails.dayOfWeek,\r\n      Wl: dateDetails.dayOfWeek,\r\n      Wp: String.fromCharCode(dateDetails.dayOfWeek),\r\n      Wd: dateDetails.dayOfWeek,\r\n      W: dateDetails.dayOfWeek,\r\n\r\n      // week number\r\n      wz:\r\n        String(dateDetails.weekNumber).length == 1\r\n          ? '0' + dateDetails.weekNumber\r\n          : dateDetails.weekNumber,\r\n      ws: dateDetails.weekNumber,\r\n      wl: dateDetails.weekNumber,\r\n      wp: String.fromCharCode(dateDetails.weekNumber),\r\n      wd: dateDetails.weekNumber,\r\n      w: dateDetails.weekNumber\r\n    }\r\n  }\r\n}\r\n\r\nexport default DateMask\r\n",
+    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport { utcToZonedTime } from 'date-fns-tz'\nimport { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'\n\nconst ASCII_CHARS = /[^\\x20-\\x7E]/g\n\n/**\n * Find out when the first day of the week based on the passed locale\n *\n * @param {locale} locale\n *\n * @return {Number} a number 0 = sunday , 1 = monday , ....\n */\nexport const getWeekStartByLocale = locale => {\n  return originalGetWeekStartByLocale(locale)\n}\n\n/**\n *  Get day number in the year of the passed date\n *\n * @param {Date} date\n *\n * @return {Number} day number\n */\nexport const getDayOfYear = date => {\n  const start = new Date(date.getFullYear(), 0, 0)\n\n  const diff =\n    date -\n    start +\n    (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000\n  const oneDay = 1000 * 60 * 60 * 24\n  const day = Math.floor(diff / oneDay)\n\n  return day\n}\n\n/**\n * Get the Week Number in the passed date\n *\n * @param {Date} date - Date object\n * @param {Number} weekStart A number which defines the first day of the week (0  = sunday , 1 = monday , ...)\n *\n * @returns {Number} the week number\n */\nexport const getWeekNumber = function(date, weekStart) {\n  const d = new Date(\n    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())\n  )\n  const dayNum = d.getUTCDay() - (weekStart - 1) || 7\n  d.setUTCDate(d.getUTCDate() + 4 - dayNum)\n  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))\n  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)\n}\n\n/**\n * DateMask\n *\n * A javascript implementation for BBj dates masking\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass DateMask {\n  /**\n   * Mask date\n   *\n   * Mask the passed date with the passed mask\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} a date masked with the given mask\n   */\n  static mask(date, mask, locale, timezone) {\n    if (!date) return ''\n    if (!mask) return date\n\n    timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone\n    locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'\n\n    // check time\n    if (\n      /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(\n        date\n      )\n    ) {\n      date = `1970-01-01T${date}`\n    }\n\n    const dateObject = utcToZonedTime(date, timezone)\n    const translation = DateMask._buildTranslation({\n      year: dateObject.getFullYear(),\n      month: dateObject.getMonth() + 1,\n      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' })\n        .format(dateObject)\n        .replace(ASCII_CHARS, ''),\n      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' })\n        .format(dateObject)\n        .replace(ASCII_CHARS, ''),\n      day: dateObject.getDate(),\n      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' })\n        .format(dateObject)\n        .replace(ASCII_CHARS, ''),\n      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' })\n        .format(dateObject)\n        .replace(ASCII_CHARS, ''),\n      minutes: dateObject.getMinutes(),\n      seconds: dateObject.getSeconds(),\n      get hours24() {\n        return dateObject.getHours()\n      },\n      get hours12() {\n        return this.hours24 % 12 || 12\n      },\n      dayOfYear: getDayOfYear(dateObject),\n      dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS\n      weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),\n      locale,\n      timezone\n    })\n\n    let result = mask\n    for (var k in translation) {\n      result = result.replace(new RegExp('(%' + k + ')', 'g'), translation[k])\n    }\n\n    return result\n  }\n\n  /**\n   * Get a map object which contains all possible forms of masks\n   *\n   * @param {Object} dateDetails date\n   *\n   * @return {Object} forms masks\n   */\n  static _buildTranslation(dateDetails) {\n    return {\n      // year\n      Yz: dateDetails.year.toString().substr(-2),\n      Ys: dateDetails.year,\n      Yl: dateDetails.year,\n      Yp: String.fromCharCode(dateDetails.year),\n      Yd: dateDetails.year,\n      Y: dateDetails.year,\n\n      // month\n      Mz:\n        String(dateDetails.month).length == 1\n          ? '0' + dateDetails.month\n          : dateDetails.month,\n      Ms: dateDetails.monthShort,\n      Ml: dateDetails.monthLong,\n      Mp: String.fromCharCode(dateDetails.month),\n      Md: dateDetails.month,\n      M: dateDetails.month,\n\n      // day\n      Dz:\n        String(dateDetails.day).length == 1\n          ? '0' + dateDetails.day\n          : dateDetails.day,\n      Ds: dateDetails.dayShort,\n      Dl: dateDetails.dayLong,\n      Dp: String.fromCharCode(dateDetails.day),\n      Dd: dateDetails.day,\n      D: dateDetails.day,\n\n      // hour 24\n      Hz:\n        String(dateDetails.hours24).length == 1\n          ? '0' + dateDetails.hours24\n          : dateDetails.hours24,\n      Hs: dateDetails.hours24,\n      Hl: dateDetails.hours24,\n      Hp: String.fromCharCode(dateDetails.hours24),\n      Hd: dateDetails.hours24,\n      H: dateDetails.hours24,\n\n      // hour 12\n      hz:\n        String(dateDetails.hours12).length == 1\n          ? '0' + dateDetails.hours12\n          : dateDetails.hours12,\n      hs: dateDetails.hours12,\n      hl: dateDetails.hours12,\n      hp: String.fromCharCode(dateDetails.hours12),\n      hd: dateDetails.hours12,\n      h: dateDetails.hours12,\n\n      // minutes\n      mz:\n        String(dateDetails.minutes).length == 1\n          ? '0' + dateDetails.minutes\n          : dateDetails.minutes,\n      ms: dateDetails.minutes,\n      ml: dateDetails.minutes,\n      mp: String.fromCharCode(dateDetails.minutes),\n      md: dateDetails.minutes,\n      m: dateDetails.minutes,\n\n      // seconds\n      sz:\n        String(dateDetails.seconds).length == 1\n          ? '0' + dateDetails.seconds\n          : dateDetails.seconds,\n      ss: dateDetails.seconds,\n      sl: dateDetails.seconds,\n      sp: String.fromCharCode(dateDetails.seconds),\n      sd: dateDetails.seconds,\n      s: dateDetails.seconds,\n\n      // AM , PM\n      PP: dateDetails.hours24 > 12 ? 'PM' : 'PM',\n      P: dateDetails.hours24 > 12 ? 'PM' : 'AM',\n      pp: dateDetails.hours24 > 12 ? 'pm' : 'am',\n      p: dateDetails.hours24 > 12 ? 'pm' : 'am',\n\n      // Day of Year\n      Jz:\n        String(dateDetails.dayOfYear).length == 1\n          ? '0' + dateDetails.dayOfYear\n          : dateDetails.dayOfYear,\n      Js: dateDetails.dayOfYear,\n      Jl: dateDetails.dayOfYear,\n      Jd: dateDetails.dayOfYear,\n      J: dateDetails.dayOfYear,\n\n      // Day Of Week\n      Wz:\n        String(dateDetails.dayOfWeek).length == 1\n          ? '0' + dateDetails.dayOfWeek\n          : dateDetails.dayOfWeek,\n      Ws: dateDetails.dayOfWeek,\n      Wl: dateDetails.dayOfWeek,\n      Wp: String.fromCharCode(dateDetails.dayOfWeek),\n      Wd: dateDetails.dayOfWeek,\n      W: dateDetails.dayOfWeek,\n\n      // week number\n      wz:\n        String(dateDetails.weekNumber).length == 1\n          ? '0' + dateDetails.weekNumber\n          : dateDetails.weekNumber,\n      ws: dateDetails.weekNumber,\n      wl: dateDetails.weekNumber,\n      wp: String.fromCharCode(dateDetails.weekNumber),\n      wd: dateDetails.weekNumber,\n      w: dateDetails.weekNumber\n    }\n  }\n}\n\nexport default DateMask\n",
     "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/DateMask/DateMask.js",
+    "longname": "/mnt/d/Github/bbj-masks/src/DateMask/DateMask.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -598,6 +598,42 @@
   {
     "__docId__": 50,
     "kind": "function",
+    "name": "getWeekStartByLocale",
+    "memberof": "src/DateMask/DateMask.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/DateMask/DateMask.js~getWeekStartByLocale",
+    "access": "public",
+    "export": true,
+    "importPath": "bbj-masks/src/DateMask/DateMask.js",
+    "importStyle": "{getWeekStartByLocale}",
+    "description": "Find out when the first day of the week based on the passed locale",
+    "lineNumber": 21,
+    "params": [
+      {
+        "nullable": null,
+        "types": [
+          "locale"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "locale",
+        "description": ""
+      }
+    ],
+    "return": {
+      "nullable": null,
+      "types": [
+        "Number"
+      ],
+      "spread": false,
+      "description": "a number 0 = sunday , 1 = monday , ...."
+    }
+  },
+  {
+    "__docId__": 51,
+    "kind": "function",
     "name": "getDayOfYear",
     "memberof": "src/DateMask/DateMask.js",
     "generator": false,
@@ -605,29 +641,34 @@
     "static": true,
     "longname": "src/DateMask/DateMask.js~getDayOfYear",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "bbj-masks/src/DateMask/DateMask.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 14,
-    "undocument": true,
+    "importStyle": "{getDayOfYear}",
+    "description": " Get day number in the year of the passed date",
+    "lineNumber": 32,
     "params": [
       {
-        "name": "date",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Date"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "date",
+        "description": ""
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
-    },
-    "ignore": true
+        "Number"
+      ],
+      "spread": false,
+      "description": "day number"
+    }
   },
   {
-    "__docId__": 51,
+    "__docId__": 52,
     "kind": "function",
     "name": "getWeekNumber",
     "memberof": "src/DateMask/DateMask.js",
@@ -636,35 +677,50 @@
     "static": true,
     "longname": "src/DateMask/DateMask.js~getWeekNumber",
     "access": "public",
-    "export": false,
+    "export": true,
     "importPath": "bbj-masks/src/DateMask/DateMask.js",
-    "importStyle": null,
-    "description": null,
-    "lineNumber": 27,
-    "undocument": true,
+    "importStyle": "{getWeekNumber}",
+    "description": "Get the Week Number in the passed date",
+    "lineNumber": 53,
+    "unknown": [
+      {
+        "tagName": "@returns",
+        "tagValue": "{Number} the week number"
+      }
+    ],
     "params": [
       {
-        "name": "date",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Date"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "date",
+        "description": "Date object"
       },
       {
-        "name": "weekStart",
+        "nullable": null,
         "types": [
-          "*"
-        ]
+          "Number"
+        ],
+        "spread": false,
+        "optional": false,
+        "name": "weekStart",
+        "description": "A number which defines the first day of the week (0  = sunday , 1 = monday , ...)"
       }
     ],
     "return": {
+      "nullable": null,
       "types": [
-        "*"
-      ]
-    },
-    "ignore": true
+        "Number"
+      ],
+      "spread": false,
+      "description": "the week number"
+    }
   },
   {
-    "__docId__": 52,
+    "__docId__": 53,
     "kind": "class",
     "name": "DateMask",
     "memberof": "src/DateMask/DateMask.js",
@@ -675,7 +731,7 @@
     "importPath": "bbj-masks/src/DateMask/DateMask.js",
     "importStyle": "DateMask",
     "description": "DateMask\n\nA javascript implementation for BBj dates masking",
-    "lineNumber": 44,
+    "lineNumber": 70,
     "unknown": [
       {
         "tagName": "@author",
@@ -685,7 +741,7 @@
     "interface": false
   },
   {
-    "__docId__": 53,
+    "__docId__": 54,
     "kind": "method",
     "name": "mask",
     "memberof": "src/DateMask/DateMask.js~DateMask",
@@ -695,7 +751,7 @@
     "longname": "src/DateMask/DateMask.js~DateMask.mask",
     "access": "public",
     "description": "Mask date\n\nMask the passed date with the passed mask",
-    "lineNumber": 58,
+    "lineNumber": 84,
     "params": [
       {
         "nullable": null,
@@ -723,7 +779,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": "Browser's locale",
+        "defaultRaw": "Browser's locale",
         "name": "locale",
         "description": "the language to use ex(en-US). default is to the system language"
       },
@@ -733,7 +791,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": "System timezone",
+        "defaultRaw": "System timezone",
         "name": "timezone",
         "description": "the time zone descriptor (e.g. America/Los_Angeles). default to the system\n                         timezone"
       }
@@ -748,7 +808,7 @@
     }
   },
   {
-    "__docId__": 54,
+    "__docId__": 55,
     "kind": "method",
     "name": "_buildTranslation",
     "memberof": "src/DateMask/DateMask.js~DateMask",
@@ -758,7 +818,7 @@
     "longname": "src/DateMask/DateMask.js~DateMask._buildTranslation",
     "access": "private",
     "description": "Get a map object which contains all possible forms of masks",
-    "lineNumber": 121,
+    "lineNumber": 147,
     "params": [
       {
         "nullable": null,
@@ -782,23 +842,12 @@
     "ignore": true
   },
   {
-    "__docId__": 55,
-    "kind": "file",
-    "name": "src/DateMask/index.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport DateMask from './DateMask'\r\n\r\nexport default DateMask\r\n",
-    "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/DateMask/index.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
     "__docId__": 56,
     "kind": "file",
     "name": "src/NumberMask/NumberMask.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking \r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass NumberMask {\r\n  /**\r\n   * Mask the given number with the given mask according to BBj rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} groupingSeparator a char which will be used as a grouping separator\r\n   * @param {String} decimalSeparator a char which will be used as a decimal separator\r\n   *\r\n   * @returns {String} the masked number\r\n   */\r\n  static mask(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\r\n    const maskLength = mask.length\r\n    if (0 === maskLength) return number\r\n\r\n    // Get magnitude and precision of MASK\r\n    let maskBeforeDecimal = 0\r\n    let maskAfterDecimal = 0\r\n    let foundDecimal = false\r\n    for (let i = 0; i < maskLength; ++i) {\r\n      const m = mask.charAt(i)\r\n      if (m == '0' || m == '#') {\r\n        if (foundDecimal) ++maskAfterDecimal\r\n        else ++maskBeforeDecimal\r\n      } else if (m == '.') foundDecimal = true\r\n    }\r\n\r\n    let num = NumberMask._round(number, maskAfterDecimal)\r\n    let digits = NumberMask._toCharArray(num)\r\n\r\n    // Get magnitude and precision of NUMBER\r\n    let numLen = digits.length\r\n    let numBeforeDecimal = 0\r\n    let numAfterDecimal = 0\r\n    foundDecimal = false\r\n    for (let i = 0; i < numLen; i++) {\r\n      if (digits[i] == '.') foundDecimal = true\r\n      else {\r\n        if (foundDecimal) ++numAfterDecimal\r\n        else ++numBeforeDecimal\r\n      }\r\n    }\r\n\r\n    // always ignore mask overflow\r\n    if (numBeforeDecimal > maskBeforeDecimal) return number.toString()\r\n\r\n    // round if mask is for a lower precision number\r\n    if (numAfterDecimal > maskAfterDecimal) {\r\n      num = NumberMask._round(num, maskAfterDecimal)\r\n      digits = NumberMask._toCharArray(num)\r\n      numLen = digits.length\r\n\r\n      // Get new magnitude and precision of NUMBER\r\n      numBeforeDecimal = 0\r\n      numAfterDecimal = 0\r\n      foundDecimal = false\r\n      for (let i = 0; i < numLen; i++) {\r\n        if (digits[i] == '.') foundDecimal = true\r\n        else {\r\n          if (foundDecimal) ++numAfterDecimal\r\n          else ++numBeforeDecimal\r\n        }\r\n      }\r\n\r\n      // always ignore mask overflow\r\n      if (numBeforeDecimal > maskBeforeDecimal) {\r\n        return number.toString()\r\n      }\r\n    }\r\n\r\n    const isNegative = NumberMask._getSign(num) === -1\r\n    let emitDecimal = numLen > 0 || mask.indexOf('0') >= 0\r\n    let foundZero = false\r\n    let currency = false\r\n    let buffer = ''\r\n    foundDecimal = false\r\n\r\n    for (let numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {\r\n      let m = mask.charAt(maskPos)\r\n      switch (m) {\r\n        case '0':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            buffer += '0'\r\n            foundZero = true\r\n          }\r\n          break\r\n\r\n        case '#':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            if (foundDecimal) buffer += '0'\r\n          }\r\n          break\r\n\r\n        case ',':\r\n          if (foundZero || numPos > 0) buffer += groupingSeparator\r\n          break\r\n\r\n        case '-':\r\n        case '(':\r\n        case ')':\r\n          if (isNegative) buffer += m\r\n          break\r\n\r\n        case '+':\r\n          buffer += isNegative ? '-' : '+'\r\n          break\r\n\r\n        case '.':\r\n          if (foundDecimal) buffer += m\r\n          else {\r\n            if (emitDecimal) buffer += decimalSeparator\r\n            foundDecimal = true\r\n            ++numPos\r\n          }\r\n          break\r\n\r\n        case 'C':\r\n          if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {\r\n            if (isNegative) buffer += 'CR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'D':\r\n          if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {\r\n            buffer += isNegative ? 'CR' : 'DR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'B':\r\n          buffer += ' '\r\n          break\r\n\r\n        default:\r\n          buffer += m\r\n          break\r\n      }\r\n    }\r\n\r\n    return buffer\r\n  }\r\n\r\n  static _shift(number, precision, reverseShift) {\r\n    if (reverseShift) precision = -precision\r\n    var numArray = ('' + number).split('e')\r\n    return +(\r\n      numArray[0] +\r\n      'e' +\r\n      (numArray[1] ? +numArray[1] + precision : precision)\r\n    )\r\n  }\r\n\r\n  static _round(number, precision) {\r\n    return NumberMask._shift(\r\n      Math.round(NumberMask._shift(number, precision, false)),\r\n      precision,\r\n      true\r\n    )\r\n  }\r\n\r\n  static _toCharArray(number) {\r\n    const signum = NumberMask._getSign(number)\r\n    let chars = []\r\n\r\n    if (signum !== 0) {\r\n      let string = signum < 0 ? `${-1 * number.toString()}` : number.toString()\r\n\r\n      if (string.length > 1 && string.charAt(0) == '0')\r\n        string = string.substring(1)\r\n\r\n      // The string contains only [0-9] and '.'\r\n      chars = string.split('')\r\n    }\r\n\r\n    return chars\r\n  }\r\n\r\n  /**\r\n   * Returns the sign of a number\r\n   *\r\n   * @param {Number} x number\r\n   * @returns {Number} A number representing the sign of the given argument.\r\n   *                   If the argument is a positive number, negative number, positive zero\r\n   *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.\r\n   *                   Otherwise, NaN is returned.\r\n   */\r\n  static _getSign(x) {\r\n    return (x > 0) - (x < 0) || +x\r\n  }\r\n}\r\n\r\nexport default NumberMask",
+    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking \r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass NumberMask {\r\n  /**\r\n   * Mask the given number with the given mask according to BBj rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @returns {String} the masked number\r\n   */\r\n  static mask(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\r\n    const maskLength = mask.length\r\n    if (0 === maskLength) return number\r\n\r\n    // Get magnitude and precision of MASK\r\n    let maskBeforeDecimal = 0\r\n    let maskAfterDecimal = 0\r\n    let foundDecimal = false\r\n    for (let i = 0; i < maskLength; ++i) {\r\n      const m = mask.charAt(i)\r\n      if (m == '0' || m == '#') {\r\n        if (foundDecimal) ++maskAfterDecimal\r\n        else ++maskBeforeDecimal\r\n      } else if (m == '.') foundDecimal = true\r\n    }\r\n\r\n    let num = NumberMask._round(number, maskAfterDecimal)\r\n    let digits = NumberMask._toCharArray(num)\r\n\r\n    // Get magnitude and precision of NUMBER\r\n    let numLen = digits.length\r\n    let numBeforeDecimal = 0\r\n    let numAfterDecimal = 0\r\n    foundDecimal = false\r\n    for (let i = 0; i < numLen; i++) {\r\n      if (digits[i] == '.') foundDecimal = true\r\n      else {\r\n        if (foundDecimal) ++numAfterDecimal\r\n        else ++numBeforeDecimal\r\n      }\r\n    }\r\n\r\n    // always ignore mask overflow\r\n    if (numBeforeDecimal > maskBeforeDecimal) return number.toString()\r\n\r\n    // round if mask is for a lower precision number\r\n    if (numAfterDecimal > maskAfterDecimal) {\r\n      num = NumberMask._round(num, maskAfterDecimal)\r\n      digits = NumberMask._toCharArray(num)\r\n      numLen = digits.length\r\n\r\n      // Get new magnitude and precision of NUMBER\r\n      numBeforeDecimal = 0\r\n      numAfterDecimal = 0\r\n      foundDecimal = false\r\n      for (let i = 0; i < numLen; i++) {\r\n        if (digits[i] == '.') foundDecimal = true\r\n        else {\r\n          if (foundDecimal) ++numAfterDecimal\r\n          else ++numBeforeDecimal\r\n        }\r\n      }\r\n\r\n      // always ignore mask overflow\r\n      if (numBeforeDecimal > maskBeforeDecimal) {\r\n        return number.toString()\r\n      }\r\n    }\r\n\r\n    const isNegative = NumberMask._getSign(num) === -1\r\n    let emitDecimal = numLen > 0 || mask.indexOf('0') >= 0\r\n    let foundZero = false\r\n    let currency = false\r\n    let buffer = ''\r\n    foundDecimal = false\r\n\r\n    for (let numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {\r\n      let m = mask.charAt(maskPos)\r\n      switch (m) {\r\n        case '0':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            buffer += '0'\r\n            foundZero = true\r\n          }\r\n          break\r\n\r\n        case '#':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            if (foundDecimal) buffer += '0'\r\n          }\r\n          break\r\n\r\n        case ',':\r\n          if (foundZero || numPos > 0) buffer += groupingSeparator\r\n          break\r\n\r\n        case '-':\r\n        case '(':\r\n        case ')':\r\n          if (isNegative) buffer += m\r\n          break\r\n\r\n        case '+':\r\n          buffer += isNegative ? '-' : '+'\r\n          break\r\n\r\n        case '.':\r\n          if (foundDecimal) buffer += m\r\n          else {\r\n            if (emitDecimal) buffer += decimalSeparator\r\n            foundDecimal = true\r\n            ++numPos\r\n          }\r\n          break\r\n\r\n        case 'C':\r\n          if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {\r\n            if (isNegative) buffer += 'CR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'D':\r\n          if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {\r\n            buffer += isNegative ? 'CR' : 'DR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'B':\r\n          buffer += ' '\r\n          break\r\n\r\n        default:\r\n          buffer += m\r\n          break\r\n      }\r\n    }\r\n\r\n    return buffer\r\n  }\r\n\r\n  static _shift(number, precision, reverseShift) {\r\n    if (reverseShift) precision = -precision\r\n    var numArray = ('' + number).split('e')\r\n    return +(\r\n      numArray[0] +\r\n      'e' +\r\n      (numArray[1] ? +numArray[1] + precision : precision)\r\n    )\r\n  }\r\n\r\n  static _round(number, precision) {\r\n    return NumberMask._shift(\r\n      Math.round(NumberMask._shift(number, precision, false)),\r\n      precision,\r\n      true\r\n    )\r\n  }\r\n\r\n  static _toCharArray(number) {\r\n    const signum = NumberMask._getSign(number)\r\n    let chars = []\r\n\r\n    if (signum !== 0) {\r\n      let string = signum < 0 ? `${-1 * number.toString()}` : number.toString()\r\n\r\n      if (string.length > 1 && string.charAt(0) == '0')\r\n        string = string.substring(1)\r\n\r\n      // The string contains only [0-9] and '.'\r\n      chars = string.split('')\r\n    }\r\n\r\n    return chars\r\n  }\r\n\r\n  /**\r\n   * Returns the sign of a number\r\n   *\r\n   * @param {Number} x number\r\n   * @returns {Number} A number representing the sign of the given argument.\r\n   *                   If the argument is a positive number, negative number, positive zero\r\n   *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.\r\n   *                   Otherwise, NaN is returned.\r\n   */\r\n  static _getSign(x) {\r\n    return (x > 0) - (x < 0) || +x\r\n  }\r\n}\r\n\r\nexport default NumberMask",
     "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/NumberMask/NumberMask.js",
+    "longname": "/mnt/d/Github/bbj-masks/src/NumberMask/NumberMask.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -869,7 +918,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": ",",
+        "defaultRaw": ",",
         "name": "groupingSeparator",
         "description": "a char which will be used as a grouping separator"
       },
@@ -879,7 +930,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": ".",
+        "defaultRaw": ".",
         "name": "decimalSeparator",
         "description": "a char which will be used as a decimal separator"
       }
@@ -1038,27 +1091,16 @@
   {
     "__docId__": 63,
     "kind": "file",
-    "name": "src/NumberMask/index.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport NumberMask from './NumberMask'\r\n\r\nexport default NumberMask\r\n",
+    "name": "src/StringMask/StringMask.js",
+    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nconst isNumberRegex = /^\\d+$/\r\nconst isWhitespaceRegex = /\\s/\r\nconst punctuationList = '!\"#$%&\\'()*+,-./:;<=>?@[]^_`{|}~'\r\n\r\n/**\r\n * Check if the given string is in lower case\r\n *\r\n * @param {String} str\r\n */\r\nconst isLowerCase = str => {\r\n  return str == str.toLowerCase() && str != str.toUpperCase()\r\n}\r\n\r\n/**\r\n * Check if the given string is in upper case\r\n *\r\n * @param {String} str\r\n */\r\nconst isUpperCase = str => {\r\n  return str == str.toUpperCase() && str != str.toLowerCase()\r\n}\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass StringMask {\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   */\r\n  static mask(str, mask) {\r\n    str = String(str)\r\n    mask = String(mask)\r\n    const maskLen = mask.length\r\n    const strLen = str.length\r\n\r\n    if (strLen > maskLen) return str // friendly silent fail\r\n\r\n    const result = new Array(maskLen)\r\n    let strPos = 0 // to keep track of the current position in the str\r\n    let maskByte = ''\r\n    let strByte = ''\r\n\r\n    for (let i = 0; i < maskLen; i++) {\r\n      maskByte = mask.charAt(i)\r\n      strByte = str.charAt(strPos)\r\n      switch (maskByte) {\r\n        case 'X': // match any character\r\n          result[i] = strPos < strLen ? strByte : ' '\r\n          ++strPos\r\n          break\r\n\r\n        case 'A': // match letter; force upper case\r\n          result[i] =\r\n            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))\r\n              ? strByte.toUpperCase() // force upper case\r\n              : ' '\r\n          ++strPos\r\n          break\r\n\r\n        case 'a': // match letter\r\n          result[i] =\r\n            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))\r\n              ? strByte\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case '0': // match digit\r\n          result[i] =\r\n            strPos < strLen && isNumberRegex.test(strByte) ? strByte : ' '\r\n          ++strPos\r\n          break\r\n        case 'Z': // match letter or digit; force upper case\r\n          result[i] =\r\n            strPos < strLen &&\r\n            (isNumberRegex.test(strByte) ||\r\n              isLowerCase(strByte) ||\r\n              isUpperCase(strByte))\r\n              ? strByte.toUpperCase() // force upper case\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case 'z': // match letter or digit\r\n          result[i] =\r\n            strPos < strLen &&\r\n            (isNumberRegex.test(strByte) ||\r\n              isLowerCase(strByte) ||\r\n              isUpperCase(strByte))\r\n              ? strByte\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case 'U': // match letter (force upper case), digit, whitespace or punctuation.\r\n          if (isLowerCase(strByte)) {\r\n            result[i] = strByte.toUpperCase()\r\n          } else if (\r\n            isUpperCase(strByte) ||\r\n            isNumberRegex.test(strByte) ||\r\n            isWhitespaceRegex.test(strByte) ||\r\n            punctuationList.indexOf(strByte) > -1\r\n          ) {\r\n            result[i] = strByte\r\n          } else {\r\n            result[i] = ' '\r\n          }\r\n          ++strPos\r\n          break\r\n        default:\r\n            result[i] = maskByte\r\n          break\r\n      }\r\n    }\r\n\r\n    return result.join('')\r\n  }\r\n}\r\n\r\nexport default StringMask\r\n",
     "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/NumberMask/index.js",
+    "longname": "/mnt/d/Github/bbj-masks/src/StringMask/StringMask.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
     "__docId__": 64,
-    "kind": "file",
-    "name": "src/StringMask/StringMask.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nconst isNumberRegex = /^\\d+$/\r\nconst isWhitespaceRegex = /\\s/\r\nconst punctuationList = '!\"#$%&\\'()*+,-./:;<=>?@[]^_`{|}~'\r\n\r\n/**\r\n * Check if the given string is in lower case\r\n *\r\n * @param {String} str\r\n */\r\nconst isLowerCase = str => {\r\n  return str == str.toLowerCase() && str != str.toUpperCase()\r\n}\r\n\r\n/**\r\n * Check if the given string is in upper case\r\n *\r\n * @param {String} str\r\n */\r\nconst isUpperCase = str => {\r\n  return str == str.toUpperCase() && str != str.toLowerCase()\r\n}\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass StringMask {\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   */\r\n  static mask(str, mask) {\r\n    str = String(str)\r\n    mask = String(mask)\r\n    const maskLen = mask.length\r\n    const strLen = str.length\r\n\r\n    if (strLen > maskLen) return str // friendly silent fail\r\n\r\n    const result = new Array(maskLen)\r\n    let strPos = 0 // to keep track of the current position in the str\r\n    let maskByte = ''\r\n    let strByte = ''\r\n\r\n    for (let i = 0; i < maskLen; i++) {\r\n      maskByte = mask.charAt(i)\r\n      strByte = str.charAt(strPos)\r\n      switch (maskByte) {\r\n        case 'X': // match any character\r\n          result[i] = strPos < strLen ? strByte : ' '\r\n          ++strPos\r\n          break\r\n\r\n        case 'A': // match letter; force upper case\r\n          result[i] =\r\n            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))\r\n              ? strByte.toUpperCase() // force upper case\r\n              : ' '\r\n          ++strPos\r\n          break\r\n\r\n        case 'a': // match letter\r\n          result[i] =\r\n            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))\r\n              ? strByte\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case '0': // match digit\r\n          result[i] =\r\n            strPos < strLen && isNumberRegex.test(strByte) ? strByte : ' '\r\n          ++strPos\r\n          break\r\n        case 'Z': // match letter or digit; force upper case\r\n          result[i] =\r\n            strPos < strLen &&\r\n            (isNumberRegex.test(strByte) ||\r\n              isLowerCase(strByte) ||\r\n              isUpperCase(strByte))\r\n              ? strByte.toUpperCase() // force upper case\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case 'z': // match letter or digit\r\n          result[i] =\r\n            strPos < strLen &&\r\n            (isNumberRegex.test(strByte) ||\r\n              isLowerCase(strByte) ||\r\n              isUpperCase(strByte))\r\n              ? strByte\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case 'U': // match letter (force upper case), digit, whitespace or punctuation.\r\n          if (isLowerCase(strByte)) {\r\n            result[i] = strByte.toUpperCase()\r\n          } else if (\r\n            isUpperCase(strByte) ||\r\n            isNumberRegex.test(strByte) ||\r\n            isWhitespaceRegex.test(strByte) ||\r\n            punctuationList.indexOf(strByte) > -1\r\n          ) {\r\n            result[i] = strByte\r\n          } else {\r\n            result[i] = ' '\r\n          }\r\n          ++strPos\r\n          break\r\n        default:\r\n            result[i] = maskByte\r\n          break\r\n      }\r\n    }\r\n\r\n    return result.join('')\r\n  }\r\n}\r\n\r\nexport default StringMask\r\n",
-    "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/StringMask/StringMask.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 65,
     "kind": "variable",
     "name": "isNumberRegex",
     "memberof": "src/StringMask/StringMask.js",
@@ -1079,7 +1121,7 @@
     "ignore": true
   },
   {
-    "__docId__": 66,
+    "__docId__": 65,
     "kind": "variable",
     "name": "isWhitespaceRegex",
     "memberof": "src/StringMask/StringMask.js",
@@ -1100,7 +1142,7 @@
     "ignore": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 66,
     "kind": "variable",
     "name": "punctuationList",
     "memberof": "src/StringMask/StringMask.js",
@@ -1121,7 +1163,7 @@
     "ignore": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 67,
     "kind": "function",
     "name": "isLowerCase",
     "memberof": "src/StringMask/StringMask.js",
@@ -1155,7 +1197,7 @@
     "ignore": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 68,
     "kind": "function",
     "name": "isUpperCase",
     "memberof": "src/StringMask/StringMask.js",
@@ -1189,7 +1231,7 @@
     "ignore": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 69,
     "kind": "class",
     "name": "StringMask",
     "memberof": "src/StringMask/StringMask.js",
@@ -1210,7 +1252,7 @@
     "interface": false
   },
   {
-    "__docId__": 71,
+    "__docId__": 70,
     "kind": "method",
     "name": "mask",
     "memberof": "src/StringMask/StringMask.js~StringMask",
@@ -1259,29 +1301,18 @@
     }
   },
   {
-    "__docId__": 72,
-    "kind": "file",
-    "name": "src/StringMask/index.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport StringMask from './StringMask'\r\n\r\nexport default StringMask\r\n",
-    "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/StringMask/index.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 73,
+    "__docId__": 71,
     "kind": "file",
     "name": "src/Types/Types.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport NumberMask from '../NumberMask'\r\nimport DateMask from '../DateMask'\r\nimport StringMask from '../StringMask'\r\n\r\n/**\r\n * Types\r\n *\r\n * BBj masks factory\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass Types {\r\n  /**\r\n   * Mask a number according to bbj masking rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use\r\n   * @param {String} groupingSeparator a char which will be used as a grouping separator\r\n   * @param {String} decimalSeparator a char which will be used as a decimal separator\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   */\r\n  static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\r\n    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)\r\n  }\r\n\r\n  /**\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} locale the language to use ex(en-US). default is to the system language\r\n   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   */\r\n  static date(date, mask, locale, timezone) {\r\n    return DateMask.mask(date, mask, locale, timezone)\r\n  }\r\n\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   */\r\n  static string(str, mask) {\r\n    return StringMask.mask(str, mask)\r\n  }\r\n}\r\n\r\nexport default Types\r\n",
+    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport NumberMask from '../NumberMask'\r\nimport DateMask from '../DateMask'\r\nimport StringMask from '../StringMask'\r\n\r\n/**\r\n * Types\r\n *\r\n * BBj masks factory\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass Types {\r\n  /**\r\n   * Mask a number according to bbj masking rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   */\r\n  static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\r\n    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)\r\n  }\r\n\r\n  /**\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   */\r\n  static date(date, mask, locale, timezone) {\r\n    return DateMask.mask(date, mask, locale, timezone)\r\n  }\r\n\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   */\r\n  static string(str, mask) {\r\n    return StringMask.mask(str, mask)\r\n  }\r\n}\r\n\r\nexport default Types\r\n",
     "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/Types/Types.js",
+    "longname": "/mnt/d/Github/bbj-masks/src/Types/Types.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 74,
+    "__docId__": 72,
     "kind": "class",
     "name": "Types",
     "memberof": "src/Types/Types.js",
@@ -1302,7 +1333,7 @@
     "interface": false
   },
   {
-    "__docId__": 75,
+    "__docId__": 73,
     "kind": "method",
     "name": "number",
     "memberof": "src/Types/Types.js~Types",
@@ -1332,7 +1363,7 @@
         "spread": false,
         "optional": false,
         "name": "mask",
-        "description": "the mask to use"
+        "description": "the mask to use for formatting"
       },
       {
         "nullable": null,
@@ -1340,7 +1371,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": ",",
+        "defaultRaw": ",",
         "name": "groupingSeparator",
         "description": "a char which will be used as a grouping separator"
       },
@@ -1350,7 +1383,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": ".",
+        "defaultRaw": ".",
         "name": "decimalSeparator",
         "description": "a char which will be used as a decimal separator"
       }
@@ -1365,7 +1400,7 @@
     }
   },
   {
-    "__docId__": 76,
+    "__docId__": 74,
     "kind": "method",
     "name": "date",
     "memberof": "src/Types/Types.js~Types",
@@ -1403,7 +1438,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": "Browser's locale",
+        "defaultRaw": "Browser's locale",
         "name": "locale",
         "description": "the language to use ex(en-US). default is to the system language"
       },
@@ -1413,7 +1450,9 @@
           "String"
         ],
         "spread": false,
-        "optional": false,
+        "optional": true,
+        "defaultValue": "System timezone",
+        "defaultRaw": "System timezone",
         "name": "timezone",
         "description": "the time zone descriptor (e.g. America/Los_Angeles). default to the system\n                         timezone"
       }
@@ -1428,7 +1467,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 75,
     "kind": "method",
     "name": "string",
     "memberof": "src/Types/Types.js~Types",
@@ -1437,7 +1476,7 @@
     "static": true,
     "longname": "src/Types/Types.js~Types.string",
     "access": "public",
-    "description": "Mask the given string with the given mask according to BBj rules",
+    "description": "Mask the given string with the given mask according to BBj rules`",
     "lineNumber": 58,
     "unknown": [
       {
@@ -1477,31 +1516,9 @@
     }
   },
   {
-    "__docId__": 78,
-    "kind": "file",
-    "name": "src/Types/index.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nimport Types from './Types'\r\n\r\nexport default Types\r\n",
-    "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/Types/index.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
-    "__docId__": 79,
-    "kind": "file",
-    "name": "src/index.js",
-    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport NumberMask from './NumberMask'\nimport DateMask from './DateMask'\nimport StringMask from './StringMask'\nimport Types from './Types'\n\nexport { NumberMask, DateMask, StringMask, Types }\n",
-    "static": true,
-    "longname": "/mnt/d/Gitlab/bbj-masks/src/index.js",
-    "access": "public",
-    "description": null,
-    "lineNumber": 1
-  },
-  {
     "kind": "index",
-    "content": "# BBj Masks\n\n![GitHub](https://img.shields.io/github/license/BasisHub/bbj-masks)\n![GitHub file size in bytes](https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js)\n![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/BasisHub/bbj-masks)\n![David](https://img.shields.io/david/BasisHub/bbj-masks)\n\nA small library to format Javascript Dates , Numbers & Strings using BBj supported masks.\n\n## Browsers support\n\n|[<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png\" alt=\"IE / Edge\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png\" alt=\"Firefox\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png\" alt=\"Chrome\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png\" alt=\"Safari\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png\" alt=\"Opera\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Opera |\n| :---------: | :---------: | :---------: | :---------: | :---------: |\n| IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions\n\n## Install\n\n```\n$ npm install BasisHub/bbj-masks\n$ yarn add BasisHub/bbj-masks\n```\n\n**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/)\n\n## Usage\n\n```js\nconst formattedNumber = BBj.Masks.Types.number(\n  -5000.123456789,\n  '$ -#,##0.######'\n)\nconsole.log(formattedNumber) // -> $ -5,000.123457\n\nconst formattedDate = BBj.Masks.Types.date(\n  '2018-02-15T14:01:06Z',\n  '%Yz - %Mz - %Dz'\n)\nconsole.log(formattedDate) // -> 18 - 02 - 15\n\nconst formattedString = BBj.Masks.Types.string('abcdefg', 'XX-XXX-XX')\nconsole.log(formattedString) // -> ab-cde-fg\n```\n\n## [Date Masks](https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm)\n\n| Mask | Supported | Description                                                                                                                                                                                                                        |\n| :--: | :-------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  %Y  |     ✓     | Year                                                                                                                                                                                                                               |\n|  %M  |     ✓     | Month                                                                                                                                                                                                                              |\n|  %D  |     ✓     | Day                                                                                                                                                                                                                                |\n|  %H  |     ✓     | Hour (24-hour clock)                                                                                                                                                                                                               |\n|  %h  |     ✓     | Hour (12-hour clock)                                                                                                                                                                                                               |\n|  %m  |     ✓     | Minute                                                                                                                                                                                                                             |\n|  %s  |     ✓     | Second                                                                                                                                                                                                                             |\n|  %t  |     ×     | Millisecond (thousandths of a second). Available in BBj 18.0 and higher.                                                                                                                                                           |\n|  %P  |     ✓     | AM/PM                                                                                                                                                                                                                              |\n|  %p  |     ✓     | am/pm                                                                                                                                                                                                                              |\n|  %J  |     ✓     | Day number within the year (1-366). (This format is unique to BBj.)                                                                                                                                                                |\n|  %W  |     ✓     | Day number within the week (1-7, Sunday=1). This format is unique to BBj.                                                                                                                                                          |\n|  %w  |     ✓     | Week number within the year (1-53, differs by locale)                                                                                                                                                                              |\n|  %d  |     ×     | Day number within the week (1-7, differs by locale). Available in BBj 16.0 and higher                                                                                                                                              |\n|  %y  |     ×     | Base year of the current week, available in BBj 16.0 and higher. The first few days of January may fall into the last week of the previous year. The last few days of December may fall into the first week of the following year. |\n\n| Modifier | Supported | Description                   |\n| :------: | :-------: | :---------------------------- |\n|    %z    |     ✓     | Zero-fill                     |\n|    %s    |     ✓     | Short text                    |\n|    %l    |     ✓     | Long text                     |\n|    %p    |     ✓     | Packed number (in CHR() form) |\n|    %d    |     ✓     | Decimal (default format)      |\n\n## [Number Masks](https://documentation.basis.com/BASISHelp/WebHelp/usr/numeric_output.htm)\n\n| Mask | Supported | Description                                                                                                                                                                                                                                                                                                                                                       |\n| :--: | :-------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  0   |     ✓     | A zero is always replaced by a digit(0..9).                                                                                                                                                                                                                                                                                                                       |\n|  #   |     ✓     | The pound sign is used to suppress leading zeroes. It is replaced by the fill character for leading zeroes to the left of the decimal point. For trailing zeros to the right of the decimal point it is replaced by a space or a zero (see SETOPTS Byte 4, Bit $04$ for more detail). Any other time it is replaced by a digit. See SETOPTS for more information. |\n|  ,   |     ✓     | To the left of the decimal point, the comma is replaced by the fill character if no digits have yet been placed. Any other time, it results in a comma.                                                                                                                                                                                                           |\n|  \\*  |     ✓     | The asterisk \"\\*\" is inserted into the number.                                                                                                                                                                                                                                                                                                                    |\n|  .   |     ✓     | The decimal point is replaced by a decimal point if any digits appear in the output mask. Otherwise, it is replaced by the fill character. After the decimal point, the fill character becomes a space.                                                                                                                                                           |\n|  \\$  |     ✓     | The dollar sign always results in a dollar sign.                                                                                                                                                                                                                                                                                                                  |\n|  (   |     ✓     | left parenthesis results in a \"(\" if the number is negative, or the fill character if positive.                                                                                                                                                                                                                                                                   |\n|  )   |     ✓     | A right parenthesis results in a \")\" if the number is negative, or the fill character if positive.                                                                                                                                                                                                                                                                |\n|  )   |     ✓     | A right parenthesis results in a \")\" if the number is negative, or the fill character if positive.                                                                                                                                                                                                                                                                |\n|  CR  |     ✓     | The characters \"CR\" are inserted into the number if the number is negative. Two spaces are inserted if the number is positive.                                                                                                                                                                                                                                    |\n|  DR  |     ✓     | The characters \"CR\" are inserted into the number if the number is negative. The characters \"DR\" are inserted if the number is positive.                                                                                                                                                                                                                           |\n|  B   |     ✓     | The upper case \"B\" always becomes a space. Any other character is simply copied to the result.positive.                                                                                                                                                                                                                                                           |\n\n## [String Masks](https://documentation.basis.com/BASISHelp/WebHelp/commands2/str_function.htm)\n\n| Mask | Supported | Description                                                                                                            |\n| :--: | :-------: | :--------------------------------------------------------------------------------------------------------------------- |\n|  X   |     ✓     | Any printable character.                                                                                               |\n|  a   |     ✓     | Any alphabetic character.                                                                                              |\n|  0   |     ✓     | Any digit.                                                                                                             |\n|  z   |     ✓     | Any digit or alphabetic character.                                                                                     |\n|  Z   |     ✓     | Any digit or alphabetic character. Converts lower-case alphabetic characters to upper case.                            |\n|  U   |     ✓     | Any digit , alphabetic character , whitespace or punctuation. Converts lower-case alphabetic characters to upper case. |\n\n## License\n\nLicensed under the [MIT License](https://github.com/BasisHub/bbj-masks/blob/master/LICENSE).\n",
-    "longname": "/mnt/d/Gitlab/bbj-masks/README.md",
+    "content": "# BBj Masks\n\n[![Build Status](https://travis-ci.com/BasisHub/bbj-masks.svg?branch=master)](https://travis-ci.com/BasisHub/bbj-masks)\n![GitHub](https://img.shields.io/github/license/BasisHub/bbj-masks)\n![GitHub file size in bytes](https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js)\n![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/BasisHub/bbj-masks)\n![David](https://img.shields.io/david/BasisHub/bbj-masks)\n\n[Pages](https://basishub.github.io/bbj-masks/) | [API](https://basishub.github.io/bbj-masks/docs/api/) <br>\n\nA small library to format Javascript Dates , Numbers & Strings using BBj supported masks.\n\n## Browsers support\n\n|[<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png\" alt=\"IE / Edge\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>IE / Edge | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png\" alt=\"Firefox\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Firefox | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png\" alt=\"Chrome\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Chrome | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png\" alt=\"Safari\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Safari | [<img src=\"https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png\" alt=\"Opera\" width=\"24px\" height=\"24px\" />](http://godban.github.io/browsers-support-badges/)<br>Opera |\n| :---------: | :---------: | :---------: | :---------: | :---------: |\n| IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions\n\n**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/) polyfill\n\n## Install\n\n```\n$ npm install BasisHub/bbj-masks\n$ yarn add BasisHub/bbj-masks\n```\n\n## Usage\n\n```js\nconst formattedNumber = BBj.Masks.Types.number(\n  -5000.123456789,\n  '$ -#,##0.######'\n)\nconsole.log(formattedNumber) // -> $ -5,000.123457\n\nconst formattedDate = BBj.Masks.Types.date(\n  '2018-02-15T14:01:06Z',\n  '%Yz - %Mz - %Dz'\n)\nconsole.log(formattedDate) // -> 18 - 02 - 15\n\nconst formattedString = BBj.Masks.Types.string('abcdefg', 'XX-XXX-XX')\nconsole.log(formattedString) // -> ab-cde-fg\n```\n\n## [Date Masks](https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm)\n\n| Mask | Supported | Description                                                                                                                                                                                                                        |\n| :--: | :-------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  %Y  |     ✓     | Year                                                                                                                                                                                                                               |\n|  %M  |     ✓     | Month                                                                                                                                                                                                                              |\n|  %D  |     ✓     | Day                                                                                                                                                                                                                                |\n|  %H  |     ✓     | Hour (24-hour clock)                                                                                                                                                                                                               |\n|  %h  |     ✓     | Hour (12-hour clock)                                                                                                                                                                                                               |\n|  %m  |     ✓     | Minute                                                                                                                                                                                                                             |\n|  %s  |     ✓     | Second                                                                                                                                                                                                                             |\n|  %t  |     ×     | Millisecond (thousandths of a second). Available in BBj 18.0 and higher.                                                                                                                                                           |\n|  %P  |     ✓     | AM/PM                                                                                                                                                                                                                              |\n|  %p  |     ✓     | am/pm                                                                                                                                                                                                                              |\n|  %J  |     ✓     | Day number within the year (1-366). (This format is unique to BBj.)                                                                                                                                                                |\n|  %W  |     ✓     | Day number within the week (1-7, Sunday=1). This format is unique to BBj.                                                                                                                                                          |\n|  %w  |     ✓     | Week number within the year (1-53, differs by locale)                                                                                                                                                                              |\n|  %d  |     ×     | Day number within the week (1-7, differs by locale). Available in BBj 16.0 and higher                                                                                                                                              |\n|  %y  |     ×     | Base year of the current week, available in BBj 16.0 and higher. The first few days of January may fall into the last week of the previous year. The last few days of December may fall into the first week of the following year. |\n\n| Modifier | Supported | Description                   |\n| :------: | :-------: | :---------------------------- |\n|    %z    |     ✓     | Zero-fill                     |\n|    %s    |     ✓     | Short text                    |\n|    %l    |     ✓     | Long text                     |\n|    %p    |     ✓     | Packed number (in CHR() form) |\n|    %d    |     ✓     | Decimal (default format)      |\n\n## [Number Masks](https://documentation.basis.com/BASISHelp/WebHelp/usr/numeric_output.htm)\n\n| Mask | Supported | Description                                                                                                                                                                                                                                                                                                                                                       |\n| :--: | :-------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |\n|  0   |     ✓     | A zero is always replaced by a digit(0..9).                                                                                                                                                                                                                                                                                                                       |\n|  #   |     ✓     | The pound sign is used to suppress leading zeroes. It is replaced by the fill character for leading zeroes to the left of the decimal point. For trailing zeros to the right of the decimal point it is replaced by a space or a zero (see SETOPTS Byte 4, Bit $04$ for more detail). Any other time it is replaced by a digit. See SETOPTS for more information. |\n|  ,   |     ✓     | To the left of the decimal point, the comma is replaced by the fill character if no digits have yet been placed. Any other time, it results in a comma.                                                                                                                                                                                                           |\n|  \\*  |     ✓     | The asterisk \"\\*\" is inserted into the number.                                                                                                                                                                                                                                                                                                                    |\n|  .   |     ✓     | The decimal point is replaced by a decimal point if any digits appear in the output mask. Otherwise, it is replaced by the fill character. After the decimal point, the fill character becomes a space.                                                                                                                                                           |\n|  \\$  |     ✓     | The dollar sign always results in a dollar sign.                                                                                                                                                                                                                                                                                                                  |\n|  (   |     ✓     | left parenthesis results in a \"(\" if the number is negative, or the fill character if positive.                                                                                                                                                                                                                                                                   |\n|  )   |     ✓     | A right parenthesis results in a \")\" if the number is negative, or the fill character if positive.                                                                                                                                                                                                                                                                |\n|  )   |     ✓     | A right parenthesis results in a \")\" if the number is negative, or the fill character if positive.                                                                                                                                                                                                                                                                |\n|  CR  |     ✓     | The characters \"CR\" are inserted into the number if the number is negative. Two spaces are inserted if the number is positive.                                                                                                                                                                                                                                    |\n|  DR  |     ✓     | The characters \"CR\" are inserted into the number if the number is negative. The characters \"DR\" are inserted if the number is positive.                                                                                                                                                                                                                           |\n|  B   |     ✓     | The upper case \"B\" always becomes a space. Any other character is simply copied to the result.positive.                                                                                                                                                                                                                                                           |\n\n## [String Masks](https://documentation.basis.com/BASISHelp/WebHelp/commands2/str_function.htm)\n\n| Mask | Supported | Description                                                                                                            |\n| :--: | :-------: | :--------------------------------------------------------------------------------------------------------------------- |\n|  X   |     ✓     | Any printable character.                                                                                               |\n|  a   |     ✓     | Any alphabetic character.                                                                                              |\n|  0   |     ✓     | Any digit.                                                                                                             |\n|  z   |     ✓     | Any digit or alphabetic character.                                                                                     |\n|  Z   |     ✓     | Any digit or alphabetic character. Converts lower-case alphabetic characters to upper case.                            |\n|  U   |     ✓     | Any digit , alphabetic character , whitespace or punctuation. Converts lower-case alphabetic characters to upper case. |\n\n## License\n\nLicensed under the [MIT License](https://github.com/BasisHub/bbj-masks/blob/master/LICENSE).\n",
+    "longname": "/mnt/d/Github/bbj-masks/README.md",
     "name": "./README.md",
     "static": true,
     "access": "public"
@@ -1509,7 +1526,7 @@
   {
     "kind": "packageJSON",
     "content": "{\n  \"name\": \"bbj-masks\",\n  \"description\": \"Format Javascript Dates , Numbers & Strings using BBj masks\",\n  \"main\": \"dist/bbj-masks.bundle.js\",\n  \"author\": \"eu@basis.com\",\n  \"version\": \"v1.8.0\",\n  \"private\": false,\n  \"scripts\": {\n    \"watch\": \"./node_modules/.bin/webpack --watch --progress\",\n    \"watch:test\": \"./node_modules/.bin/mocha-webpack './test/**/*.js' --watch\",\n    \"test\": \"./node_modules/.bin/mocha-webpack './test/**/*.js'\",\n    \"build\": \"./node_modules/.bin/webpack && ./node_modules/.bin/esdoc\"\n  },\n  \"devDependencies\": {\n    \"@babel/core\": \"^7.0.0-beta.40\",\n    \"@babel/preset-env\": \"^7.0.0-beta.40\",\n    \"babel-loader\": \"8.0.0-beta.0\",\n    \"mocha\": \"^5.0.1\",\n    \"mocha-webpack\": \"^1.0.1\",\n    \"uglifyjs-webpack-plugin\": \"^1.1.8\",\n    \"webpack\": \"^3.11.0\"\n  },\n  \"dependencies\": {\n    \"date-fns\": \"^2.8.1\",\n    \"date-fns-tz\": \"^1.0.8\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"weekstart\": \"^1.0.1\"\n  }\n}\n",
-    "longname": "/mnt/d/Gitlab/bbj-masks/package.json",
+    "longname": "/mnt/d/Github/bbj-masks/package.json",
     "name": "package.json",
     "static": true,
     "access": "public"

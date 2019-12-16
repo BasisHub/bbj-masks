@@ -19,8 +19,8 @@ class NumberMask {
    *
    * @param {Number} number the number to format
    * @param {String} mask the mask to use for formatting
-   * @param {String} groupingSeparator a char which will be used as a grouping separator
-   * @param {String} decimalSeparator a char which will be used as a decimal separator
+   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
+   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
    *
    * @returns {String} the masked number
    */
