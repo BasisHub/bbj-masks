@@ -1,6 +1,6 @@
 # BBj Masks
 
-A tiny library to format Javascript Dates , Numbers & Strings using BBj supported masks.
+A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.
 
 ## Browsers support
 
