@@ -1,5 +1,10 @@
 # BBj Masks
 
+![GitHub](https://img.shields.io/github/license/BasisHub/bbj-masks)
+![GitHub file size in bytes](https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/BasisHub/bbj-masks)
+![David](https://img.shields.io/david/BasisHub/bbj-masks)
+
 A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.
 
 ## Browsers support
