@@ -784,20 +784,10 @@ function validateTimezone(hours, minutes) {
 
 /***/ }),
 /* 6 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _NumberMask = _interopRequireDefault(__webpack_require__(16));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NumberMask__ = __webpack_require__(16);
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -805,47 +795,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var _default = _NumberMask["default"];
-exports["default"] = _default;
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */]);
 
 /***/ }),
 /* 7 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "getDayOfYear", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask.getDayOfYear;
-  }
-});
-Object.defineProperty(exports, "getWeekNumber", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask.getWeekNumber;
-  }
-});
-Object.defineProperty(exports, "getWeekStartByLocale", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask.getWeekStartByLocale;
-  }
-});
-exports["default"] = void 0;
-
-var _DateMask = _interopRequireWildcard(__webpack_require__(17));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DateMask__ = __webpack_require__(17);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["d"]; });
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -853,8 +814,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var _default = _DateMask["default"];
-exports["default"] = _default;
+
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__DateMask__["a" /* default */]);
 
 /***/ }),
 /* 8 */
@@ -1479,20 +1441,10 @@ function getTimezoneOffsetInMilliseconds(dirtyDate) {
 
 /***/ }),
 /* 14 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _StringMask = _interopRequireDefault(__webpack_require__(52));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__StringMask__ = __webpack_require__(52);
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -1500,61 +1452,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var _default = _StringMask["default"];
-exports["default"] = _default;
+
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__StringMask__["a" /* default */]);
 
 /***/ }),
 /* 15 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "NumberMask", {
-  enumerable: true,
-  get: function get() {
-    return _NumberMask["default"];
-  }
-});
-Object.defineProperty(exports, "DateMask", {
-  enumerable: true,
-  get: function get() {
-    return _DateMask["default"];
-  }
-});
-Object.defineProperty(exports, "StringMask", {
-  enumerable: true,
-  get: function get() {
-    return _StringMask["default"];
-  }
-});
-Object.defineProperty(exports, "Types", {
-  enumerable: true,
-  get: function get() {
-    return _Types["default"];
-  }
-});
-exports.Utils = void 0;
-
-var _NumberMask = _interopRequireDefault(__webpack_require__(6));
-
-var _DateMask = _interopRequireWildcard(__webpack_require__(7));
-
-var _StringMask = _interopRequireDefault(__webpack_require__(14));
-
-var _Types = _interopRequireDefault(__webpack_require__(53));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Utils", function() { return Utils; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NumberMask__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DateMask__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringMask__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Types__ = __webpack_require__(53);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NumberMask", function() { return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DateMask", function() { return __WEBPACK_IMPORTED_MODULE_1__DateMask__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StringMask", function() { return __WEBPACK_IMPORTED_MODULE_2__StringMask__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Types", function() { return __WEBPACK_IMPORTED_MODULE_3__Types__["a"]; });
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -1562,27 +1477,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+
+
+
 var Utils = {
   Dates: {
-    getDayOfYear: _DateMask.getDayOfYear,
-    getWeekNumber: _DateMask.getWeekNumber,
-    getWeekStartByLocale: _DateMask.getWeekStartByLocale
+    getDayOfYear: __WEBPACK_IMPORTED_MODULE_1__DateMask__["b" /* getDayOfYear */],
+    getWeekNumber: __WEBPACK_IMPORTED_MODULE_1__DateMask__["c" /* getWeekNumber */],
+    getWeekStartByLocale: __WEBPACK_IMPORTED_MODULE_1__DateMask__["d" /* getWeekStartByLocale */]
   }
 };
-exports.Utils = Utils;
+
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -1816,30 +1728,32 @@ function () {
   return NumberMask;
 }();
 
-var _default = NumberMask;
-exports["default"] = _default;
+/* harmony default export */ __webpack_exports__["a"] = (NumberMask);
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = exports.getWeekNumber = exports.getDayOfYear = exports.getWeekStartByLocale = void 0;
-
-var _dateFnsTz = __webpack_require__(18);
-
-var _weekstart = __webpack_require__(48);
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getWeekStartByLocale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getDayOfYear; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getWeekNumber; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_tz__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_weekstart__ = __webpack_require__(48);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 
 var ASCII_CHARS = /[^\x20-\x7E]/g;
 /**
@@ -1851,7 +1765,7 @@ var ASCII_CHARS = /[^\x20-\x7E]/g;
  */
 
 var getWeekStartByLocale = function getWeekStartByLocale(locale) {
-  return (0, _weekstart.getWeekStartByLocale)(locale);
+  return Object(__WEBPACK_IMPORTED_MODULE_1_weekstart__["a" /* getWeekStartByLocale */])(locale);
 };
 /**
  *  Get day number in the year of the passed date
@@ -1860,9 +1774,6 @@ var getWeekStartByLocale = function getWeekStartByLocale(locale) {
  *
  * @return {Number} day number
  */
-
-
-exports.getWeekStartByLocale = getWeekStartByLocale;
 
 var getDayOfYear = function getDayOfYear(date) {
   var start = new Date(date.getFullYear(), 0, 0);
@@ -1880,9 +1791,6 @@ var getDayOfYear = function getDayOfYear(date) {
  * @returns {Number} the week number
  */
 
-
-exports.getDayOfYear = getDayOfYear;
-
 var getWeekNumber = function getWeekNumber(date, weekStart) {
   var d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
   var dayNum = d.getUTCDay() - (weekStart - 1) || 7;
@@ -1897,9 +1805,6 @@ var getWeekNumber = function getWeekNumber(date, weekStart) {
  *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
-
-
-exports.getWeekNumber = getWeekNumber;
 
 var DateMask =
 /*#__PURE__*/
@@ -1934,7 +1839,7 @@ function () {
         date = "1970-01-01T".concat(date);
       }
 
-      var dateObject = (0, _dateFnsTz.utcToZonedTime)(date, timezone);
+      var dateObject = Object(__WEBPACK_IMPORTED_MODULE_0_date_fns_tz__["a" /* utcToZonedTime */])(date, timezone);
 
       var translation = DateMask._buildTranslation({
         year: dateObject.getFullYear(),
@@ -2072,23 +1977,21 @@ function () {
   return DateMask;
 }();
 
-var _default = DateMask;
-exports["default"] = _default;
+/* harmony default export */ __webpack_exports__["a"] = (DateMask);
 
 /***/ }),
 /* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__format_index_js__ = __webpack_require__(19);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "format", function() { return __WEBPACK_IMPORTED_MODULE_0__format_index_js__["a"]; });
+/* unused harmony reexport format */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__toDate_index_js__ = __webpack_require__(2);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "toDate", function() { return __WEBPACK_IMPORTED_MODULE_1__toDate_index_js__["a"]; });
+/* unused harmony reexport toDate */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utcToZonedTime_index_js__ = __webpack_require__(44);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "utcToZonedTime", function() { return __WEBPACK_IMPORTED_MODULE_2__utcToZonedTime_index_js__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_2__utcToZonedTime_index_js__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__zonedTimeToUtc_index_js__ = __webpack_require__(45);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zonedTimeToUtc", function() { return __WEBPACK_IMPORTED_MODULE_3__zonedTimeToUtc_index_js__["a"]; });
+/* unused harmony reexport zonedTimeToUtc */
 // This file is generated automatically by `scripts/build/indices.js`. Please, don't change it.
 
 
@@ -2102,7 +2005,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = format;
+/* unused harmony export default */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_esm_format__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__formatters__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__toDate__ = __webpack_require__(2);
@@ -4692,7 +4595,7 @@ function utcToZonedTime(dirtyDate, timeZone, options) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = zonedTimeToUtc;
+/* unused harmony export default */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_esm_lib_cloneObject__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_date_fns_esm_format__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__toDate__ = __webpack_require__(2);
@@ -4773,9 +4676,8 @@ function assign(target, dirtyObject) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWeekStartByRegion", function() { return getWeekStartByRegion$1; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getWeekStartByLocale", function() { return getWeekStartByLocale$1; });
+/* unused harmony export getWeekStartByRegion */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return getWeekStartByLocale$1; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__api_js__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__langRegionMap_js__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__regionDayMap_js__ = __webpack_require__(51);
@@ -5167,16 +5069,9 @@ var regionDayMap = {
 
 /***/ }),
 /* 52 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -5321,24 +5216,37 @@ function () {
   return StringMask;
 }();
 
-var _default = StringMask;
-exports["default"] = _default;
+/* harmony default export */ __webpack_exports__["a"] = (StringMask);
 
 /***/ }),
 /* 53 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Types__ = __webpack_require__(54);
+/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe <eu@basis.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
+/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__Types__["a" /* default */]);
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
+/***/ }),
+/* 54 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var _Types = _interopRequireDefault(__webpack_require__(54));
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NumberMask__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__DateMask__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringMask__ = __webpack_require__(14);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /*
  * This file is part of bbj-masks lib.
@@ -5347,34 +5255,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-var _default = _Types["default"];
-exports["default"] = _default;
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
-var _NumberMask = _interopRequireDefault(__webpack_require__(6));
-
-var _DateMask = _interopRequireDefault(__webpack_require__(7));
-
-var _StringMask = _interopRequireDefault(__webpack_require__(14));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 /**
  * Types
@@ -5383,6 +5265,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
+
 var Types =
 /*#__PURE__*/
 function () {
@@ -5406,7 +5289,7 @@ function () {
     value: function number(_number, mask) {
       var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
-      return _NumberMask["default"].mask(_number, mask, groupingSeparator, decimalSeparator);
+      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator);
     }
     /**
      * Mask a date according to bbj masking rules
@@ -5423,7 +5306,7 @@ function () {
   }, {
     key: "date",
     value: function date(_date, mask, locale, timezone) {
-      return _DateMask["default"].mask(_date, mask, locale, timezone);
+      return __WEBPACK_IMPORTED_MODULE_1__DateMask__["a" /* default */].mask(_date, mask, locale, timezone);
     }
     /**
      * Mask the given string with the given mask according to BBj rules`
@@ -5437,15 +5320,14 @@ function () {
   }, {
     key: "string",
     value: function string(str, mask) {
-      return _StringMask["default"].mask(str, mask);
+      return __WEBPACK_IMPORTED_MODULE_2__StringMask__["a" /* default */].mask(str, mask);
     }
   }]);
 
   return Types;
 }();
 
-var _default = Types;
-exports["default"] = _default;
+/* harmony default export */ __webpack_exports__["a"] = (Types);
 
 /***/ })
 /******/ ]);
