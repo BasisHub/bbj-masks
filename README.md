@@ -1,5 +1,6 @@
 # BBj Masks
 
+[![Build Status](https://travis-ci.com/BasisHub/bbj-masks.svg?branch=master)](https://travis-ci.com/BasisHub/bbj-masks)
 ![GitHub](https://img.shields.io/github/license/BasisHub/bbj-masks)
 ![GitHub file size in bytes](https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/BasisHub/bbj-masks)
