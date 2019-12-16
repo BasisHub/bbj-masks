@@ -16,14 +16,14 @@ A small library to format Javascript Dates , Numbers & Strings using BBj support
 | :---------: | :---------: | :---------: | :---------: | :---------: |
 | IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
+**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/)
+
 ## Install
 
 ```
 $ npm install BasisHub/bbj-masks
 $ yarn add BasisHub/bbj-masks
 ```
-
-**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/)
 
 ## Usage
 
