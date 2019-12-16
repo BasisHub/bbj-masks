@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/StringMask/StringMask.js | BBj Masks</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="BBj Masks"><meta property="twitter:description" content="A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/BasisHub/bbj-masks"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/StringMask/StringMask.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe &lt;eu@basis.com&gt;
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+const isNumberRegex = /^\d+$/
+const isWhitespaceRegex = /\s/
+const punctuationList = &apos;!&quot;#$%&amp;\&apos;()*+,-./:;&lt;=&gt;?@[]^_`{|}~&apos;
+
+/**
+ * Check if the given string is in lower case
+ *
+ * @param {String} str
+ */
+const isLowerCase = str =&gt; {
+  return str == str.toLowerCase() &amp;&amp; str != str.toUpperCase()
+}
+
+/**
+ * Check if the given string is in upper case
+ *
+ * @param {String} str
+ */
+const isUpperCase = str =&gt; {
+  return str == str.toUpperCase() &amp;&amp; str != str.toLowerCase()
+}
+
+/**
+ * NumberMask
+ *
+ * A javascript implementation for BBj numbers masking
+ *
+ * @author Hyyan Abo Fakher &lt;habofakher@basis.com&gt;
+ */
+class StringMask {
+  /**
+   * Mask the given string with the given mask according to BBj rules
+   *
+   * @param {String} str the string to mask
+   * @param {String} mask the mask to use for formatting
+   *
+   * @returns {String} the masked string
+   */
+  static mask(str, mask) {
+    str = String(str)
+    mask = String(mask)
+    const maskLen = mask.length
+    const strLen = str.length
+
+    if (strLen &gt; maskLen) return str // friendly silent fail
+
+    const result = new Array(maskLen)
+    let strPos = 0 // to keep track of the current position in the str
+    let maskByte = &apos;&apos;
+    let strByte = &apos;&apos;
+
+    for (let i = 0; i &lt; maskLen; i++) {
+      maskByte = mask.charAt(i)
+      strByte = str.charAt(strPos)
+      switch (maskByte) {
+        case &apos;X&apos;: // match any character
+          result[i] = strPos &lt; strLen ? strByte : &apos; &apos;
+          ++strPos
+          break
+
+        case &apos;A&apos;: // match letter; force upper case
+          result[i] =
+            strPos &lt; strLen &amp;&amp; (isLowerCase(strByte) || isUpperCase(strByte))
+              ? strByte.toUpperCase() // force upper case
+              : &apos; &apos;
+          ++strPos
+          break
+
+        case &apos;a&apos;: // match letter
+          result[i] =
+            strPos &lt; strLen &amp;&amp; (isLowerCase(strByte) || isUpperCase(strByte))
+              ? strByte
+              : &apos; &apos;
+          ++strPos
+          break
+        case &apos;0&apos;: // match digit
+          result[i] =
+            strPos &lt; strLen &amp;&amp; isNumberRegex.test(strByte) ? strByte : &apos; &apos;
+          ++strPos
+          break
+        case &apos;Z&apos;: // match letter or digit; force upper case
+          result[i] =
+            strPos &lt; strLen &amp;&amp;
+            (isNumberRegex.test(strByte) ||
+              isLowerCase(strByte) ||
+              isUpperCase(strByte))
+              ? strByte.toUpperCase() // force upper case
+              : &apos; &apos;
+          ++strPos
+          break
+        case &apos;z&apos;: // match letter or digit
+          result[i] =
+            strPos &lt; strLen &amp;&amp;
+            (isNumberRegex.test(strByte) ||
+              isLowerCase(strByte) ||
+              isUpperCase(strByte))
+              ? strByte
+              : &apos; &apos;
+          ++strPos
+          break
+        case &apos;U&apos;: // match letter (force upper case), digit, whitespace or punctuation.
+          if (isLowerCase(strByte)) {
+            result[i] = strByte.toUpperCase()
+          } else if (
+            isUpperCase(strByte) ||
+            isNumberRegex.test(strByte) ||
+            isWhitespaceRegex.test(strByte) ||
+            punctuationList.indexOf(strByte) &gt; -1
+          ) {
+            result[i] = strByte
+          } else {
+            result[i] = &apos; &apos;
+          }
+          ++strPos
+          break
+        default:
+            result[i] = maskByte
+          break
+      }
+    }
+
+    return result.join(&apos;&apos;)
+  }
+}
+
+export default StringMask
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

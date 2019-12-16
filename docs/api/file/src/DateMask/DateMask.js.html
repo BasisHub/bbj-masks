@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">src/DateMask/DateMask.js | BBj Masks</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="BBj Masks"><meta property="twitter:description" content="A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/BasisHub/bbj-masks"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/DateMask/DateMask.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">/*
+ * This file is part of bbj-masks lib.
+ * (c) Basis Europe &lt;eu@basis.com&gt;
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+import { utcToZonedTime } from &apos;date-fns-tz&apos;
+import { getWeekStartByLocale } from &apos;weekstart&apos;
+
+const ASCII_CHARS = /[^\x20-\x7E]/g
+
+const getDayOfYear = date =&gt; {
+  const start = new Date(date.getFullYear(), 0, 0)
+
+  const diff =
+    date -
+    start +
+    (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000
+  const oneDay = 1000 * 60 * 60 * 24
+  const day = Math.floor(diff / oneDay)
+
+  return day
+}
+
+const getWeekNumber = function(date, weekStart) {
+  const d = new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  )
+  const dayNum = d.getUTCDay() - (weekStart - 1) || 7
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum)
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
+}
+
+/**
+ * DateMask
+ *
+ * A javascript implementation for BBj dates masking
+ *
+ * @author Hyyan Abo Fakher &lt;habofakher@basis.com&gt;
+ */
+class DateMask {
+  /**
+   * Mask date
+   *
+   * Mask the passed date with the passed mask
+   *
+   * @param {String} date date as a string
+   * @param {String} mask mask as a string
+   * @param {String} locale the language to use ex(en-US). default is to the system language
+   * @param {String} timezone the time zone descriptor (e.g. America/Los_Angeles). default to the system
+   *                          timezone
+   *
+   * @return {String} a date masked with the given mask
+   */
+  static mask(date, mask, locale, timezone) {
+    if (!date) return &apos;&apos;
+    if (!mask) return date
+
+    timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+    locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || &apos;en-US&apos;
+
+    // check time
+    if (
+      /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(
+        date
+      )
+    ) {
+      date = `1970-01-01T${date}`
+    }
+
+    const dateObject = utcToZonedTime(date, timezone)
+    const translation = DateMask._buildTranslation({
+      year: dateObject.getFullYear(),
+      month: dateObject.getMonth() + 1,
+      monthShort: new Intl.DateTimeFormat([locale], { month: &apos;short&apos; })
+        .format(dateObject)
+        .replace(ASCII_CHARS, &apos;&apos;),
+      monthLong: new Intl.DateTimeFormat([locale], { month: &apos;long&apos; })
+        .format(dateObject)
+        .replace(ASCII_CHARS, &apos;&apos;),
+      day: dateObject.getDate(),
+      dayShort: new Intl.DateTimeFormat([locale], { weekday: &apos;short&apos; })
+        .format(dateObject)
+        .replace(ASCII_CHARS, &apos;&apos;),
+      dayLong: new Intl.DateTimeFormat([locale], { weekday: &apos;long&apos; })
+        .format(dateObject)
+        .replace(ASCII_CHARS, &apos;&apos;),
+      minutes: dateObject.getMinutes(),
+      seconds: dateObject.getSeconds(),
+      get hours24() {
+        return dateObject.getHours()
+      },
+      get hours12() {
+        return this.hours24 % 12 || 12
+      },
+      dayOfYear: getDayOfYear(dateObject),
+      dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS
+      weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),
+      locale,
+      timezone
+    })
+
+    let result = mask
+    for (var k in translation) {
+      result = result.replace(new RegExp(&apos;(%&apos; + k + &apos;)&apos;, &apos;g&apos;), translation[k])
+    }
+
+    return result
+  }
+
+  /**
+   * Get a map object which contains all possible forms of masks
+   *
+   * @param {Object} dateDetails date
+   *
+   * @return {Object} forms masks
+   */
+  static _buildTranslation(dateDetails) {
+    return {
+      // year
+      Yz: dateDetails.year.toString().substr(-2),
+      Ys: dateDetails.year,
+      Yl: dateDetails.year,
+      Yp: String.fromCharCode(dateDetails.year),
+      Yd: dateDetails.year,
+      Y: dateDetails.year,
+
+      // month
+      Mz:
+        String(dateDetails.month).length == 1
+          ? &apos;0&apos; + dateDetails.month
+          : dateDetails.month,
+      Ms: dateDetails.monthShort,
+      Ml: dateDetails.monthLong,
+      Mp: String.fromCharCode(dateDetails.month),
+      Md: dateDetails.month,
+      M: dateDetails.month,
+
+      // day
+      Dz:
+        String(dateDetails.day).length == 1
+          ? &apos;0&apos; + dateDetails.day
+          : dateDetails.day,
+      Ds: dateDetails.dayShort,
+      Dl: dateDetails.dayLong,
+      Dp: String.fromCharCode(dateDetails.day),
+      Dd: dateDetails.day,
+      D: dateDetails.day,
+
+      // hour 24
+      Hz:
+        String(dateDetails.hours24).length == 1
+          ? &apos;0&apos; + dateDetails.hours24
+          : dateDetails.hours24,
+      Hs: dateDetails.hours24,
+      Hl: dateDetails.hours24,
+      Hp: String.fromCharCode(dateDetails.hours24),
+      Hd: dateDetails.hours24,
+      H: dateDetails.hours24,
+
+      // hour 12
+      hz:
+        String(dateDetails.hours12).length == 1
+          ? &apos;0&apos; + dateDetails.hours12
+          : dateDetails.hours12,
+      hs: dateDetails.hours12,
+      hl: dateDetails.hours12,
+      hp: String.fromCharCode(dateDetails.hours12),
+      hd: dateDetails.hours12,
+      h: dateDetails.hours12,
+
+      // minutes
+      mz:
+        String(dateDetails.minutes).length == 1
+          ? &apos;0&apos; + dateDetails.minutes
+          : dateDetails.minutes,
+      ms: dateDetails.minutes,
+      ml: dateDetails.minutes,
+      mp: String.fromCharCode(dateDetails.minutes),
+      md: dateDetails.minutes,
+      m: dateDetails.minutes,
+
+      // seconds
+      sz:
+        String(dateDetails.seconds).length == 1
+          ? &apos;0&apos; + dateDetails.seconds
+          : dateDetails.seconds,
+      ss: dateDetails.seconds,
+      sl: dateDetails.seconds,
+      sp: String.fromCharCode(dateDetails.seconds),
+      sd: dateDetails.seconds,
+      s: dateDetails.seconds,
+
+      // AM , PM
+      PP: dateDetails.hours24 &gt; 12 ? &apos;PM&apos; : &apos;PM&apos;,
+      P: dateDetails.hours24 &gt; 12 ? &apos;PM&apos; : &apos;AM&apos;,
+      pp: dateDetails.hours24 &gt; 12 ? &apos;pm&apos; : &apos;am&apos;,
+      p: dateDetails.hours24 &gt; 12 ? &apos;pm&apos; : &apos;am&apos;,
+
+      // Day of Year
+      Jz:
+        String(dateDetails.dayOfYear).length == 1
+          ? &apos;0&apos; + dateDetails.dayOfYear
+          : dateDetails.dayOfYear,
+      Js: dateDetails.dayOfYear,
+      Jl: dateDetails.dayOfYear,
+      Jd: dateDetails.dayOfYear,
+      J: dateDetails.dayOfYear,
+
+      // Day Of Week
+      Wz:
+        String(dateDetails.dayOfWeek).length == 1
+          ? &apos;0&apos; + dateDetails.dayOfWeek
+          : dateDetails.dayOfWeek,
+      Ws: dateDetails.dayOfWeek,
+      Wl: dateDetails.dayOfWeek,
+      Wp: String.fromCharCode(dateDetails.dayOfWeek),
+      Wd: dateDetails.dayOfWeek,
+      W: dateDetails.dayOfWeek,
+
+      // week number
+      wz:
+        String(dateDetails.weekNumber).length == 1
+          ? &apos;0&apos; + dateDetails.weekNumber
+          : dateDetails.weekNumber,
+      ws: dateDetails.weekNumber,
+      wl: dateDetails.weekNumber,
+      wp: String.fromCharCode(dateDetails.weekNumber),
+      wd: dateDetails.weekNumber,
+      w: dateDetails.weekNumber
+    }
+  }
+}
+
+export default DateMask
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

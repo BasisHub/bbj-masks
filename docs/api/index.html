@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl">
+  <title data-ice="title">Home | BBj Masks</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks."><meta property="twitter:card" content="summary"><meta property="twitter:title" content="BBj Masks"><meta property="twitter:description" content="A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks."></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/BasisHub/bbj-masks"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
+<li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="bbj-masks">BBj Masks</h1><p><img src="https://img.shields.io/github/license/BasisHub/bbj-masks" alt="GitHub">
+<img src="https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js" alt="GitHub file size in bytes">
+<img src="https://img.shields.io/github/v/tag/BasisHub/bbj-masks" alt="GitHub tag (latest by date)">
+<img src="https://img.shields.io/david/BasisHub/bbj-masks" alt="David"></p>
+<p>A small library to format Javascript Dates , Numbers &amp; Strings using BBj supported masks.</p>
+<h2 id="browsers-support">Browsers support</h2><table>
+<thead>
+<tr>
+<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" width="24px" height="24px"></a><br>IE / Edge</th>
+<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" width="24px" height="24px"></a><br>Firefox</th>
+<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" width="24px" height="24px"></a><br>Chrome</th>
+<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" width="24px" height="24px"></a><br>Safari</th>
+<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png" width="24px" height="24px"></a><br>Opera</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">IE11, Edge</td>
+<td style="text-align:center">last 2 versions</td>
+<td style="text-align:center">last 2 versions</td>
+<td style="text-align:center">last 2 versions</td>
+<td style="text-align:center">last 2 versions</td>
+</tr>
+</tbody>
+</table>
+<h2 id="install">Install</h2><pre><code><code class="source-code prettyprint">$ npm install BasisHub/bbj-masks
+$ yarn add BasisHub/bbj-masks</code>
+</code></pre><p><strong>Note :</strong> To support IE11 browser include the <a href="https://github.com/formatjs/date-time-format-timezone/">date-time-format-timezone</a></p>
+<h2 id="usage">Usage</h2><pre><code class="lang-js"><code class="source-code prettyprint">const formattedNumber = BBj.Masks.Types.number(
+  -5000.123456789,
+  &apos;$ -#,##0.######&apos;
+)
+console.log(formattedNumber) // -&gt; $ -5,000.123457
+
+const formattedDate = BBj.Masks.Types.date(
+  &apos;2018-02-15T14:01:06Z&apos;,
+  &apos;%Yz - %Mz - %Dz&apos;
+)
+console.log(formattedDate) // -&gt; 18 - 02 - 15
+
+const formattedString = BBj.Masks.Types.string(&apos;abcdefg&apos;, &apos;XX-XXX-XX&apos;)
+console.log(formattedString) // -&gt; ab-cde-fg</code>
+</code></pre>
+<h2 id="-a-href--https---documentation-basis-com-basishelp-webhelp-commands-date-function-bbj-htm--date-masks--a-"><a href="https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm">Date Masks</a></h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Mask</th>
+<th style="text-align:center">Supported</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%Y</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Year</td>
+</tr>
+<tr>
+<td style="text-align:center">%M</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Month</td>
+</tr>
+<tr>
+<td style="text-align:center">%D</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Day</td>
+</tr>
+<tr>
+<td style="text-align:center">%H</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Hour (24-hour clock)</td>
+</tr>
+<tr>
+<td style="text-align:center">%h</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Hour (12-hour clock)</td>
+</tr>
+<tr>
+<td style="text-align:center">%m</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Minute</td>
+</tr>
+<tr>
+<td style="text-align:center">%s</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Second</td>
+</tr>
+<tr>
+<td style="text-align:center">%t</td>
+<td style="text-align:center">&#xD7;</td>
+<td style="text-align:left">Millisecond (thousandths of a second). Available in BBj 18.0 and higher.</td>
+</tr>
+<tr>
+<td style="text-align:center">%P</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">AM/PM</td>
+</tr>
+<tr>
+<td style="text-align:center">%p</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">am/pm</td>
+</tr>
+<tr>
+<td style="text-align:center">%J</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Day number within the year (1-366). (This format is unique to BBj.)</td>
+</tr>
+<tr>
+<td style="text-align:center">%W</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Day number within the week (1-7, Sunday=1). This format is unique to BBj.</td>
+</tr>
+<tr>
+<td style="text-align:center">%w</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Week number within the year (1-53, differs by locale)</td>
+</tr>
+<tr>
+<td style="text-align:center">%d</td>
+<td style="text-align:center">&#xD7;</td>
+<td style="text-align:left">Day number within the week (1-7, differs by locale). Available in BBj 16.0 and higher</td>
+</tr>
+<tr>
+<td style="text-align:center">%y</td>
+<td style="text-align:center">&#xD7;</td>
+<td style="text-align:left">Base year of the current week, available in BBj 16.0 and higher. The first few days of January may fall into the last week of the previous year. The last few days of December may fall into the first week of the following year.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Modifier</th>
+<th style="text-align:center">Supported</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">%z</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Zero-fill</td>
+</tr>
+<tr>
+<td style="text-align:center">%s</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Short text</td>
+</tr>
+<tr>
+<td style="text-align:center">%l</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Long text</td>
+</tr>
+<tr>
+<td style="text-align:center">%p</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Packed number (in CHR() form)</td>
+</tr>
+<tr>
+<td style="text-align:center">%d</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Decimal (default format)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-a-href--https---documentation-basis-com-basishelp-webhelp-usr-numeric-output-htm--number-masks--a-"><a href="https://documentation.basis.com/BASISHelp/WebHelp/usr/numeric_output.htm">Number Masks</a></h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Mask</th>
+<th style="text-align:center">Supported</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">A zero is always replaced by a digit(0..9).</td>
+</tr>
+<tr>
+<td style="text-align:center">#</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The pound sign is used to suppress leading zeroes. It is replaced by the fill character for leading zeroes to the left of the decimal point. For trailing zeros to the right of the decimal point it is replaced by a space or a zero (see SETOPTS Byte 4, Bit $04$ for more detail). Any other time it is replaced by a digit. See SETOPTS for more information.</td>
+</tr>
+<tr>
+<td style="text-align:center">,</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">To the left of the decimal point, the comma is replaced by the fill character if no digits have yet been placed. Any other time, it results in a comma.</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The asterisk &quot;*&quot; is inserted into the number.</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The decimal point is replaced by a decimal point if any digits appear in the output mask. Otherwise, it is replaced by the fill character. After the decimal point, the fill character becomes a space.</td>
+</tr>
+<tr>
+<td style="text-align:center">\$</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The dollar sign always results in a dollar sign.</td>
+</tr>
+<tr>
+<td style="text-align:center">(</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">left parenthesis results in a &quot;(&quot; if the number is negative, or the fill character if positive.</td>
+</tr>
+<tr>
+<td style="text-align:center">)</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">A right parenthesis results in a &quot;)&quot; if the number is negative, or the fill character if positive.</td>
+</tr>
+<tr>
+<td style="text-align:center">)</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">A right parenthesis results in a &quot;)&quot; if the number is negative, or the fill character if positive.</td>
+</tr>
+<tr>
+<td style="text-align:center">CR</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The characters &quot;CR&quot; are inserted into the number if the number is negative. Two spaces are inserted if the number is positive.</td>
+</tr>
+<tr>
+<td style="text-align:center">DR</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The characters &quot;CR&quot; are inserted into the number if the number is negative. The characters &quot;DR&quot; are inserted if the number is positive.</td>
+</tr>
+<tr>
+<td style="text-align:center">B</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">The upper case &quot;B&quot; always becomes a space. Any other character is simply copied to the result.positive.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-a-href--https---documentation-basis-com-basishelp-webhelp-commands2-str-function-htm--string-masks--a-"><a href="https://documentation.basis.com/BASISHelp/WebHelp/commands2/str_function.htm">String Masks</a></h2><table>
+<thead>
+<tr>
+<th style="text-align:center">Mask</th>
+<th style="text-align:center">Supported</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">X</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any printable character.</td>
+</tr>
+<tr>
+<td style="text-align:center">a</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any alphabetic character.</td>
+</tr>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any digit.</td>
+</tr>
+<tr>
+<td style="text-align:center">z</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any digit or alphabetic character.</td>
+</tr>
+<tr>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any digit or alphabetic character. Converts lower-case alphabetic characters to upper case.</td>
+</tr>
+<tr>
+<td style="text-align:center">U</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any digit , alphabetic character , whitespace or punctuation. Converts lower-case alphabetic characters to upper case.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="license">License</h2><p>Licensed under the <a href="https://github.com/BasisHub/bbj-masks/blob/master/LICENSE">MIT License</a>.</p>
+</div>
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.1.0)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

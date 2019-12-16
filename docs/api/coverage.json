@@ -1,0 +1,39 @@
+{
+  "coverage": "60.86%",
+  "expectCount": 23,
+  "actualCount": 14,
+  "files": {
+    "src/DateMask/DateMask.js": {
+      "expectCount": 6,
+      "actualCount": 3,
+      "undocumentLines": [
+        12,
+        14,
+        27
+      ]
+    },
+    "src/NumberMask/NumberMask.js": {
+      "expectCount": 6,
+      "actualCount": 3,
+      "undocumentLines": [
+        167,
+        177,
+        185
+      ]
+    },
+    "src/StringMask/StringMask.js": {
+      "expectCount": 7,
+      "actualCount": 4,
+      "undocumentLines": [
+        9,
+        10,
+        11
+      ]
+    },
+    "src/Types/Types.js": {
+      "expectCount": 4,
+      "actualCount": 4,
+      "undocumentLines": []
+    }
+  }
+}
