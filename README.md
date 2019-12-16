@@ -6,6 +6,8 @@
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/BasisHub/bbj-masks)
 ![David](https://img.shields.io/david/BasisHub/bbj-masks)
 
+[Pages](https://basishub.github.io/bbj-masks/) | [API](https://basishub.github.io/bbj-masks/docs/api/) <br>
+
 A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.
 
 ## Browsers support
@@ -14,14 +16,14 @@ A small library to format Javascript Dates , Numbers & Strings using BBj support
 | :---------: | :---------: | :---------: | :---------: | :---------: |
 | IE11, Edge| last 2 versions| last 2 versions| last 2 versions| last 2 versions
 
+**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/) polyfill
+
 ## Install
 
 ```
 $ npm install BasisHub/bbj-masks
 $ yarn add BasisHub/bbj-masks
 ```
-
-**Note :** To support IE11 browser include the [date-time-format-timezone](https://github.com/formatjs/date-time-format-timezone/)
 
 ## Usage
 
