@@ -1761,7 +1761,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  */
 
 
-var ASCII_CHARS = /[^\x20-\x7E]/g;
 var IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/;
 var IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 /**
@@ -1793,7 +1792,7 @@ var getDayOfYear = function getDayOfYear(date) {
 /**
  * Takes incomplete iso string and return a complete one
  *
- * @param {String} date incomplete iso string 
+ * @param {String} date incomplete iso string
  *
  * @return {String} complete iso string
  */
@@ -1874,17 +1873,17 @@ function () {
         month: dateObject.getMonth() + 1,
         monthShort: new Intl.DateTimeFormat([locale], {
           month: 'short'
-        }).format(dateObject).replace(ASCII_CHARS, ''),
+        }).format(dateObject),
         monthLong: new Intl.DateTimeFormat([locale], {
           month: 'long'
-        }).format(dateObject).replace(ASCII_CHARS, ''),
+        }).format(dateObject),
         day: dateObject.getDate(),
         dayShort: new Intl.DateTimeFormat([locale], {
           weekday: 'short'
-        }).format(dateObject).replace(ASCII_CHARS, ''),
+        }).format(dateObject),
         dayLong: new Intl.DateTimeFormat([locale], {
           weekday: 'long'
-        }).format(dateObject).replace(ASCII_CHARS, ''),
+        }).format(dateObject),
         minutes: dateObject.getMinutes(),
         seconds: dateObject.getSeconds(),
 

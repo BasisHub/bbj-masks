@@ -14,6 +14,7 @@
 
     // month
     { date: '2018-02-15T14:01:06Z', mask: '%Mz', expected: '02' },
+    // fails on IE  @see https://github.com/formatjs/react-intl/issues/201
     { date: '2018-02-15T14:01:06Z', mask: '%Ms', expected: 'Feb' },
     { date: '2018-02-15T14:01:06Z', mask: '%Ml', expected: 'February' },
     {
@@ -26,6 +27,7 @@
 
     // day
     { date: '2018-02-15T14:01:06Z', mask: '%Dz', expected: '15' },
+    // fails on IE  @see https://github.com/formatjs/react-intl/issues/201
     { date: '2018-02-15T14:01:06Z', mask: '%Ds', expected: 'Thu' },
     { date: '2018-02-15T14:01:06Z', mask: '%Dl', expected: 'Thursday' },
     {

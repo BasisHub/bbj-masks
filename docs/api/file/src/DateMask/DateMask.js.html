@@ -55,7 +55,6 @@
 import { utcToZonedTime } from &apos;date-fns-tz&apos;
 import { getWeekStartByLocale as originalGetWeekStartByLocale } from &apos;weekstart&apos;
 
-const ASCII_CHARS = /[^\x20-\x7E]/g
 export const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/
 export const IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
 
@@ -93,7 +92,7 @@ export const getDayOfYear = date =&gt; {
 /**
  * Takes incomplete iso string and return a complete one
  *
- * @param {String} date incomplete iso string 
+ * @param {String} date incomplete iso string
  *
  * @return {String} complete iso string
  */
@@ -169,19 +168,19 @@ class DateMask {
     const translation = DateMask._buildTranslation({
       year: dateObject.getFullYear(),
       month: dateObject.getMonth() + 1,
-      monthShort: new Intl.DateTimeFormat([locale], { month: &apos;short&apos; })
-        .format(dateObject)
-        .replace(ASCII_CHARS, &apos;&apos;),
-      monthLong: new Intl.DateTimeFormat([locale], { month: &apos;long&apos; })
-        .format(dateObject)
-        .replace(ASCII_CHARS, &apos;&apos;),
+      monthShort: new Intl.DateTimeFormat([locale], { month: &apos;short&apos; }).format(
+        dateObject
+      ),
+      monthLong: new Intl.DateTimeFormat([locale], { month: &apos;long&apos; }).format(
+        dateObject
+      ),
       day: dateObject.getDate(),
-      dayShort: new Intl.DateTimeFormat([locale], { weekday: &apos;short&apos; })
-        .format(dateObject)
-        .replace(ASCII_CHARS, &apos;&apos;),
-      dayLong: new Intl.DateTimeFormat([locale], { weekday: &apos;long&apos; })
-        .format(dateObject)
-        .replace(ASCII_CHARS, &apos;&apos;),
+      dayShort: new Intl.DateTimeFormat([locale], { weekday: &apos;short&apos; }).format(
+        dateObject
+      ),
+      dayLong: new Intl.DateTimeFormat([locale], { weekday: &apos;long&apos; }).format(
+        dateObject
+      ),
       minutes: dateObject.getMinutes(),
       seconds: dateObject.getSeconds(),
       get hours24() {

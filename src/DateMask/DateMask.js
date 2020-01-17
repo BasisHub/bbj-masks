@@ -9,7 +9,6 @@
 import { utcToZonedTime } from 'date-fns-tz'
 import { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'
 
-const ASCII_CHARS = /[^\x20-\x7E]/g
 export const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/
 export const IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
 
@@ -47,7 +46,7 @@ export const getDayOfYear = date => {
 /**
  * Takes incomplete iso string and return a complete one
  *
- * @param {String} date incomplete iso string 
+ * @param {String} date incomplete iso string
  *
  * @return {String} complete iso string
  */
@@ -123,19 +122,19 @@ class DateMask {
     const translation = DateMask._buildTranslation({
       year: dateObject.getFullYear(),
       month: dateObject.getMonth() + 1,
-      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' })
-        .format(dateObject)
-        .replace(ASCII_CHARS, ''),
-      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' })
-        .format(dateObject)
-        .replace(ASCII_CHARS, ''),
+      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' }).format(
+        dateObject
+      ),
+      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' }).format(
+        dateObject
+      ),
       day: dateObject.getDate(),
-      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' })
-        .format(dateObject)
-        .replace(ASCII_CHARS, ''),
-      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' })
-        .format(dateObject)
-        .replace(ASCII_CHARS, ''),
+      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' }).format(
+        dateObject
+      ),
+      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' }).format(
+        dateObject
+      ),
       minutes: dateObject.getMinutes(),
       seconds: dateObject.getSeconds(),
       get hours24() {
