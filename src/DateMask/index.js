@@ -6,12 +6,21 @@
  * file that was distributed with this source code.
  */
 
-import {
+import DateMask, {
   getDayOfYear,
   getWeekNumber,
   getWeekStartByLocale,
-  default as DateMask
+  IS_TIME_REGEX,
+  IS_DATE_REGEX,
+  fixShortISO
 } from './DateMask'
 
-export { getDayOfYear, getWeekNumber, getWeekStartByLocale }
+export {
+  getDayOfYear,
+  getWeekNumber,
+  getWeekStartByLocale,
+  IS_DATE_REGEX,
+  IS_TIME_REGEX,
+  fixShortISO
+}
 export default DateMask

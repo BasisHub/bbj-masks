@@ -807,6 +807,9 @@ function validateTimezone(hours, minutes) {
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["d"]; });
+/* unused harmony reexport IS_DATE_REGEX */
+/* unused harmony reexport IS_TIME_REGEX */
+/* unused harmony reexport fixShortISO */
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -1735,8 +1738,11 @@ function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* unused harmony export IS_TIME_REGEX */
+/* unused harmony export IS_DATE_REGEX */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getWeekStartByLocale; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getDayOfYear; });
+/* unused harmony export fixShortISO */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getWeekNumber; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_tz__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_weekstart__ = __webpack_require__(48);
@@ -1756,6 +1762,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var ASCII_CHARS = /[^\x20-\x7E]/g;
+var IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/;
+var IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
 /**
  * Find out when the first day of the week based on the passed locale
  *
@@ -1781,6 +1789,29 @@ var getDayOfYear = function getDayOfYear(date) {
   var oneDay = 1000 * 60 * 60 * 24;
   var day = Math.floor(diff / oneDay);
   return day;
+};
+/**
+ * Takes incomplete iso string and return a complete one
+ *
+ * @param {String} date incomplete iso string 
+ *
+ * @return {String} complete iso string
+ */
+
+var fixShortISO = function fixShortISO(date) {
+  var value = date;
+
+  if (IS_TIME_REGEX.test(value)) {
+    value = "1970-01-01T".concat(value);
+
+    if (/Z$/.test(value) === false && value.indexOf('+') < 0 && value.indexOf('-') < 0) {
+      value += 'Z';
+    }
+  } else if (IS_DATE_REGEX.test(value)) {
+    value = "".concat(value, "T00:00:00Z");
+  }
+
+  return value;
 };
 /**
  * Get the Week Number in the passed date
@@ -1833,12 +1864,9 @@ function () {
       if (!date) return '';
       if (!_mask) return date;
       timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
-      locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'; // check time
+      locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'; // make sure we have a complete iso string
 
-      if (/^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(date)) {
-        date = "1970-01-01T".concat(date);
-      }
-
+      date = fixShortISO(date);
       var dateObject = Object(__WEBPACK_IMPORTED_MODULE_0_date_fns_tz__["a" /* utcToZonedTime */])(date, timezone);
 
       var translation = DateMask._buildTranslation({

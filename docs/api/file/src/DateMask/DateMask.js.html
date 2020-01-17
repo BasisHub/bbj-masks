@@ -30,9 +30,12 @@
   <ul>
     
   <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#datemask">DateMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/DateMask/DateMask.js~DateMask.html">DateMask</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-fixShortISO">fixShortISO</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getDayOfYear">getDayOfYear</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekNumber">getWeekNumber</a></span></span></li>
 <li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-getWeekStartByLocale">getWeekStartByLocale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IS_DATE_REGEX">IS_DATE_REGEX</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-IS_TIME_REGEX">IS_TIME_REGEX</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#numbermask">NumberMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html">NumberMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#stringmask">StringMask</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/StringMask/StringMask.js~StringMask.html">StringMask</a></span></span></li>
 <li data-ice="doc"><a data-ice="dirPath" class="nav-dir-path" href="identifiers.html#types">Types</a><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/Types/Types.js~Types.html">Types</a></span></span></li>
@@ -53,6 +56,8 @@ import { utcToZonedTime } from &apos;date-fns-tz&apos;
 import { getWeekStartByLocale as originalGetWeekStartByLocale } from &apos;weekstart&apos;
 
 const ASCII_CHARS = /[^\x20-\x7E]/g
+export const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/
+export const IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
 
 /**
  * Find out when the first day of the week based on the passed locale
@@ -83,6 +88,32 @@ export const getDayOfYear = date =&gt; {
   const day = Math.floor(diff / oneDay)
 
   return day
+}
+
+/**
+ * Takes incomplete iso string and return a complete one
+ *
+ * @param {String} date incomplete iso string 
+ *
+ * @return {String} complete iso string
+ */
+export const fixShortISO = date =&gt; {
+  let value = date
+
+  if (IS_TIME_REGEX.test(value)) {
+    value = `1970-01-01T${value}`
+    if (
+      /Z$/.test(value) === false &amp;&amp;
+      value.indexOf(&apos;+&apos;) &lt; 0 &amp;&amp;
+      value.indexOf(&apos;-&apos;) &lt; 0
+    ) {
+      value += &apos;Z&apos;
+    }
+  } else if (IS_DATE_REGEX.test(value)) {
+    value = `${value}T00:00:00Z`
+  }
+
+  return value
 }
 
 /**
@@ -131,14 +162,8 @@ class DateMask {
     timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
     locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || &apos;en-US&apos;
 
-    // check time
-    if (
-      /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(
-        date
-      )
-    ) {
-      date = `1970-01-01T${date}`
-    }
+    // make sure we have a complete iso string
+    date = fixShortISO(date)
 
     const dateObject = utcToZonedTime(date, timezone)
     const translation = DateMask._buildTranslation({

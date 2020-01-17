@@ -6,6 +6,18 @@ window.esdocSearchIndex = [
     "class"
   ],
   [
+    "bbj-masks/src/datemask/datemask.js~is_date_regex",
+    "variable/index.html#static-variable-IS_DATE_REGEX",
+    "<span>IS_DATE_REGEX</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "variable"
+  ],
+  [
+    "bbj-masks/src/datemask/datemask.js~is_time_regex",
+    "variable/index.html#static-variable-IS_TIME_REGEX",
+    "<span>IS_TIME_REGEX</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "variable"
+  ],
+  [
     "bbj-masks/src/numbermask/numbermask.js~numbermask",
     "class/src/NumberMask/NumberMask.js~NumberMask.html",
     "<span>NumberMask</span> <span class=\"search-result-import-path\">bbj-masks/src/NumberMask/NumberMask.js</span>",
@@ -22,6 +34,12 @@ window.esdocSearchIndex = [
     "class/src/Types/Types.js~Types.html",
     "<span>Types</span> <span class=\"search-result-import-path\">bbj-masks/src/Types/Types.js</span>",
     "class"
+  ],
+  [
+    "bbj-masks/src/datemask/datemask.js~fixshortiso",
+    "function/index.html#static-function-fixShortISO",
+    "<span>fixShortISO</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "function"
   ],
   [
     "bbj-masks/src/datemask/datemask.js~getdayofyear",

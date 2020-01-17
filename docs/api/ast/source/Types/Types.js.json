@@ -1,7 +1,7 @@
 {
   "type": "File",
   "start": 0,
-  "end": 2007,
+  "end": 1944,
   "loc": {
     "start": {
       "line": 1,
@@ -15,7 +15,7 @@
   "program": {
     "type": "Program",
     "start": 0,
-    "end": 2007,
+    "end": 1944,
     "loc": {
       "start": {
         "line": 1,
@@ -30,8 +30,8 @@
     "body": [
       {
         "type": "ImportDeclaration",
-        "start": 220,
-        "end": 258,
+        "start": 212,
+        "end": 250,
         "loc": {
           "start": {
             "line": 9,
@@ -45,8 +45,8 @@
         "specifiers": [
           {
             "type": "ImportDefaultSpecifier",
-            "start": 227,
-            "end": 237,
+            "start": 219,
+            "end": 229,
             "loc": {
               "start": {
                 "line": 9,
@@ -59,8 +59,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 227,
-              "end": 237,
+              "start": 219,
+              "end": 229,
               "loc": {
                 "start": {
                   "line": 9,
@@ -80,8 +80,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 243,
-          "end": 258,
+          "start": 235,
+          "end": 250,
           "loc": {
             "start": {
               "line": 9,
@@ -101,9 +101,9 @@
         "leadingComments": [
           {
             "type": "CommentBlock",
-            "value": "\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n ",
+            "value": "\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n ",
             "start": 0,
-            "end": 216,
+            "end": 210,
             "loc": {
               "start": {
                 "line": 1,
@@ -119,8 +119,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 260,
-        "end": 294,
+        "start": 251,
+        "end": 285,
         "loc": {
           "start": {
             "line": 10,
@@ -134,8 +134,8 @@
         "specifiers": [
           {
             "type": "ImportDefaultSpecifier",
-            "start": 267,
-            "end": 275,
+            "start": 258,
+            "end": 266,
             "loc": {
               "start": {
                 "line": 10,
@@ -148,8 +148,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 267,
-              "end": 275,
+              "start": 258,
+              "end": 266,
               "loc": {
                 "start": {
                   "line": 10,
@@ -167,8 +167,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 281,
-          "end": 294,
+          "start": 272,
+          "end": 285,
           "loc": {
             "start": {
               "line": 10,
@@ -188,8 +188,8 @@
       },
       {
         "type": "ImportDeclaration",
-        "start": 296,
-        "end": 334,
+        "start": 286,
+        "end": 324,
         "loc": {
           "start": {
             "line": 11,
@@ -203,8 +203,8 @@
         "specifiers": [
           {
             "type": "ImportDefaultSpecifier",
-            "start": 303,
-            "end": 313,
+            "start": 293,
+            "end": 303,
             "loc": {
               "start": {
                 "line": 11,
@@ -217,8 +217,8 @@
             },
             "local": {
               "type": "Identifier",
-              "start": 303,
-              "end": 313,
+              "start": 293,
+              "end": 303,
               "loc": {
                 "start": {
                   "line": 11,
@@ -236,8 +236,8 @@
         ],
         "source": {
           "type": "StringLiteral",
-          "start": 319,
-          "end": 334,
+          "start": 309,
+          "end": 324,
           "loc": {
             "start": {
               "line": 11,
@@ -259,9 +259,9 @@
         "trailingComments": [
           {
             "type": "CommentBlock",
-            "value": "*\r\n * Types\r\n *\r\n * BBj masks factory\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n ",
-            "start": 338,
-            "end": 438,
+            "value": "*\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n ",
+            "start": 326,
+            "end": 420,
             "loc": {
               "start": {
                 "line": 13,
@@ -277,8 +277,8 @@
       },
       {
         "type": "Identifier",
-        "start": 440,
-        "end": 1981,
+        "start": 421,
+        "end": 1921,
         "loc": {
           "start": {
             "line": 20,
@@ -291,8 +291,8 @@
         },
         "id": {
           "type": "Identifier",
-          "start": 446,
-          "end": 451,
+          "start": 427,
+          "end": 432,
           "loc": {
             "start": {
               "line": 20,
@@ -310,8 +310,8 @@
         "superClass": null,
         "body": {
           "type": "ClassBody",
-          "start": 452,
-          "end": 1981,
+          "start": 433,
+          "end": 1921,
           "loc": {
             "start": {
               "line": 20,
@@ -325,8 +325,8 @@
           "body": [
             {
               "type": "ClassMethod",
-              "start": 890,
-              "end": 1052,
+              "start": 860,
+              "end": 1020,
               "loc": {
                 "start": {
                   "line": 31,
@@ -341,8 +341,8 @@
               "computed": false,
               "key": {
                 "type": "Identifier",
-                "start": 897,
-                "end": 903,
+                "start": 867,
+                "end": 873,
                 "loc": {
                   "start": {
                     "line": 31,
@@ -364,8 +364,8 @@
               "params": [
                 {
                   "type": "Identifier",
-                  "start": 904,
-                  "end": 910,
+                  "start": 874,
+                  "end": 880,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -381,8 +381,8 @@
                 },
                 {
                   "type": "Identifier",
-                  "start": 912,
-                  "end": 916,
+                  "start": 882,
+                  "end": 886,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -398,8 +398,8 @@
                 },
                 {
                   "type": "AssignmentPattern",
-                  "start": 918,
-                  "end": 941,
+                  "start": 888,
+                  "end": 911,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -412,8 +412,8 @@
                   },
                   "left": {
                     "type": "Identifier",
-                    "start": 918,
-                    "end": 935,
+                    "start": 888,
+                    "end": 905,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -429,8 +429,8 @@
                   },
                   "right": {
                     "type": "StringLiteral",
-                    "start": 938,
-                    "end": 941,
+                    "start": 908,
+                    "end": 911,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -450,8 +450,8 @@
                 },
                 {
                   "type": "AssignmentPattern",
-                  "start": 943,
-                  "end": 965,
+                  "start": 913,
+                  "end": 935,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -464,8 +464,8 @@
                   },
                   "left": {
                     "type": "Identifier",
-                    "start": 943,
-                    "end": 959,
+                    "start": 913,
+                    "end": 929,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -481,8 +481,8 @@
                   },
                   "right": {
                     "type": "StringLiteral",
-                    "start": 962,
-                    "end": 965,
+                    "start": 932,
+                    "end": 935,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -503,8 +503,8 @@
               ],
               "body": {
                 "type": "BlockStatement",
-                "start": 967,
-                "end": 1052,
+                "start": 937,
+                "end": 1020,
                 "loc": {
                   "start": {
                     "line": 31,
@@ -518,8 +518,8 @@
                 "body": [
                   {
                     "type": "ReturnStatement",
-                    "start": 974,
-                    "end": 1047,
+                    "start": 943,
+                    "end": 1016,
                     "loc": {
                       "start": {
                         "line": 32,
@@ -532,8 +532,8 @@
                     },
                     "argument": {
                       "type": "CallExpression",
-                      "start": 981,
-                      "end": 1047,
+                      "start": 950,
+                      "end": 1016,
                       "loc": {
                         "start": {
                           "line": 32,
@@ -546,8 +546,8 @@
                       },
                       "callee": {
                         "type": "MemberExpression",
-                        "start": 981,
-                        "end": 996,
+                        "start": 950,
+                        "end": 965,
                         "loc": {
                           "start": {
                             "line": 32,
@@ -560,8 +560,8 @@
                         },
                         "object": {
                           "type": "Identifier",
-                          "start": 981,
-                          "end": 991,
+                          "start": 950,
+                          "end": 960,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -577,8 +577,8 @@
                         },
                         "property": {
                           "type": "Identifier",
-                          "start": 992,
-                          "end": 996,
+                          "start": 961,
+                          "end": 965,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -597,8 +597,8 @@
                       "arguments": [
                         {
                           "type": "Identifier",
-                          "start": 997,
-                          "end": 1003,
+                          "start": 966,
+                          "end": 972,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -614,8 +614,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1005,
-                          "end": 1009,
+                          "start": 974,
+                          "end": 978,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -631,8 +631,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1011,
-                          "end": 1028,
+                          "start": 980,
+                          "end": 997,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -648,8 +648,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1030,
-                          "end": 1046,
+                          "start": 999,
+                          "end": 1015,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -673,9 +673,9 @@
               "leadingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\r\n   * Mask a number according to bbj masking rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-                  "start": 457,
-                  "end": 886,
+                  "value": "*\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   *\n   * @return {String} number masked with the given mask\n   ",
+                  "start": 437,
+                  "end": 857,
                   "loc": {
                     "start": {
                       "line": 21,
@@ -691,9 +691,9 @@
               "trailingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-                  "start": 1058,
-                  "end": 1551,
+                  "value": "*\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   ",
+                  "start": 1024,
+                  "end": 1507,
                   "loc": {
                     "start": {
                       "line": 35,
@@ -709,8 +709,8 @@
             },
             {
               "type": "ClassMethod",
-              "start": 1555,
-              "end": 1659,
+              "start": 1510,
+              "end": 1612,
               "loc": {
                 "start": {
                   "line": 46,
@@ -725,8 +725,8 @@
               "computed": false,
               "key": {
                 "type": "Identifier",
-                "start": 1562,
-                "end": 1566,
+                "start": 1517,
+                "end": 1521,
                 "loc": {
                   "start": {
                     "line": 46,
@@ -748,8 +748,8 @@
               "params": [
                 {
                   "type": "Identifier",
-                  "start": 1567,
-                  "end": 1571,
+                  "start": 1522,
+                  "end": 1526,
                   "loc": {
                     "start": {
                       "line": 46,
@@ -765,8 +765,8 @@
                 },
                 {
                   "type": "Identifier",
-                  "start": 1573,
-                  "end": 1577,
+                  "start": 1528,
+                  "end": 1532,
                   "loc": {
                     "start": {
                       "line": 46,
@@ -782,8 +782,8 @@
                 },
                 {
                   "type": "Identifier",
-                  "start": 1579,
-                  "end": 1585,
+                  "start": 1534,
+                  "end": 1540,
                   "loc": {
                     "start": {
                       "line": 46,
@@ -799,8 +799,8 @@
                 },
                 {
                   "type": "Identifier",
-                  "start": 1587,
-                  "end": 1595,
+                  "start": 1542,
+                  "end": 1550,
                   "loc": {
                     "start": {
                       "line": 46,
@@ -817,8 +817,8 @@
               ],
               "body": {
                 "type": "BlockStatement",
-                "start": 1597,
-                "end": 1659,
+                "start": 1552,
+                "end": 1612,
                 "loc": {
                   "start": {
                     "line": 46,
@@ -832,8 +832,8 @@
                 "body": [
                   {
                     "type": "ReturnStatement",
-                    "start": 1604,
-                    "end": 1654,
+                    "start": 1558,
+                    "end": 1608,
                     "loc": {
                       "start": {
                         "line": 47,
@@ -846,8 +846,8 @@
                     },
                     "argument": {
                       "type": "CallExpression",
-                      "start": 1611,
-                      "end": 1654,
+                      "start": 1565,
+                      "end": 1608,
                       "loc": {
                         "start": {
                           "line": 47,
@@ -860,8 +860,8 @@
                       },
                       "callee": {
                         "type": "MemberExpression",
-                        "start": 1611,
-                        "end": 1624,
+                        "start": 1565,
+                        "end": 1578,
                         "loc": {
                           "start": {
                             "line": 47,
@@ -874,8 +874,8 @@
                         },
                         "object": {
                           "type": "Identifier",
-                          "start": 1611,
-                          "end": 1619,
+                          "start": 1565,
+                          "end": 1573,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -891,8 +891,8 @@
                         },
                         "property": {
                           "type": "Identifier",
-                          "start": 1620,
-                          "end": 1624,
+                          "start": 1574,
+                          "end": 1578,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -911,8 +911,8 @@
                       "arguments": [
                         {
                           "type": "Identifier",
-                          "start": 1625,
-                          "end": 1629,
+                          "start": 1579,
+                          "end": 1583,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -928,8 +928,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1631,
-                          "end": 1635,
+                          "start": 1585,
+                          "end": 1589,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -945,8 +945,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1637,
-                          "end": 1643,
+                          "start": 1591,
+                          "end": 1597,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -962,8 +962,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1645,
-                          "end": 1653,
+                          "start": 1599,
+                          "end": 1607,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -987,9 +987,9 @@
               "leadingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-                  "start": 1058,
-                  "end": 1551,
+                  "value": "*\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   ",
+                  "start": 1024,
+                  "end": 1507,
                   "loc": {
                     "start": {
                       "line": 35,
@@ -1005,9 +1005,9 @@
               "trailingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   ",
-                  "start": 1665,
-                  "end": 1904,
+                  "value": "*\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   ",
+                  "start": 1616,
+                  "end": 1848,
                   "loc": {
                     "start": {
                       "line": 50,
@@ -1023,8 +1023,8 @@
             },
             {
               "type": "ClassMethod",
-              "start": 1908,
-              "end": 1978,
+              "start": 1851,
+              "end": 1919,
               "loc": {
                 "start": {
                   "line": 58,
@@ -1039,8 +1039,8 @@
               "computed": false,
               "key": {
                 "type": "Identifier",
-                "start": 1915,
-                "end": 1921,
+                "start": 1858,
+                "end": 1864,
                 "loc": {
                   "start": {
                     "line": 58,
@@ -1062,8 +1062,8 @@
               "params": [
                 {
                   "type": "Identifier",
-                  "start": 1922,
-                  "end": 1925,
+                  "start": 1865,
+                  "end": 1868,
                   "loc": {
                     "start": {
                       "line": 58,
@@ -1079,8 +1079,8 @@
                 },
                 {
                   "type": "Identifier",
-                  "start": 1927,
-                  "end": 1931,
+                  "start": 1870,
+                  "end": 1874,
                   "loc": {
                     "start": {
                       "line": 58,
@@ -1097,8 +1097,8 @@
               ],
               "body": {
                 "type": "BlockStatement",
-                "start": 1933,
-                "end": 1978,
+                "start": 1876,
+                "end": 1919,
                 "loc": {
                   "start": {
                     "line": 58,
@@ -1112,8 +1112,8 @@
                 "body": [
                   {
                     "type": "ReturnStatement",
-                    "start": 1940,
-                    "end": 1973,
+                    "start": 1882,
+                    "end": 1915,
                     "loc": {
                       "start": {
                         "line": 59,
@@ -1126,8 +1126,8 @@
                     },
                     "argument": {
                       "type": "CallExpression",
-                      "start": 1947,
-                      "end": 1973,
+                      "start": 1889,
+                      "end": 1915,
                       "loc": {
                         "start": {
                           "line": 59,
@@ -1140,8 +1140,8 @@
                       },
                       "callee": {
                         "type": "MemberExpression",
-                        "start": 1947,
-                        "end": 1962,
+                        "start": 1889,
+                        "end": 1904,
                         "loc": {
                           "start": {
                             "line": 59,
@@ -1154,8 +1154,8 @@
                         },
                         "object": {
                           "type": "Identifier",
-                          "start": 1947,
-                          "end": 1957,
+                          "start": 1889,
+                          "end": 1899,
                           "loc": {
                             "start": {
                               "line": 59,
@@ -1171,8 +1171,8 @@
                         },
                         "property": {
                           "type": "Identifier",
-                          "start": 1958,
-                          "end": 1962,
+                          "start": 1900,
+                          "end": 1904,
                           "loc": {
                             "start": {
                               "line": 59,
@@ -1191,8 +1191,8 @@
                       "arguments": [
                         {
                           "type": "Identifier",
-                          "start": 1963,
-                          "end": 1966,
+                          "start": 1905,
+                          "end": 1908,
                           "loc": {
                             "start": {
                               "line": 59,
@@ -1208,8 +1208,8 @@
                         },
                         {
                           "type": "Identifier",
-                          "start": 1968,
-                          "end": 1972,
+                          "start": 1910,
+                          "end": 1914,
                           "loc": {
                             "start": {
                               "line": 59,
@@ -1232,9 +1232,9 @@
               "leadingComments": [
                 {
                   "type": "CommentBlock",
-                  "value": "*\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   ",
-                  "start": 1665,
-                  "end": 1904,
+                  "value": "*\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   ",
+                  "start": 1616,
+                  "end": 1848,
                   "loc": {
                     "start": {
                       "line": 50,
@@ -1256,8 +1256,8 @@
       },
       {
         "type": "Identifier",
-        "start": 1985,
-        "end": 2005,
+        "start": 1923,
+        "end": 1943,
         "loc": {
           "start": {
             "line": 63,
@@ -1270,8 +1270,8 @@
         },
         "declaration": {
           "type": "Identifier",
-          "start": 2000,
-          "end": 2005,
+          "start": 1938,
+          "end": 1943,
           "loc": {
             "start": {
               "line": 63,
@@ -1291,8 +1291,8 @@
       },
       {
         "type": "ExportDefaultDeclaration",
-        "start": 1985,
-        "end": 2005,
+        "start": 1923,
+        "end": 1943,
         "loc": {
           "start": {
             "line": 63,
@@ -1305,8 +1305,8 @@
         },
         "declaration": {
           "type": "ClassDeclaration",
-          "start": 440,
-          "end": 1981,
+          "start": 421,
+          "end": 1921,
           "loc": {
             "start": {
               "line": 20,
@@ -1319,8 +1319,8 @@
           },
           "id": {
             "type": "Identifier",
-            "start": 446,
-            "end": 451,
+            "start": 427,
+            "end": 432,
             "loc": {
               "start": {
                 "line": 20,
@@ -1338,8 +1338,8 @@
           "superClass": null,
           "body": {
             "type": "ClassBody",
-            "start": 452,
-            "end": 1981,
+            "start": 433,
+            "end": 1921,
             "loc": {
               "start": {
                 "line": 20,
@@ -1353,8 +1353,8 @@
             "body": [
               {
                 "type": "ClassMethod",
-                "start": 890,
-                "end": 1052,
+                "start": 860,
+                "end": 1020,
                 "loc": {
                   "start": {
                     "line": 31,
@@ -1369,8 +1369,8 @@
                 "computed": false,
                 "key": {
                   "type": "Identifier",
-                  "start": 897,
-                  "end": 903,
+                  "start": 867,
+                  "end": 873,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -1392,8 +1392,8 @@
                 "params": [
                   {
                     "type": "Identifier",
-                    "start": 904,
-                    "end": 910,
+                    "start": 874,
+                    "end": 880,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -1409,8 +1409,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 912,
-                    "end": 916,
+                    "start": 882,
+                    "end": 886,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -1426,8 +1426,8 @@
                   },
                   {
                     "type": "AssignmentPattern",
-                    "start": 918,
-                    "end": 941,
+                    "start": 888,
+                    "end": 911,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -1440,8 +1440,8 @@
                     },
                     "left": {
                       "type": "Identifier",
-                      "start": 918,
-                      "end": 935,
+                      "start": 888,
+                      "end": 905,
                       "loc": {
                         "start": {
                           "line": 31,
@@ -1457,8 +1457,8 @@
                     },
                     "right": {
                       "type": "StringLiteral",
-                      "start": 938,
-                      "end": 941,
+                      "start": 908,
+                      "end": 911,
                       "loc": {
                         "start": {
                           "line": 31,
@@ -1478,8 +1478,8 @@
                   },
                   {
                     "type": "AssignmentPattern",
-                    "start": 943,
-                    "end": 965,
+                    "start": 913,
+                    "end": 935,
                     "loc": {
                       "start": {
                         "line": 31,
@@ -1492,8 +1492,8 @@
                     },
                     "left": {
                       "type": "Identifier",
-                      "start": 943,
-                      "end": 959,
+                      "start": 913,
+                      "end": 929,
                       "loc": {
                         "start": {
                           "line": 31,
@@ -1509,8 +1509,8 @@
                     },
                     "right": {
                       "type": "StringLiteral",
-                      "start": 962,
-                      "end": 965,
+                      "start": 932,
+                      "end": 935,
                       "loc": {
                         "start": {
                           "line": 31,
@@ -1531,8 +1531,8 @@
                 ],
                 "body": {
                   "type": "BlockStatement",
-                  "start": 967,
-                  "end": 1052,
+                  "start": 937,
+                  "end": 1020,
                   "loc": {
                     "start": {
                       "line": 31,
@@ -1546,8 +1546,8 @@
                   "body": [
                     {
                       "type": "ReturnStatement",
-                      "start": 974,
-                      "end": 1047,
+                      "start": 943,
+                      "end": 1016,
                       "loc": {
                         "start": {
                           "line": 32,
@@ -1560,8 +1560,8 @@
                       },
                       "argument": {
                         "type": "CallExpression",
-                        "start": 981,
-                        "end": 1047,
+                        "start": 950,
+                        "end": 1016,
                         "loc": {
                           "start": {
                             "line": 32,
@@ -1574,8 +1574,8 @@
                         },
                         "callee": {
                           "type": "MemberExpression",
-                          "start": 981,
-                          "end": 996,
+                          "start": 950,
+                          "end": 965,
                           "loc": {
                             "start": {
                               "line": 32,
@@ -1588,8 +1588,8 @@
                           },
                           "object": {
                             "type": "Identifier",
-                            "start": 981,
-                            "end": 991,
+                            "start": 950,
+                            "end": 960,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -1605,8 +1605,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 992,
-                            "end": 996,
+                            "start": 961,
+                            "end": 965,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -1625,8 +1625,8 @@
                         "arguments": [
                           {
                             "type": "Identifier",
-                            "start": 997,
-                            "end": 1003,
+                            "start": 966,
+                            "end": 972,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -1642,8 +1642,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1005,
-                            "end": 1009,
+                            "start": 974,
+                            "end": 978,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -1659,8 +1659,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1011,
-                            "end": 1028,
+                            "start": 980,
+                            "end": 997,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -1676,8 +1676,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1030,
-                            "end": 1046,
+                            "start": 999,
+                            "end": 1015,
                             "loc": {
                               "start": {
                                 "line": 32,
@@ -1701,9 +1701,9 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\r\n   * Mask a number according to bbj masking rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-                    "start": 457,
-                    "end": 886,
+                    "value": "*\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   *\n   * @return {String} number masked with the given mask\n   ",
+                    "start": 437,
+                    "end": 857,
                     "loc": {
                       "start": {
                         "line": 21,
@@ -1719,9 +1719,9 @@
                 "trailingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-                    "start": 1058,
-                    "end": 1551,
+                    "value": "*\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   ",
+                    "start": 1024,
+                    "end": 1507,
                     "loc": {
                       "start": {
                         "line": 35,
@@ -1737,8 +1737,8 @@
               },
               {
                 "type": "ClassMethod",
-                "start": 1555,
-                "end": 1659,
+                "start": 1510,
+                "end": 1612,
                 "loc": {
                   "start": {
                     "line": 46,
@@ -1753,8 +1753,8 @@
                 "computed": false,
                 "key": {
                   "type": "Identifier",
-                  "start": 1562,
-                  "end": 1566,
+                  "start": 1517,
+                  "end": 1521,
                   "loc": {
                     "start": {
                       "line": 46,
@@ -1776,8 +1776,8 @@
                 "params": [
                   {
                     "type": "Identifier",
-                    "start": 1567,
-                    "end": 1571,
+                    "start": 1522,
+                    "end": 1526,
                     "loc": {
                       "start": {
                         "line": 46,
@@ -1793,8 +1793,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 1573,
-                    "end": 1577,
+                    "start": 1528,
+                    "end": 1532,
                     "loc": {
                       "start": {
                         "line": 46,
@@ -1810,8 +1810,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 1579,
-                    "end": 1585,
+                    "start": 1534,
+                    "end": 1540,
                     "loc": {
                       "start": {
                         "line": 46,
@@ -1827,8 +1827,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 1587,
-                    "end": 1595,
+                    "start": 1542,
+                    "end": 1550,
                     "loc": {
                       "start": {
                         "line": 46,
@@ -1845,8 +1845,8 @@
                 ],
                 "body": {
                   "type": "BlockStatement",
-                  "start": 1597,
-                  "end": 1659,
+                  "start": 1552,
+                  "end": 1612,
                   "loc": {
                     "start": {
                       "line": 46,
@@ -1860,8 +1860,8 @@
                   "body": [
                     {
                       "type": "ReturnStatement",
-                      "start": 1604,
-                      "end": 1654,
+                      "start": 1558,
+                      "end": 1608,
                       "loc": {
                         "start": {
                           "line": 47,
@@ -1874,8 +1874,8 @@
                       },
                       "argument": {
                         "type": "CallExpression",
-                        "start": 1611,
-                        "end": 1654,
+                        "start": 1565,
+                        "end": 1608,
                         "loc": {
                           "start": {
                             "line": 47,
@@ -1888,8 +1888,8 @@
                         },
                         "callee": {
                           "type": "MemberExpression",
-                          "start": 1611,
-                          "end": 1624,
+                          "start": 1565,
+                          "end": 1578,
                           "loc": {
                             "start": {
                               "line": 47,
@@ -1902,8 +1902,8 @@
                           },
                           "object": {
                             "type": "Identifier",
-                            "start": 1611,
-                            "end": 1619,
+                            "start": 1565,
+                            "end": 1573,
                             "loc": {
                               "start": {
                                 "line": 47,
@@ -1919,8 +1919,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 1620,
-                            "end": 1624,
+                            "start": 1574,
+                            "end": 1578,
                             "loc": {
                               "start": {
                                 "line": 47,
@@ -1939,8 +1939,8 @@
                         "arguments": [
                           {
                             "type": "Identifier",
-                            "start": 1625,
-                            "end": 1629,
+                            "start": 1579,
+                            "end": 1583,
                             "loc": {
                               "start": {
                                 "line": 47,
@@ -1956,8 +1956,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1631,
-                            "end": 1635,
+                            "start": 1585,
+                            "end": 1589,
                             "loc": {
                               "start": {
                                 "line": 47,
@@ -1973,8 +1973,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1637,
-                            "end": 1643,
+                            "start": 1591,
+                            "end": 1597,
                             "loc": {
                               "start": {
                                 "line": 47,
@@ -1990,8 +1990,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1645,
-                            "end": 1653,
+                            "start": 1599,
+                            "end": 1607,
                             "loc": {
                               "start": {
                                 "line": 47,
@@ -2015,9 +2015,9 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-                    "start": 1058,
-                    "end": 1551,
+                    "value": "*\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   ",
+                    "start": 1024,
+                    "end": 1507,
                     "loc": {
                       "start": {
                         "line": 35,
@@ -2033,9 +2033,9 @@
                 "trailingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   ",
-                    "start": 1665,
-                    "end": 1904,
+                    "value": "*\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   ",
+                    "start": 1616,
+                    "end": 1848,
                     "loc": {
                       "start": {
                         "line": 50,
@@ -2051,8 +2051,8 @@
               },
               {
                 "type": "ClassMethod",
-                "start": 1908,
-                "end": 1978,
+                "start": 1851,
+                "end": 1919,
                 "loc": {
                   "start": {
                     "line": 58,
@@ -2067,8 +2067,8 @@
                 "computed": false,
                 "key": {
                   "type": "Identifier",
-                  "start": 1915,
-                  "end": 1921,
+                  "start": 1858,
+                  "end": 1864,
                   "loc": {
                     "start": {
                       "line": 58,
@@ -2090,8 +2090,8 @@
                 "params": [
                   {
                     "type": "Identifier",
-                    "start": 1922,
-                    "end": 1925,
+                    "start": 1865,
+                    "end": 1868,
                     "loc": {
                       "start": {
                         "line": 58,
@@ -2107,8 +2107,8 @@
                   },
                   {
                     "type": "Identifier",
-                    "start": 1927,
-                    "end": 1931,
+                    "start": 1870,
+                    "end": 1874,
                     "loc": {
                       "start": {
                         "line": 58,
@@ -2125,8 +2125,8 @@
                 ],
                 "body": {
                   "type": "BlockStatement",
-                  "start": 1933,
-                  "end": 1978,
+                  "start": 1876,
+                  "end": 1919,
                   "loc": {
                     "start": {
                       "line": 58,
@@ -2140,8 +2140,8 @@
                   "body": [
                     {
                       "type": "ReturnStatement",
-                      "start": 1940,
-                      "end": 1973,
+                      "start": 1882,
+                      "end": 1915,
                       "loc": {
                         "start": {
                           "line": 59,
@@ -2154,8 +2154,8 @@
                       },
                       "argument": {
                         "type": "CallExpression",
-                        "start": 1947,
-                        "end": 1973,
+                        "start": 1889,
+                        "end": 1915,
                         "loc": {
                           "start": {
                             "line": 59,
@@ -2168,8 +2168,8 @@
                         },
                         "callee": {
                           "type": "MemberExpression",
-                          "start": 1947,
-                          "end": 1962,
+                          "start": 1889,
+                          "end": 1904,
                           "loc": {
                             "start": {
                               "line": 59,
@@ -2182,8 +2182,8 @@
                           },
                           "object": {
                             "type": "Identifier",
-                            "start": 1947,
-                            "end": 1957,
+                            "start": 1889,
+                            "end": 1899,
                             "loc": {
                               "start": {
                                 "line": 59,
@@ -2199,8 +2199,8 @@
                           },
                           "property": {
                             "type": "Identifier",
-                            "start": 1958,
-                            "end": 1962,
+                            "start": 1900,
+                            "end": 1904,
                             "loc": {
                               "start": {
                                 "line": 59,
@@ -2219,8 +2219,8 @@
                         "arguments": [
                           {
                             "type": "Identifier",
-                            "start": 1963,
-                            "end": 1966,
+                            "start": 1905,
+                            "end": 1908,
                             "loc": {
                               "start": {
                                 "line": 59,
@@ -2236,8 +2236,8 @@
                           },
                           {
                             "type": "Identifier",
-                            "start": 1968,
-                            "end": 1972,
+                            "start": 1910,
+                            "end": 1914,
                             "loc": {
                               "start": {
                                 "line": 59,
@@ -2260,9 +2260,9 @@
                 "leadingComments": [
                   {
                     "type": "CommentBlock",
-                    "value": "*\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   ",
-                    "start": 1665,
-                    "end": 1904,
+                    "value": "*\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   ",
+                    "start": 1616,
+                    "end": 1848,
                     "loc": {
                       "start": {
                         "line": 50,
@@ -2281,9 +2281,9 @@
           "leadingComments": [
             {
               "type": "CommentBlock",
-              "value": "*\r\n * Types\r\n *\r\n * BBj masks factory\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n ",
-              "start": 338,
-              "end": 438,
+              "value": "*\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n ",
+              "start": 326,
+              "end": 420,
               "loc": {
                 "start": {
                   "line": 13,
@@ -2307,9 +2307,9 @@
   "comments": [
     {
       "type": "CommentBlock",
-      "value": "\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n ",
+      "value": "\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n ",
       "start": 0,
-      "end": 216,
+      "end": 210,
       "loc": {
         "start": {
           "line": 1,
@@ -2323,9 +2323,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Types\r\n *\r\n * BBj masks factory\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n ",
-      "start": 338,
-      "end": 438,
+      "value": "*\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n ",
+      "start": 326,
+      "end": 420,
       "loc": {
         "start": {
           "line": 13,
@@ -2339,9 +2339,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n   * Mask a number according to bbj masking rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-      "start": 457,
-      "end": 886,
+      "value": "*\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   *\n   * @return {String} number masked with the given mask\n   ",
+      "start": 437,
+      "end": 857,
       "loc": {
         "start": {
           "line": 21,
@@ -2355,9 +2355,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-      "start": 1058,
-      "end": 1551,
+      "value": "*\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   ",
+      "start": 1024,
+      "end": 1507,
       "loc": {
         "start": {
           "line": 35,
@@ -2371,9 +2371,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   ",
-      "start": 1665,
-      "end": 1904,
+      "value": "*\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   ",
+      "start": 1616,
+      "end": 1848,
       "loc": {
         "start": {
           "line": 50,
@@ -2389,9 +2389,9 @@
   "tokens": [
     {
       "type": "CommentBlock",
-      "value": "\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n ",
+      "value": "\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n ",
       "start": 0,
-      "end": 216,
+      "end": 210,
       "loc": {
         "start": {
           "line": 1,
@@ -2418,8 +2418,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 220,
-      "end": 226,
+      "start": 212,
+      "end": 218,
       "loc": {
         "start": {
           "line": 9,
@@ -2444,8 +2444,8 @@
         "binop": null
       },
       "value": "NumberMask",
-      "start": 227,
-      "end": 237,
+      "start": 219,
+      "end": 229,
       "loc": {
         "start": {
           "line": 9,
@@ -2470,8 +2470,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 238,
-      "end": 242,
+      "start": 230,
+      "end": 234,
       "loc": {
         "start": {
           "line": 9,
@@ -2497,8 +2497,8 @@
         "updateContext": null
       },
       "value": "../NumberMask",
-      "start": 243,
-      "end": 258,
+      "start": 235,
+      "end": 250,
       "loc": {
         "start": {
           "line": 9,
@@ -2525,8 +2525,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 260,
-      "end": 266,
+      "start": 251,
+      "end": 257,
       "loc": {
         "start": {
           "line": 10,
@@ -2551,8 +2551,8 @@
         "binop": null
       },
       "value": "DateMask",
-      "start": 267,
-      "end": 275,
+      "start": 258,
+      "end": 266,
       "loc": {
         "start": {
           "line": 10,
@@ -2577,8 +2577,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 276,
-      "end": 280,
+      "start": 267,
+      "end": 271,
       "loc": {
         "start": {
           "line": 10,
@@ -2604,8 +2604,8 @@
         "updateContext": null
       },
       "value": "../DateMask",
-      "start": 281,
-      "end": 294,
+      "start": 272,
+      "end": 285,
       "loc": {
         "start": {
           "line": 10,
@@ -2632,8 +2632,8 @@
         "updateContext": null
       },
       "value": "import",
-      "start": 296,
-      "end": 302,
+      "start": 286,
+      "end": 292,
       "loc": {
         "start": {
           "line": 11,
@@ -2658,8 +2658,8 @@
         "binop": null
       },
       "value": "StringMask",
-      "start": 303,
-      "end": 313,
+      "start": 293,
+      "end": 303,
       "loc": {
         "start": {
           "line": 11,
@@ -2684,8 +2684,8 @@
         "binop": null
       },
       "value": "from",
-      "start": 314,
-      "end": 318,
+      "start": 304,
+      "end": 308,
       "loc": {
         "start": {
           "line": 11,
@@ -2711,8 +2711,8 @@
         "updateContext": null
       },
       "value": "../StringMask",
-      "start": 319,
-      "end": 334,
+      "start": 309,
+      "end": 324,
       "loc": {
         "start": {
           "line": 11,
@@ -2726,9 +2726,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n * Types\r\n *\r\n * BBj masks factory\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n ",
-      "start": 338,
-      "end": 438,
+      "value": "*\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n ",
+      "start": 326,
+      "end": 420,
       "loc": {
         "start": {
           "line": 13,
@@ -2755,8 +2755,8 @@
         "updateContext": null
       },
       "value": "class",
-      "start": 440,
-      "end": 445,
+      "start": 421,
+      "end": 426,
       "loc": {
         "start": {
           "line": 20,
@@ -2781,8 +2781,8 @@
         "binop": null
       },
       "value": "Types",
-      "start": 446,
-      "end": 451,
+      "start": 427,
+      "end": 432,
       "loc": {
         "start": {
           "line": 20,
@@ -2806,8 +2806,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 452,
-      "end": 453,
+      "start": 433,
+      "end": 434,
       "loc": {
         "start": {
           "line": 20,
@@ -2821,9 +2821,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n   * Mask a number according to bbj masking rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-      "start": 457,
-      "end": 886,
+      "value": "*\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   *\n   * @return {String} number masked with the given mask\n   ",
+      "start": 437,
+      "end": 857,
       "loc": {
         "start": {
           "line": 21,
@@ -2848,8 +2848,8 @@
         "binop": null
       },
       "value": "static",
-      "start": 890,
-      "end": 896,
+      "start": 860,
+      "end": 866,
       "loc": {
         "start": {
           "line": 31,
@@ -2874,8 +2874,8 @@
         "binop": null
       },
       "value": "number",
-      "start": 897,
-      "end": 903,
+      "start": 867,
+      "end": 873,
       "loc": {
         "start": {
           "line": 31,
@@ -2899,8 +2899,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 903,
-      "end": 904,
+      "start": 873,
+      "end": 874,
       "loc": {
         "start": {
           "line": 31,
@@ -2925,8 +2925,8 @@
         "binop": null
       },
       "value": "number",
-      "start": 904,
-      "end": 910,
+      "start": 874,
+      "end": 880,
       "loc": {
         "start": {
           "line": 31,
@@ -2951,8 +2951,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 910,
-      "end": 911,
+      "start": 880,
+      "end": 881,
       "loc": {
         "start": {
           "line": 31,
@@ -2977,8 +2977,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 912,
-      "end": 916,
+      "start": 882,
+      "end": 886,
       "loc": {
         "start": {
           "line": 31,
@@ -3003,8 +3003,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 916,
-      "end": 917,
+      "start": 886,
+      "end": 887,
       "loc": {
         "start": {
           "line": 31,
@@ -3029,8 +3029,8 @@
         "binop": null
       },
       "value": "groupingSeparator",
-      "start": 918,
-      "end": 935,
+      "start": 888,
+      "end": 905,
       "loc": {
         "start": {
           "line": 31,
@@ -3056,8 +3056,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 936,
-      "end": 937,
+      "start": 906,
+      "end": 907,
       "loc": {
         "start": {
           "line": 31,
@@ -3083,8 +3083,8 @@
         "updateContext": null
       },
       "value": ",",
-      "start": 938,
-      "end": 941,
+      "start": 908,
+      "end": 911,
       "loc": {
         "start": {
           "line": 31,
@@ -3109,8 +3109,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 941,
-      "end": 942,
+      "start": 911,
+      "end": 912,
       "loc": {
         "start": {
           "line": 31,
@@ -3135,8 +3135,8 @@
         "binop": null
       },
       "value": "decimalSeparator",
-      "start": 943,
-      "end": 959,
+      "start": 913,
+      "end": 929,
       "loc": {
         "start": {
           "line": 31,
@@ -3162,8 +3162,8 @@
         "updateContext": null
       },
       "value": "=",
-      "start": 960,
-      "end": 961,
+      "start": 930,
+      "end": 931,
       "loc": {
         "start": {
           "line": 31,
@@ -3189,8 +3189,8 @@
         "updateContext": null
       },
       "value": ".",
-      "start": 962,
-      "end": 965,
+      "start": 932,
+      "end": 935,
       "loc": {
         "start": {
           "line": 31,
@@ -3214,8 +3214,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 965,
-      "end": 966,
+      "start": 935,
+      "end": 936,
       "loc": {
         "start": {
           "line": 31,
@@ -3239,8 +3239,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 967,
-      "end": 968,
+      "start": 937,
+      "end": 938,
       "loc": {
         "start": {
           "line": 31,
@@ -3267,8 +3267,8 @@
         "updateContext": null
       },
       "value": "return",
-      "start": 974,
-      "end": 980,
+      "start": 943,
+      "end": 949,
       "loc": {
         "start": {
           "line": 32,
@@ -3293,8 +3293,8 @@
         "binop": null
       },
       "value": "NumberMask",
-      "start": 981,
-      "end": 991,
+      "start": 950,
+      "end": 960,
       "loc": {
         "start": {
           "line": 32,
@@ -3319,8 +3319,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 991,
-      "end": 992,
+      "start": 960,
+      "end": 961,
       "loc": {
         "start": {
           "line": 32,
@@ -3345,8 +3345,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 992,
-      "end": 996,
+      "start": 961,
+      "end": 965,
       "loc": {
         "start": {
           "line": 32,
@@ -3370,8 +3370,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 996,
-      "end": 997,
+      "start": 965,
+      "end": 966,
       "loc": {
         "start": {
           "line": 32,
@@ -3396,8 +3396,8 @@
         "binop": null
       },
       "value": "number",
-      "start": 997,
-      "end": 1003,
+      "start": 966,
+      "end": 972,
       "loc": {
         "start": {
           "line": 32,
@@ -3422,8 +3422,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1003,
-      "end": 1004,
+      "start": 972,
+      "end": 973,
       "loc": {
         "start": {
           "line": 32,
@@ -3448,8 +3448,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1005,
-      "end": 1009,
+      "start": 974,
+      "end": 978,
       "loc": {
         "start": {
           "line": 32,
@@ -3474,8 +3474,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1009,
-      "end": 1010,
+      "start": 978,
+      "end": 979,
       "loc": {
         "start": {
           "line": 32,
@@ -3500,8 +3500,8 @@
         "binop": null
       },
       "value": "groupingSeparator",
-      "start": 1011,
-      "end": 1028,
+      "start": 980,
+      "end": 997,
       "loc": {
         "start": {
           "line": 32,
@@ -3526,8 +3526,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1028,
-      "end": 1029,
+      "start": 997,
+      "end": 998,
       "loc": {
         "start": {
           "line": 32,
@@ -3552,8 +3552,8 @@
         "binop": null
       },
       "value": "decimalSeparator",
-      "start": 1030,
-      "end": 1046,
+      "start": 999,
+      "end": 1015,
       "loc": {
         "start": {
           "line": 32,
@@ -3577,8 +3577,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1046,
-      "end": 1047,
+      "start": 1015,
+      "end": 1016,
       "loc": {
         "start": {
           "line": 32,
@@ -3602,8 +3602,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1051,
-      "end": 1052,
+      "start": 1019,
+      "end": 1020,
       "loc": {
         "start": {
           "line": 33,
@@ -3617,9 +3617,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n   * Mask a date according to bbj masking rules\r\n   *\r\n   * @param {String} date date as a string\r\n   * @param {String} mask mask as a string\r\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\r\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\r\n   *                          timezone\r\n   *\r\n   * @return {String} number masked with the given mask\r\n   ",
-      "start": 1058,
-      "end": 1551,
+      "value": "*\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   ",
+      "start": 1024,
+      "end": 1507,
       "loc": {
         "start": {
           "line": 35,
@@ -3644,8 +3644,8 @@
         "binop": null
       },
       "value": "static",
-      "start": 1555,
-      "end": 1561,
+      "start": 1510,
+      "end": 1516,
       "loc": {
         "start": {
           "line": 46,
@@ -3670,8 +3670,8 @@
         "binop": null
       },
       "value": "date",
-      "start": 1562,
-      "end": 1566,
+      "start": 1517,
+      "end": 1521,
       "loc": {
         "start": {
           "line": 46,
@@ -3695,8 +3695,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1566,
-      "end": 1567,
+      "start": 1521,
+      "end": 1522,
       "loc": {
         "start": {
           "line": 46,
@@ -3721,8 +3721,8 @@
         "binop": null
       },
       "value": "date",
-      "start": 1567,
-      "end": 1571,
+      "start": 1522,
+      "end": 1526,
       "loc": {
         "start": {
           "line": 46,
@@ -3747,8 +3747,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1571,
-      "end": 1572,
+      "start": 1526,
+      "end": 1527,
       "loc": {
         "start": {
           "line": 46,
@@ -3773,8 +3773,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1573,
-      "end": 1577,
+      "start": 1528,
+      "end": 1532,
       "loc": {
         "start": {
           "line": 46,
@@ -3799,8 +3799,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1577,
-      "end": 1578,
+      "start": 1532,
+      "end": 1533,
       "loc": {
         "start": {
           "line": 46,
@@ -3825,8 +3825,8 @@
         "binop": null
       },
       "value": "locale",
-      "start": 1579,
-      "end": 1585,
+      "start": 1534,
+      "end": 1540,
       "loc": {
         "start": {
           "line": 46,
@@ -3851,8 +3851,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1585,
-      "end": 1586,
+      "start": 1540,
+      "end": 1541,
       "loc": {
         "start": {
           "line": 46,
@@ -3877,8 +3877,8 @@
         "binop": null
       },
       "value": "timezone",
-      "start": 1587,
-      "end": 1595,
+      "start": 1542,
+      "end": 1550,
       "loc": {
         "start": {
           "line": 46,
@@ -3902,8 +3902,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1595,
-      "end": 1596,
+      "start": 1550,
+      "end": 1551,
       "loc": {
         "start": {
           "line": 46,
@@ -3927,8 +3927,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1597,
-      "end": 1598,
+      "start": 1552,
+      "end": 1553,
       "loc": {
         "start": {
           "line": 46,
@@ -3955,8 +3955,8 @@
         "updateContext": null
       },
       "value": "return",
-      "start": 1604,
-      "end": 1610,
+      "start": 1558,
+      "end": 1564,
       "loc": {
         "start": {
           "line": 47,
@@ -3981,8 +3981,8 @@
         "binop": null
       },
       "value": "DateMask",
-      "start": 1611,
-      "end": 1619,
+      "start": 1565,
+      "end": 1573,
       "loc": {
         "start": {
           "line": 47,
@@ -4007,8 +4007,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1619,
-      "end": 1620,
+      "start": 1573,
+      "end": 1574,
       "loc": {
         "start": {
           "line": 47,
@@ -4033,8 +4033,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1620,
-      "end": 1624,
+      "start": 1574,
+      "end": 1578,
       "loc": {
         "start": {
           "line": 47,
@@ -4058,8 +4058,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1624,
-      "end": 1625,
+      "start": 1578,
+      "end": 1579,
       "loc": {
         "start": {
           "line": 47,
@@ -4084,8 +4084,8 @@
         "binop": null
       },
       "value": "date",
-      "start": 1625,
-      "end": 1629,
+      "start": 1579,
+      "end": 1583,
       "loc": {
         "start": {
           "line": 47,
@@ -4110,8 +4110,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1629,
-      "end": 1630,
+      "start": 1583,
+      "end": 1584,
       "loc": {
         "start": {
           "line": 47,
@@ -4136,8 +4136,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1631,
-      "end": 1635,
+      "start": 1585,
+      "end": 1589,
       "loc": {
         "start": {
           "line": 47,
@@ -4162,8 +4162,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1635,
-      "end": 1636,
+      "start": 1589,
+      "end": 1590,
       "loc": {
         "start": {
           "line": 47,
@@ -4188,8 +4188,8 @@
         "binop": null
       },
       "value": "locale",
-      "start": 1637,
-      "end": 1643,
+      "start": 1591,
+      "end": 1597,
       "loc": {
         "start": {
           "line": 47,
@@ -4214,8 +4214,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1643,
-      "end": 1644,
+      "start": 1597,
+      "end": 1598,
       "loc": {
         "start": {
           "line": 47,
@@ -4240,8 +4240,8 @@
         "binop": null
       },
       "value": "timezone",
-      "start": 1645,
-      "end": 1653,
+      "start": 1599,
+      "end": 1607,
       "loc": {
         "start": {
           "line": 47,
@@ -4265,8 +4265,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1653,
-      "end": 1654,
+      "start": 1607,
+      "end": 1608,
       "loc": {
         "start": {
           "line": 47,
@@ -4290,8 +4290,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1658,
-      "end": 1659,
+      "start": 1611,
+      "end": 1612,
       "loc": {
         "start": {
           "line": 48,
@@ -4305,9 +4305,9 @@
     },
     {
       "type": "CommentBlock",
-      "value": "*\r\n   * Mask the given string with the given mask according to BBj rules`\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   ",
-      "start": 1665,
-      "end": 1904,
+      "value": "*\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   ",
+      "start": 1616,
+      "end": 1848,
       "loc": {
         "start": {
           "line": 50,
@@ -4332,8 +4332,8 @@
         "binop": null
       },
       "value": "static",
-      "start": 1908,
-      "end": 1914,
+      "start": 1851,
+      "end": 1857,
       "loc": {
         "start": {
           "line": 58,
@@ -4358,8 +4358,8 @@
         "binop": null
       },
       "value": "string",
-      "start": 1915,
-      "end": 1921,
+      "start": 1858,
+      "end": 1864,
       "loc": {
         "start": {
           "line": 58,
@@ -4383,8 +4383,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1921,
-      "end": 1922,
+      "start": 1864,
+      "end": 1865,
       "loc": {
         "start": {
           "line": 58,
@@ -4409,8 +4409,8 @@
         "binop": null
       },
       "value": "str",
-      "start": 1922,
-      "end": 1925,
+      "start": 1865,
+      "end": 1868,
       "loc": {
         "start": {
           "line": 58,
@@ -4435,8 +4435,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1925,
-      "end": 1926,
+      "start": 1868,
+      "end": 1869,
       "loc": {
         "start": {
           "line": 58,
@@ -4461,8 +4461,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1927,
-      "end": 1931,
+      "start": 1870,
+      "end": 1874,
       "loc": {
         "start": {
           "line": 58,
@@ -4486,8 +4486,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1931,
-      "end": 1932,
+      "start": 1874,
+      "end": 1875,
       "loc": {
         "start": {
           "line": 58,
@@ -4511,8 +4511,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1933,
-      "end": 1934,
+      "start": 1876,
+      "end": 1877,
       "loc": {
         "start": {
           "line": 58,
@@ -4539,8 +4539,8 @@
         "updateContext": null
       },
       "value": "return",
-      "start": 1940,
-      "end": 1946,
+      "start": 1882,
+      "end": 1888,
       "loc": {
         "start": {
           "line": 59,
@@ -4565,8 +4565,8 @@
         "binop": null
       },
       "value": "StringMask",
-      "start": 1947,
-      "end": 1957,
+      "start": 1889,
+      "end": 1899,
       "loc": {
         "start": {
           "line": 59,
@@ -4591,8 +4591,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1957,
-      "end": 1958,
+      "start": 1899,
+      "end": 1900,
       "loc": {
         "start": {
           "line": 59,
@@ -4617,8 +4617,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1958,
-      "end": 1962,
+      "start": 1900,
+      "end": 1904,
       "loc": {
         "start": {
           "line": 59,
@@ -4642,8 +4642,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1962,
-      "end": 1963,
+      "start": 1904,
+      "end": 1905,
       "loc": {
         "start": {
           "line": 59,
@@ -4668,8 +4668,8 @@
         "binop": null
       },
       "value": "str",
-      "start": 1963,
-      "end": 1966,
+      "start": 1905,
+      "end": 1908,
       "loc": {
         "start": {
           "line": 59,
@@ -4694,8 +4694,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 1966,
-      "end": 1967,
+      "start": 1908,
+      "end": 1909,
       "loc": {
         "start": {
           "line": 59,
@@ -4720,8 +4720,8 @@
         "binop": null
       },
       "value": "mask",
-      "start": 1968,
-      "end": 1972,
+      "start": 1910,
+      "end": 1914,
       "loc": {
         "start": {
           "line": 59,
@@ -4745,8 +4745,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1972,
-      "end": 1973,
+      "start": 1914,
+      "end": 1915,
       "loc": {
         "start": {
           "line": 59,
@@ -4770,8 +4770,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1977,
-      "end": 1978,
+      "start": 1918,
+      "end": 1919,
       "loc": {
         "start": {
           "line": 60,
@@ -4795,8 +4795,8 @@
         "postfix": false,
         "binop": null
       },
-      "start": 1980,
-      "end": 1981,
+      "start": 1920,
+      "end": 1921,
       "loc": {
         "start": {
           "line": 61,
@@ -4823,8 +4823,8 @@
         "updateContext": null
       },
       "value": "export",
-      "start": 1985,
-      "end": 1991,
+      "start": 1923,
+      "end": 1929,
       "loc": {
         "start": {
           "line": 63,
@@ -4851,8 +4851,8 @@
         "updateContext": null
       },
       "value": "default",
-      "start": 1992,
-      "end": 1999,
+      "start": 1930,
+      "end": 1937,
       "loc": {
         "start": {
           "line": 63,
@@ -4877,8 +4877,8 @@
         "binop": null
       },
       "value": "Types",
-      "start": 2000,
-      "end": 2005,
+      "start": 1938,
+      "end": 1943,
       "loc": {
         "start": {
           "line": 63,
@@ -4903,8 +4903,8 @@
         "binop": null,
         "updateContext": null
       },
-      "start": 2007,
-      "end": 2007,
+      "start": 1944,
+      "end": 1944,
       "loc": {
         "start": {
           "line": 64,

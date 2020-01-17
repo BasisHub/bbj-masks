@@ -10,6 +10,8 @@ import { utcToZonedTime } from 'date-fns-tz'
 import { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'
 
 const ASCII_CHARS = /[^\x20-\x7E]/g
+export const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/
+export const IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
 
 /**
  * Find out when the first day of the week based on the passed locale
@@ -40,6 +42,32 @@ export const getDayOfYear = date => {
   const day = Math.floor(diff / oneDay)
 
   return day
+}
+
+/**
+ * Takes incomplete iso string and return a complete one
+ *
+ * @param {String} date incomplete iso string 
+ *
+ * @return {String} complete iso string
+ */
+export const fixShortISO = date => {
+  let value = date
+
+  if (IS_TIME_REGEX.test(value)) {
+    value = `1970-01-01T${value}`
+    if (
+      /Z$/.test(value) === false &&
+      value.indexOf('+') < 0 &&
+      value.indexOf('-') < 0
+    ) {
+      value += 'Z'
+    }
+  } else if (IS_DATE_REGEX.test(value)) {
+    value = `${value}T00:00:00Z`
+  }
+
+  return value
 }
 
 /**
@@ -88,14 +116,8 @@ class DateMask {
     timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
     locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'
 
-    // check time
-    if (
-      /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/.test(
-        date
-      )
-    ) {
-      date = `1970-01-01T${date}`
-    }
+    // make sure we have a complete iso string
+    date = fixShortISO(date)
 
     const dateObject = utcToZonedTime(date, timezone)
     const translation = DateMask._buildTranslation({
