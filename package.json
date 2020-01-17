@@ -7,7 +7,7 @@
   "private": false,
   "scripts": {
     "watch": "./node_modules/.bin/webpack --watch --progress",
-    "watch:test": "./node_modules/.bin/mocha-webpack './test/**/*.js' --watch",
+    "test:watch": "./node_modules/.bin/mocha-webpack './test/**/*.js' --watch",
     "test": "./node_modules/.bin/mocha-webpack './test/**/*.js'",
     "build": "./node_modules/.bin/webpack && ./node_modules/.bin/esdoc"
   },
