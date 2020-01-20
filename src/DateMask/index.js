@@ -12,7 +12,8 @@ import DateMask, {
   getWeekStartByLocale,
   IS_TIME_REGEX,
   IS_DATE_REGEX,
-  fixShortISO
+  fixShortISO,
+  getTimezoneOrOffset
 } from './DateMask'
 
 export {
@@ -21,6 +22,7 @@ export {
   getWeekStartByLocale,
   IS_DATE_REGEX,
   IS_TIME_REGEX,
-  fixShortISO
+  fixShortISO,
+  getTimezoneOrOffset
 }
 export default DateMask

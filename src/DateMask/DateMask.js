@@ -70,6 +70,35 @@ export const fixShortISO = date => {
 }
 
 /**
+ * Get the browser timezone name , if not supported then the browser
+ * timezone offset formatted
+ *
+ * @return {String} timezone of offset
+ */
+export const getTimezoneOrOffset = () => {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  if (!timezone) {
+    const pad = (number, length) => {
+      var str = '' + number
+      while (str.length < length) {
+        str = '0' + str
+      }
+      return str
+    }
+
+    const offset = new Date().getTimezoneOffset()
+    offset =
+      (offset < 0 ? '+' : '-') + // Note the reversed sign!
+      pad(parseInt(Math.abs(offset / 60)), 2) +
+      pad(Math.abs(offset % 60), 2)
+
+    return offset
+  }
+
+  return timezone
+}
+
+/**
  * Get the Week Number in the passed date
  *
  * @param {Date} date - Date object
@@ -112,7 +141,7 @@ class DateMask {
     if (!date) return ''
     if (!mask) return date
 
-    timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+    timezone = timezone || getTimezoneOrOffset()
     locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'
 
     // make sure we have a complete iso string

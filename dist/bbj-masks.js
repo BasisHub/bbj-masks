@@ -810,6 +810,7 @@ function validateTimezone(hours, minutes) {
 /* unused harmony reexport IS_DATE_REGEX */
 /* unused harmony reexport IS_TIME_REGEX */
 /* unused harmony reexport fixShortISO */
+/* unused harmony reexport getTimezoneOrOffset */
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -1743,6 +1744,7 @@ function () {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getWeekStartByLocale; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getDayOfYear; });
 /* unused harmony export fixShortISO */
+/* unused harmony export getTimezoneOrOffset */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getWeekNumber; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_tz__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_weekstart__ = __webpack_require__(48);
@@ -1751,6 +1753,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
 
 /*
  * This file is part of bbj-masks lib.
@@ -1813,6 +1817,35 @@ var fixShortISO = function fixShortISO(date) {
   return value;
 };
 /**
+ * Get the browser timezone name , if not supported then the browser
+ * timezone offset formatted
+ *
+ * @return {String} timezone of offset
+ */
+
+var getTimezoneOrOffset = function getTimezoneOrOffset() {
+  var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  if (!timezone) {
+    var pad = function pad(number, length) {
+      var str = '' + number;
+
+      while (str.length < length) {
+        str = '0' + str;
+      }
+
+      return str;
+    };
+
+    var offset = new Date().getTimezoneOffset();
+    offset = (_readOnlyError("offset"), (offset < 0 ? '+' : '-') + // Note the reversed sign!
+    pad(parseInt(Math.abs(offset / 60)), 2) + pad(Math.abs(offset % 60), 2));
+    return offset;
+  }
+
+  return timezone;
+};
+/**
  * Get the Week Number in the passed date
  *
  * @param {Date} date - Date object
@@ -1862,7 +1895,7 @@ function () {
     value: function mask(date, _mask, locale, timezone) {
       if (!date) return '';
       if (!_mask) return date;
-      timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+      timezone = timezone || getTimezoneOrOffset();
       locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'; // make sure we have a complete iso string
 
       date = fixShortISO(date);

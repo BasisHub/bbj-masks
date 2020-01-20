@@ -48,6 +48,12 @@ window.esdocSearchIndex = [
     "function"
   ],
   [
+    "bbj-masks/src/datemask/datemask.js~gettimezoneoroffset",
+    "function/index.html#static-function-getTimezoneOrOffset",
+    "<span>getTimezoneOrOffset</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",
+    "function"
+  ],
+  [
     "bbj-masks/src/datemask/datemask.js~getweeknumber",
     "function/index.html#static-function-getWeekNumber",
     "<span>getWeekNumber</span> <span class=\"search-result-import-path\">bbj-masks/src/DateMask/DateMask.js</span>",

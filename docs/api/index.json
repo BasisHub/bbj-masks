@@ -567,7 +567,7 @@
     "__docId__": 48,
     "kind": "file",
     "name": "src/DateMask/DateMask.js",
-    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport { utcToZonedTime } from 'date-fns-tz'\nimport { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'\n\nexport const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/\nexport const IS_DATE_REGEX = /^(([12]\\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$/\n\n/**\n * Find out when the first day of the week based on the passed locale\n *\n * @param {locale} locale\n *\n * @return {Number} a number 0 = sunday , 1 = monday , ....\n */\nexport const getWeekStartByLocale = locale => {\n  return originalGetWeekStartByLocale(locale)\n}\n\n/**\n *  Get day number in the year of the passed date\n *\n * @param {Date} date\n *\n * @return {Number} day number\n */\nexport const getDayOfYear = date => {\n  const start = new Date(date.getFullYear(), 0, 0)\n\n  const diff =\n    date -\n    start +\n    (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000\n  const oneDay = 1000 * 60 * 60 * 24\n  const day = Math.floor(diff / oneDay)\n\n  return day\n}\n\n/**\n * Takes incomplete iso string and return a complete one\n *\n * @param {String} date incomplete iso string\n *\n * @return {String} complete iso string\n */\nexport const fixShortISO = date => {\n  let value = date\n\n  if (IS_TIME_REGEX.test(value)) {\n    value = `1970-01-01T${value}`\n    if (\n      /Z$/.test(value) === false &&\n      value.indexOf('+') < 0 &&\n      value.indexOf('-') < 0\n    ) {\n      value += 'Z'\n    }\n  } else if (IS_DATE_REGEX.test(value)) {\n    value = `${value}T00:00:00Z`\n  }\n\n  return value\n}\n\n/**\n * Get the Week Number in the passed date\n *\n * @param {Date} date - Date object\n * @param {Number} weekStart A number which defines the first day of the week (0  = sunday , 1 = monday , ...)\n *\n * @returns {Number} the week number\n */\nexport const getWeekNumber = function(date, weekStart) {\n  const d = new Date(\n    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())\n  )\n  const dayNum = d.getUTCDay() - (weekStart - 1) || 7\n  d.setUTCDate(d.getUTCDate() + 4 - dayNum)\n  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))\n  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)\n}\n\n/**\n * DateMask\n *\n * A javascript implementation for BBj dates masking\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass DateMask {\n  /**\n   * Mask date\n   *\n   * Mask the passed date with the passed mask\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} a date masked with the given mask\n   */\n  static mask(date, mask, locale, timezone) {\n    if (!date) return ''\n    if (!mask) return date\n\n    timezone = timezone || Intl.DateTimeFormat().resolvedOptions().timeZone\n    locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'\n\n    // make sure we have a complete iso string\n    date = fixShortISO(date)\n\n    const dateObject = utcToZonedTime(date, timezone)\n    const translation = DateMask._buildTranslation({\n      year: dateObject.getFullYear(),\n      month: dateObject.getMonth() + 1,\n      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' }).format(\n        dateObject\n      ),\n      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' }).format(\n        dateObject\n      ),\n      day: dateObject.getDate(),\n      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' }).format(\n        dateObject\n      ),\n      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' }).format(\n        dateObject\n      ),\n      minutes: dateObject.getMinutes(),\n      seconds: dateObject.getSeconds(),\n      get hours24() {\n        return dateObject.getHours()\n      },\n      get hours12() {\n        return this.hours24 % 12 || 12\n      },\n      dayOfYear: getDayOfYear(dateObject),\n      dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS\n      weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),\n      locale,\n      timezone\n    })\n\n    let result = mask\n    for (var k in translation) {\n      result = result.replace(new RegExp('(%' + k + ')', 'g'), translation[k])\n    }\n\n    return result\n  }\n\n  /**\n   * Get a map object which contains all possible forms of masks\n   *\n   * @param {Object} dateDetails date\n   *\n   * @return {Object} forms masks\n   */\n  static _buildTranslation(dateDetails) {\n    return {\n      // year\n      Yz: dateDetails.year.toString().substr(-2),\n      Ys: dateDetails.year,\n      Yl: dateDetails.year,\n      Yp: String.fromCharCode(dateDetails.year),\n      Yd: dateDetails.year,\n      Y: dateDetails.year,\n\n      // month\n      Mz:\n        String(dateDetails.month).length == 1\n          ? '0' + dateDetails.month\n          : dateDetails.month,\n      Ms: dateDetails.monthShort,\n      Ml: dateDetails.monthLong,\n      Mp: String.fromCharCode(dateDetails.month),\n      Md: dateDetails.month,\n      M: dateDetails.month,\n\n      // day\n      Dz:\n        String(dateDetails.day).length == 1\n          ? '0' + dateDetails.day\n          : dateDetails.day,\n      Ds: dateDetails.dayShort,\n      Dl: dateDetails.dayLong,\n      Dp: String.fromCharCode(dateDetails.day),\n      Dd: dateDetails.day,\n      D: dateDetails.day,\n\n      // hour 24\n      Hz:\n        String(dateDetails.hours24).length == 1\n          ? '0' + dateDetails.hours24\n          : dateDetails.hours24,\n      Hs: dateDetails.hours24,\n      Hl: dateDetails.hours24,\n      Hp: String.fromCharCode(dateDetails.hours24),\n      Hd: dateDetails.hours24,\n      H: dateDetails.hours24,\n\n      // hour 12\n      hz:\n        String(dateDetails.hours12).length == 1\n          ? '0' + dateDetails.hours12\n          : dateDetails.hours12,\n      hs: dateDetails.hours12,\n      hl: dateDetails.hours12,\n      hp: String.fromCharCode(dateDetails.hours12),\n      hd: dateDetails.hours12,\n      h: dateDetails.hours12,\n\n      // minutes\n      mz:\n        String(dateDetails.minutes).length == 1\n          ? '0' + dateDetails.minutes\n          : dateDetails.minutes,\n      ms: dateDetails.minutes,\n      ml: dateDetails.minutes,\n      mp: String.fromCharCode(dateDetails.minutes),\n      md: dateDetails.minutes,\n      m: dateDetails.minutes,\n\n      // seconds\n      sz:\n        String(dateDetails.seconds).length == 1\n          ? '0' + dateDetails.seconds\n          : dateDetails.seconds,\n      ss: dateDetails.seconds,\n      sl: dateDetails.seconds,\n      sp: String.fromCharCode(dateDetails.seconds),\n      sd: dateDetails.seconds,\n      s: dateDetails.seconds,\n\n      // AM , PM\n      PP: dateDetails.hours24 > 12 ? 'PM' : 'PM',\n      P: dateDetails.hours24 > 12 ? 'PM' : 'AM',\n      pp: dateDetails.hours24 > 12 ? 'pm' : 'am',\n      p: dateDetails.hours24 > 12 ? 'pm' : 'am',\n\n      // Day of Year\n      Jz:\n        String(dateDetails.dayOfYear).length == 1\n          ? '0' + dateDetails.dayOfYear\n          : dateDetails.dayOfYear,\n      Js: dateDetails.dayOfYear,\n      Jl: dateDetails.dayOfYear,\n      Jd: dateDetails.dayOfYear,\n      J: dateDetails.dayOfYear,\n\n      // Day Of Week\n      Wz:\n        String(dateDetails.dayOfWeek).length == 1\n          ? '0' + dateDetails.dayOfWeek\n          : dateDetails.dayOfWeek,\n      Ws: dateDetails.dayOfWeek,\n      Wl: dateDetails.dayOfWeek,\n      Wp: String.fromCharCode(dateDetails.dayOfWeek),\n      Wd: dateDetails.dayOfWeek,\n      W: dateDetails.dayOfWeek,\n\n      // week number\n      wz:\n        String(dateDetails.weekNumber).length == 1\n          ? '0' + dateDetails.weekNumber\n          : dateDetails.weekNumber,\n      ws: dateDetails.weekNumber,\n      wl: dateDetails.weekNumber,\n      wp: String.fromCharCode(dateDetails.weekNumber),\n      wd: dateDetails.weekNumber,\n      w: dateDetails.weekNumber\n    }\n  }\n}\n\nexport default DateMask\n",
+    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport { utcToZonedTime } from 'date-fns-tz'\nimport { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'\n\nexport const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/\nexport const IS_DATE_REGEX = /^(([12]\\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01]))$/\n\n/**\n * Find out when the first day of the week based on the passed locale\n *\n * @param {locale} locale\n *\n * @return {Number} a number 0 = sunday , 1 = monday , ....\n */\nexport const getWeekStartByLocale = locale => {\n  return originalGetWeekStartByLocale(locale)\n}\n\n/**\n *  Get day number in the year of the passed date\n *\n * @param {Date} date\n *\n * @return {Number} day number\n */\nexport const getDayOfYear = date => {\n  const start = new Date(date.getFullYear(), 0, 0)\n\n  const diff =\n    date -\n    start +\n    (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000\n  const oneDay = 1000 * 60 * 60 * 24\n  const day = Math.floor(diff / oneDay)\n\n  return day\n}\n\n/**\n * Takes incomplete iso string and return a complete one\n *\n * @param {String} date incomplete iso string\n *\n * @return {String} complete iso string\n */\nexport const fixShortISO = date => {\n  let value = date\n\n  if (IS_TIME_REGEX.test(value)) {\n    value = `1970-01-01T${value}`\n    if (\n      /Z$/.test(value) === false &&\n      value.indexOf('+') < 0 &&\n      value.indexOf('-') < 0\n    ) {\n      value += 'Z'\n    }\n  } else if (IS_DATE_REGEX.test(value)) {\n    value = `${value}T00:00:00Z`\n  }\n\n  return value\n}\n\n/**\n * Get the browser timezone name , if not supported then the browser\n * timezone offset formatted\n *\n * @return {String} timezone of offset\n */\nexport const getTimezoneOrOffset = () => {\n  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone\n  if (!timezone) {\n    const pad = (number, length) => {\n      var str = '' + number\n      while (str.length < length) {\n        str = '0' + str\n      }\n      return str\n    }\n\n    const offset = new Date().getTimezoneOffset()\n    offset =\n      (offset < 0 ? '+' : '-') + // Note the reversed sign!\n      pad(parseInt(Math.abs(offset / 60)), 2) +\n      pad(Math.abs(offset % 60), 2)\n\n    return offset\n  }\n\n  return timezone\n}\n\n/**\n * Get the Week Number in the passed date\n *\n * @param {Date} date - Date object\n * @param {Number} weekStart A number which defines the first day of the week (0  = sunday , 1 = monday , ...)\n *\n * @returns {Number} the week number\n */\nexport const getWeekNumber = function(date, weekStart) {\n  const d = new Date(\n    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())\n  )\n  const dayNum = d.getUTCDay() - (weekStart - 1) || 7\n  d.setUTCDate(d.getUTCDate() + 4 - dayNum)\n  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))\n  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7)\n}\n\n/**\n * DateMask\n *\n * A javascript implementation for BBj dates masking\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass DateMask {\n  /**\n   * Mask date\n   *\n   * Mask the passed date with the passed mask\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} a date masked with the given mask\n   */\n  static mask(date, mask, locale, timezone) {\n    if (!date) return ''\n    if (!mask) return date\n\n    timezone = timezone || getTimezoneOrOffset()\n    locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'\n\n    // make sure we have a complete iso string\n    date = fixShortISO(date)\n\n    const dateObject = utcToZonedTime(date, timezone)\n    const translation = DateMask._buildTranslation({\n      year: dateObject.getFullYear(),\n      month: dateObject.getMonth() + 1,\n      monthShort: new Intl.DateTimeFormat([locale], { month: 'short' }).format(\n        dateObject\n      ),\n      monthLong: new Intl.DateTimeFormat([locale], { month: 'long' }).format(\n        dateObject\n      ),\n      day: dateObject.getDate(),\n      dayShort: new Intl.DateTimeFormat([locale], { weekday: 'short' }).format(\n        dateObject\n      ),\n      dayLong: new Intl.DateTimeFormat([locale], { weekday: 'long' }).format(\n        dateObject\n      ),\n      minutes: dateObject.getMinutes(),\n      seconds: dateObject.getSeconds(),\n      get hours24() {\n        return dateObject.getHours()\n      },\n      get hours12() {\n        return this.hours24 % 12 || 12\n      },\n      dayOfYear: getDayOfYear(dateObject),\n      dayOfWeek: dateObject.getDay() + 1, // Sunday = 1 in BBj but Sunday = 0 in JS\n      weekNumber: getWeekNumber(dateObject, getWeekStartByLocale(locale)),\n      locale,\n      timezone\n    })\n\n    let result = mask\n    for (var k in translation) {\n      result = result.replace(new RegExp('(%' + k + ')', 'g'), translation[k])\n    }\n\n    return result\n  }\n\n  /**\n   * Get a map object which contains all possible forms of masks\n   *\n   * @param {Object} dateDetails date\n   *\n   * @return {Object} forms masks\n   */\n  static _buildTranslation(dateDetails) {\n    return {\n      // year\n      Yz: dateDetails.year.toString().substr(-2),\n      Ys: dateDetails.year,\n      Yl: dateDetails.year,\n      Yp: String.fromCharCode(dateDetails.year),\n      Yd: dateDetails.year,\n      Y: dateDetails.year,\n\n      // month\n      Mz:\n        String(dateDetails.month).length == 1\n          ? '0' + dateDetails.month\n          : dateDetails.month,\n      Ms: dateDetails.monthShort,\n      Ml: dateDetails.monthLong,\n      Mp: String.fromCharCode(dateDetails.month),\n      Md: dateDetails.month,\n      M: dateDetails.month,\n\n      // day\n      Dz:\n        String(dateDetails.day).length == 1\n          ? '0' + dateDetails.day\n          : dateDetails.day,\n      Ds: dateDetails.dayShort,\n      Dl: dateDetails.dayLong,\n      Dp: String.fromCharCode(dateDetails.day),\n      Dd: dateDetails.day,\n      D: dateDetails.day,\n\n      // hour 24\n      Hz:\n        String(dateDetails.hours24).length == 1\n          ? '0' + dateDetails.hours24\n          : dateDetails.hours24,\n      Hs: dateDetails.hours24,\n      Hl: dateDetails.hours24,\n      Hp: String.fromCharCode(dateDetails.hours24),\n      Hd: dateDetails.hours24,\n      H: dateDetails.hours24,\n\n      // hour 12\n      hz:\n        String(dateDetails.hours12).length == 1\n          ? '0' + dateDetails.hours12\n          : dateDetails.hours12,\n      hs: dateDetails.hours12,\n      hl: dateDetails.hours12,\n      hp: String.fromCharCode(dateDetails.hours12),\n      hd: dateDetails.hours12,\n      h: dateDetails.hours12,\n\n      // minutes\n      mz:\n        String(dateDetails.minutes).length == 1\n          ? '0' + dateDetails.minutes\n          : dateDetails.minutes,\n      ms: dateDetails.minutes,\n      ml: dateDetails.minutes,\n      mp: String.fromCharCode(dateDetails.minutes),\n      md: dateDetails.minutes,\n      m: dateDetails.minutes,\n\n      // seconds\n      sz:\n        String(dateDetails.seconds).length == 1\n          ? '0' + dateDetails.seconds\n          : dateDetails.seconds,\n      ss: dateDetails.seconds,\n      sl: dateDetails.seconds,\n      sp: String.fromCharCode(dateDetails.seconds),\n      sd: dateDetails.seconds,\n      s: dateDetails.seconds,\n\n      // AM , PM\n      PP: dateDetails.hours24 > 12 ? 'PM' : 'PM',\n      P: dateDetails.hours24 > 12 ? 'PM' : 'AM',\n      pp: dateDetails.hours24 > 12 ? 'pm' : 'am',\n      p: dateDetails.hours24 > 12 ? 'pm' : 'am',\n\n      // Day of Year\n      Jz:\n        String(dateDetails.dayOfYear).length == 1\n          ? '0' + dateDetails.dayOfYear\n          : dateDetails.dayOfYear,\n      Js: dateDetails.dayOfYear,\n      Jl: dateDetails.dayOfYear,\n      Jd: dateDetails.dayOfYear,\n      J: dateDetails.dayOfYear,\n\n      // Day Of Week\n      Wz:\n        String(dateDetails.dayOfWeek).length == 1\n          ? '0' + dateDetails.dayOfWeek\n          : dateDetails.dayOfWeek,\n      Ws: dateDetails.dayOfWeek,\n      Wl: dateDetails.dayOfWeek,\n      Wp: String.fromCharCode(dateDetails.dayOfWeek),\n      Wd: dateDetails.dayOfWeek,\n      W: dateDetails.dayOfWeek,\n\n      // week number\n      wz:\n        String(dateDetails.weekNumber).length == 1\n          ? '0' + dateDetails.weekNumber\n          : dateDetails.weekNumber,\n      ws: dateDetails.weekNumber,\n      wl: dateDetails.weekNumber,\n      wp: String.fromCharCode(dateDetails.weekNumber),\n      wd: dateDetails.weekNumber,\n      w: dateDetails.weekNumber\n    }\n  }\n}\n\nexport default DateMask\n",
     "static": true,
     "longname": "/mnt/d/Github/bbj-masks/src/DateMask/DateMask.js",
     "access": "public",
@@ -725,6 +725,31 @@
   {
     "__docId__": 54,
     "kind": "function",
+    "name": "getTimezoneOrOffset",
+    "memberof": "src/DateMask/DateMask.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "src/DateMask/DateMask.js~getTimezoneOrOffset",
+    "access": "public",
+    "export": true,
+    "importPath": "bbj-masks/src/DateMask/DateMask.js",
+    "importStyle": "{getTimezoneOrOffset}",
+    "description": "Get the browser timezone name , if not supported then the browser\ntimezone offset formatted",
+    "lineNumber": 78,
+    "return": {
+      "nullable": null,
+      "types": [
+        "String"
+      ],
+      "spread": false,
+      "description": "timezone of offset"
+    },
+    "params": []
+  },
+  {
+    "__docId__": 55,
+    "kind": "function",
     "name": "getWeekNumber",
     "memberof": "src/DateMask/DateMask.js",
     "generator": false,
@@ -736,7 +761,7 @@
     "importPath": "bbj-masks/src/DateMask/DateMask.js",
     "importStyle": "{getWeekNumber}",
     "description": "Get the Week Number in the passed date",
-    "lineNumber": 80,
+    "lineNumber": 109,
     "unknown": [
       {
         "tagName": "@returns",
@@ -775,7 +800,7 @@
     }
   },
   {
-    "__docId__": 55,
+    "__docId__": 56,
     "kind": "class",
     "name": "DateMask",
     "memberof": "src/DateMask/DateMask.js",
@@ -786,7 +811,7 @@
     "importPath": "bbj-masks/src/DateMask/DateMask.js",
     "importStyle": "DateMask",
     "description": "DateMask\n\nA javascript implementation for BBj dates masking",
-    "lineNumber": 97,
+    "lineNumber": 126,
     "unknown": [
       {
         "tagName": "@author",
@@ -796,7 +821,7 @@
     "interface": false
   },
   {
-    "__docId__": 56,
+    "__docId__": 57,
     "kind": "method",
     "name": "mask",
     "memberof": "src/DateMask/DateMask.js~DateMask",
@@ -806,7 +831,7 @@
     "longname": "src/DateMask/DateMask.js~DateMask.mask",
     "access": "public",
     "description": "Mask date\n\nMask the passed date with the passed mask",
-    "lineNumber": 111,
+    "lineNumber": 140,
     "params": [
       {
         "nullable": null,
@@ -863,7 +888,7 @@
     }
   },
   {
-    "__docId__": 57,
+    "__docId__": 58,
     "kind": "method",
     "name": "_buildTranslation",
     "memberof": "src/DateMask/DateMask.js~DateMask",
@@ -873,7 +898,7 @@
     "longname": "src/DateMask/DateMask.js~DateMask._buildTranslation",
     "access": "private",
     "description": "Get a map object which contains all possible forms of masks",
-    "lineNumber": 168,
+    "lineNumber": 197,
     "params": [
       {
         "nullable": null,
@@ -897,7 +922,7 @@
     "ignore": true
   },
   {
-    "__docId__": 58,
+    "__docId__": 59,
     "kind": "file",
     "name": "src/NumberMask/NumberMask.js",
     "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking \r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass NumberMask {\r\n  /**\r\n   * Mask the given number with the given mask according to BBj rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @returns {String} the masked number\r\n   */\r\n  static mask(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\r\n    const maskLength = mask.length\r\n    if (0 === maskLength) return number\r\n\r\n    // Get magnitude and precision of MASK\r\n    let maskBeforeDecimal = 0\r\n    let maskAfterDecimal = 0\r\n    let foundDecimal = false\r\n    for (let i = 0; i < maskLength; ++i) {\r\n      const m = mask.charAt(i)\r\n      if (m == '0' || m == '#') {\r\n        if (foundDecimal) ++maskAfterDecimal\r\n        else ++maskBeforeDecimal\r\n      } else if (m == '.') foundDecimal = true\r\n    }\r\n\r\n    let num = NumberMask._round(number, maskAfterDecimal)\r\n    let digits = NumberMask._toCharArray(num)\r\n\r\n    // Get magnitude and precision of NUMBER\r\n    let numLen = digits.length\r\n    let numBeforeDecimal = 0\r\n    let numAfterDecimal = 0\r\n    foundDecimal = false\r\n    for (let i = 0; i < numLen; i++) {\r\n      if (digits[i] == '.') foundDecimal = true\r\n      else {\r\n        if (foundDecimal) ++numAfterDecimal\r\n        else ++numBeforeDecimal\r\n      }\r\n    }\r\n\r\n    // always ignore mask overflow\r\n    if (numBeforeDecimal > maskBeforeDecimal) return number.toString()\r\n\r\n    // round if mask is for a lower precision number\r\n    if (numAfterDecimal > maskAfterDecimal) {\r\n      num = NumberMask._round(num, maskAfterDecimal)\r\n      digits = NumberMask._toCharArray(num)\r\n      numLen = digits.length\r\n\r\n      // Get new magnitude and precision of NUMBER\r\n      numBeforeDecimal = 0\r\n      numAfterDecimal = 0\r\n      foundDecimal = false\r\n      for (let i = 0; i < numLen; i++) {\r\n        if (digits[i] == '.') foundDecimal = true\r\n        else {\r\n          if (foundDecimal) ++numAfterDecimal\r\n          else ++numBeforeDecimal\r\n        }\r\n      }\r\n\r\n      // always ignore mask overflow\r\n      if (numBeforeDecimal > maskBeforeDecimal) {\r\n        return number.toString()\r\n      }\r\n    }\r\n\r\n    const isNegative = NumberMask._getSign(num) === -1\r\n    let emitDecimal = numLen > 0 || mask.indexOf('0') >= 0\r\n    let foundZero = false\r\n    let currency = false\r\n    let buffer = ''\r\n    foundDecimal = false\r\n\r\n    for (let numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {\r\n      let m = mask.charAt(maskPos)\r\n      switch (m) {\r\n        case '0':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            buffer += '0'\r\n            foundZero = true\r\n          }\r\n          break\r\n\r\n        case '#':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            if (foundDecimal) buffer += '0'\r\n          }\r\n          break\r\n\r\n        case ',':\r\n          if (foundZero || numPos > 0) buffer += groupingSeparator\r\n          break\r\n\r\n        case '-':\r\n        case '(':\r\n        case ')':\r\n          if (isNegative) buffer += m\r\n          break\r\n\r\n        case '+':\r\n          buffer += isNegative ? '-' : '+'\r\n          break\r\n\r\n        case '.':\r\n          if (foundDecimal) buffer += m\r\n          else {\r\n            if (emitDecimal) buffer += decimalSeparator\r\n            foundDecimal = true\r\n            ++numPos\r\n          }\r\n          break\r\n\r\n        case 'C':\r\n          if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {\r\n            if (isNegative) buffer += 'CR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'D':\r\n          if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {\r\n            buffer += isNegative ? 'CR' : 'DR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'B':\r\n          buffer += ' '\r\n          break\r\n\r\n        default:\r\n          buffer += m\r\n          break\r\n      }\r\n    }\r\n\r\n    return buffer\r\n  }\r\n\r\n  static _shift(number, precision, reverseShift) {\r\n    if (reverseShift) precision = -precision\r\n    var numArray = ('' + number).split('e')\r\n    return +(\r\n      numArray[0] +\r\n      'e' +\r\n      (numArray[1] ? +numArray[1] + precision : precision)\r\n    )\r\n  }\r\n\r\n  static _round(number, precision) {\r\n    return NumberMask._shift(\r\n      Math.round(NumberMask._shift(number, precision, false)),\r\n      precision,\r\n      true\r\n    )\r\n  }\r\n\r\n  static _toCharArray(number) {\r\n    const signum = NumberMask._getSign(number)\r\n    let chars = []\r\n\r\n    if (signum !== 0) {\r\n      let string = signum < 0 ? `${-1 * number.toString()}` : number.toString()\r\n\r\n      if (string.length > 1 && string.charAt(0) == '0')\r\n        string = string.substring(1)\r\n\r\n      // The string contains only [0-9] and '.'\r\n      chars = string.split('')\r\n    }\r\n\r\n    return chars\r\n  }\r\n\r\n  /**\r\n   * Returns the sign of a number\r\n   *\r\n   * @param {Number} x number\r\n   * @returns {Number} A number representing the sign of the given argument.\r\n   *                   If the argument is a positive number, negative number, positive zero\r\n   *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.\r\n   *                   Otherwise, NaN is returned.\r\n   */\r\n  static _getSign(x) {\r\n    return (x > 0) - (x < 0) || +x\r\n  }\r\n}\r\n\r\nexport default NumberMask",
@@ -908,7 +933,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 59,
+    "__docId__": 60,
     "kind": "class",
     "name": "NumberMask",
     "memberof": "src/NumberMask/NumberMask.js",
@@ -929,7 +954,7 @@
     "interface": false
   },
   {
-    "__docId__": 60,
+    "__docId__": 61,
     "kind": "method",
     "name": "mask",
     "memberof": "src/NumberMask/NumberMask.js~NumberMask",
@@ -1002,7 +1027,7 @@
     }
   },
   {
-    "__docId__": 61,
+    "__docId__": 62,
     "kind": "method",
     "name": "_shift",
     "memberof": "src/NumberMask/NumberMask.js~NumberMask",
@@ -1042,7 +1067,7 @@
     }
   },
   {
-    "__docId__": 62,
+    "__docId__": 63,
     "kind": "method",
     "name": "_round",
     "memberof": "src/NumberMask/NumberMask.js~NumberMask",
@@ -1076,7 +1101,7 @@
     }
   },
   {
-    "__docId__": 63,
+    "__docId__": 64,
     "kind": "method",
     "name": "_toCharArray",
     "memberof": "src/NumberMask/NumberMask.js~NumberMask",
@@ -1104,7 +1129,7 @@
     }
   },
   {
-    "__docId__": 64,
+    "__docId__": 65,
     "kind": "method",
     "name": "_getSign",
     "memberof": "src/NumberMask/NumberMask.js~NumberMask",
@@ -1144,7 +1169,7 @@
     "ignore": true
   },
   {
-    "__docId__": 65,
+    "__docId__": 66,
     "kind": "file",
     "name": "src/StringMask/StringMask.js",
     "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nconst isNumberRegex = /^\\d+$/\r\nconst isWhitespaceRegex = /\\s/\r\nconst punctuationList = '!\"#$%&\\'()*+,-./:;<=>?@[]^_`{|}~'\r\n\r\n/**\r\n * Check if the given string is in lower case\r\n *\r\n * @param {String} str\r\n */\r\nconst isLowerCase = str => {\r\n  return str == str.toLowerCase() && str != str.toUpperCase()\r\n}\r\n\r\n/**\r\n * Check if the given string is in upper case\r\n *\r\n * @param {String} str\r\n */\r\nconst isUpperCase = str => {\r\n  return str == str.toUpperCase() && str != str.toLowerCase()\r\n}\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass StringMask {\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   *\r\n   * @returns {String} the masked string\r\n   */\r\n  static mask(str, mask) {\r\n    str = String(str)\r\n    mask = String(mask)\r\n    const maskLen = mask.length\r\n    const strLen = str.length\r\n\r\n    if (strLen > maskLen) return str // friendly silent fail\r\n\r\n    const result = new Array(maskLen)\r\n    let strPos = 0 // to keep track of the current position in the str\r\n    let maskByte = ''\r\n    let strByte = ''\r\n\r\n    for (let i = 0; i < maskLen; i++) {\r\n      maskByte = mask.charAt(i)\r\n      strByte = str.charAt(strPos)\r\n      switch (maskByte) {\r\n        case 'X': // match any character\r\n          result[i] = strPos < strLen ? strByte : ' '\r\n          ++strPos\r\n          break\r\n\r\n        case 'A': // match letter; force upper case\r\n          result[i] =\r\n            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))\r\n              ? strByte.toUpperCase() // force upper case\r\n              : ' '\r\n          ++strPos\r\n          break\r\n\r\n        case 'a': // match letter\r\n          result[i] =\r\n            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))\r\n              ? strByte\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case '0': // match digit\r\n          result[i] =\r\n            strPos < strLen && isNumberRegex.test(strByte) ? strByte : ' '\r\n          ++strPos\r\n          break\r\n        case 'Z': // match letter or digit; force upper case\r\n          result[i] =\r\n            strPos < strLen &&\r\n            (isNumberRegex.test(strByte) ||\r\n              isLowerCase(strByte) ||\r\n              isUpperCase(strByte))\r\n              ? strByte.toUpperCase() // force upper case\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case 'z': // match letter or digit\r\n          result[i] =\r\n            strPos < strLen &&\r\n            (isNumberRegex.test(strByte) ||\r\n              isLowerCase(strByte) ||\r\n              isUpperCase(strByte))\r\n              ? strByte\r\n              : ' '\r\n          ++strPos\r\n          break\r\n        case 'U': // match letter (force upper case), digit, whitespace or punctuation.\r\n          if (isLowerCase(strByte)) {\r\n            result[i] = strByte.toUpperCase()\r\n          } else if (\r\n            isUpperCase(strByte) ||\r\n            isNumberRegex.test(strByte) ||\r\n            isWhitespaceRegex.test(strByte) ||\r\n            punctuationList.indexOf(strByte) > -1\r\n          ) {\r\n            result[i] = strByte\r\n          } else {\r\n            result[i] = ' '\r\n          }\r\n          ++strPos\r\n          break\r\n        default:\r\n            result[i] = maskByte\r\n          break\r\n      }\r\n    }\r\n\r\n    return result.join('')\r\n  }\r\n}\r\n\r\nexport default StringMask\r\n",
@@ -1155,7 +1180,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 66,
+    "__docId__": 67,
     "kind": "variable",
     "name": "isNumberRegex",
     "memberof": "src/StringMask/StringMask.js",
@@ -1176,7 +1201,7 @@
     "ignore": true
   },
   {
-    "__docId__": 67,
+    "__docId__": 68,
     "kind": "variable",
     "name": "isWhitespaceRegex",
     "memberof": "src/StringMask/StringMask.js",
@@ -1197,7 +1222,7 @@
     "ignore": true
   },
   {
-    "__docId__": 68,
+    "__docId__": 69,
     "kind": "variable",
     "name": "punctuationList",
     "memberof": "src/StringMask/StringMask.js",
@@ -1218,7 +1243,7 @@
     "ignore": true
   },
   {
-    "__docId__": 69,
+    "__docId__": 70,
     "kind": "function",
     "name": "isLowerCase",
     "memberof": "src/StringMask/StringMask.js",
@@ -1252,7 +1277,7 @@
     "ignore": true
   },
   {
-    "__docId__": 70,
+    "__docId__": 71,
     "kind": "function",
     "name": "isUpperCase",
     "memberof": "src/StringMask/StringMask.js",
@@ -1286,7 +1311,7 @@
     "ignore": true
   },
   {
-    "__docId__": 71,
+    "__docId__": 72,
     "kind": "class",
     "name": "StringMask",
     "memberof": "src/StringMask/StringMask.js",
@@ -1307,7 +1332,7 @@
     "interface": false
   },
   {
-    "__docId__": 72,
+    "__docId__": 73,
     "kind": "method",
     "name": "mask",
     "memberof": "src/StringMask/StringMask.js~StringMask",
@@ -1356,7 +1381,7 @@
     }
   },
   {
-    "__docId__": 73,
+    "__docId__": 74,
     "kind": "file",
     "name": "src/Types/Types.js",
     "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport NumberMask from '../NumberMask'\nimport DateMask from '../DateMask'\nimport StringMask from '../StringMask'\n\n/**\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass Types {\n  /**\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   *\n   * @return {String} number masked with the given mask\n   */\n  static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\n    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)\n  }\n\n  /**\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   */\n  static date(date, mask, locale, timezone) {\n    return DateMask.mask(date, mask, locale, timezone)\n  }\n\n  /**\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   */\n  static string(str, mask) {\n    return StringMask.mask(str, mask)\n  }\n}\n\nexport default Types\n",
@@ -1367,7 +1392,7 @@
     "lineNumber": 1
   },
   {
-    "__docId__": 74,
+    "__docId__": 75,
     "kind": "class",
     "name": "Types",
     "memberof": "src/Types/Types.js",
@@ -1388,7 +1413,7 @@
     "interface": false
   },
   {
-    "__docId__": 75,
+    "__docId__": 76,
     "kind": "method",
     "name": "number",
     "memberof": "src/Types/Types.js~Types",
@@ -1455,7 +1480,7 @@
     }
   },
   {
-    "__docId__": 76,
+    "__docId__": 77,
     "kind": "method",
     "name": "date",
     "memberof": "src/Types/Types.js~Types",
@@ -1522,7 +1547,7 @@
     }
   },
   {
-    "__docId__": 77,
+    "__docId__": 78,
     "kind": "method",
     "name": "string",
     "memberof": "src/Types/Types.js~Types",
