@@ -86,7 +86,7 @@ export const getTimezoneOrOffset = () => {
       return str
     }
 
-    const offset = new Date().getTimezoneOffset()
+    let offset = new Date().getTimezoneOffset()
     offset =
       (offset < 0 ? '+' : '-') + // Note the reversed sign!
       pad(parseInt(Math.abs(offset / 60)), 2) +
