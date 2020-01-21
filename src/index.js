@@ -32,4 +32,5 @@ const Utils = {
   }
 }
 
-export { NumberMask, DateMask, StringMask, Types, Utils }
+export default Types
+export { NumberMask, DateMask, StringMask, Utils }
