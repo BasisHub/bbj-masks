@@ -1,19 +1,22 @@
 # [2.0.0](https://github.com/BasisHub/bbj-masks/compare/v1.8.0...v2.0.0) (2020-01-21)
 
+
 ### Bug Fixes
 
-- cannot detect default timezone in IE11 ([5da9288](https://github.com/BasisHub/bbj-masks/commit/5da92884d5c303b9d7674ce00ed2ec252b0e594f))
-- Date format has invisible characters in IE11 ([147a617](https://github.com/BasisHub/bbj-masks/commit/147a61716fb478ea294aa0685ff34caed4b525c9))
-- date mask cannot complete short iso strings ([d3b2ca3](https://github.com/BasisHub/bbj-masks/commit/d3b2ca35ee330fc1f3542a4968d65b3986a60f8b))
-- fixShortISO cannot handle offset in short dates ([fca30e3](https://github.com/BasisHub/bbj-masks/commit/fca30e3efb0054ca2604120c2ebfdaa64e4e95b5))
-- IE11 - getTimezoneOrOffset() -> "offset" is read-only ([10c6181](https://github.com/BasisHub/bbj-masks/commit/10c6181cdfdaccd1bea59924cbdcfca80ec96d93))
+* Cannot detect default timezone in IE11 ([5da9288](https://github.com/BasisHub/bbj-masks/commit/5da92884d5c303b9d7674ce00ed2ec252b0e594f))
+* Date format has invisible characters in IE11 ([147a617](https://github.com/BasisHub/bbj-masks/commit/147a61716fb478ea294aa0685ff34caed4b525c9))
+* date mask cannot complete short iso strings ([d3b2ca3](https://github.com/BasisHub/bbj-masks/commit/d3b2ca35ee330fc1f3542a4968d65b3986a60f8b))
+* DateMaks.mask does check if date is instance of Date before passing ([0a5601d](https://github.com/BasisHub/bbj-masks/commit/0a5601d03913f2799db0aa5e1e236cde1f10fd09))
+* fixShortISO cannot handle offset in short dates ([fca30e3](https://github.com/BasisHub/bbj-masks/commit/fca30e3efb0054ca2604120c2ebfdaa64e4e95b5))
+* IE11 - getTimezoneOrOffset() -> "offset" is read-only ([10c6181](https://github.com/BasisHub/bbj-masks/commit/10c6181cdfdaccd1bea59924cbdcfca80ec96d93))
+
 
 ### Features
 
-- add strings format support ([4e594e9](https://github.com/BasisHub/bbj-masks/commit/4e594e9201c1cd2a0be4b72cc06231d917c7c4b9))
-- add support for time strings formatting ([67bf95e](https://github.com/BasisHub/bbj-masks/commit/67bf95ef9ad703d20c9e04227d79aba5fe0a0016))
-- add support for week numbers ([024d29d](https://github.com/BasisHub/bbj-masks/commit/024d29d2112e39f2a14b652129b7cdd2aaa1f09a))
-- Parse date with timezone and locale ([103126c](https://github.com/BasisHub/bbj-masks/commit/103126c0c0bccd5c13aa9fab41817422c5fb0038))
+* add strings format support ([4e594e9](https://github.com/BasisHub/bbj-masks/commit/4e594e9201c1cd2a0be4b72cc06231d917c7c4b9))
+* add support for time strings formatting ([67bf95e](https://github.com/BasisHub/bbj-masks/commit/67bf95ef9ad703d20c9e04227d79aba5fe0a0016))
+* add support for week numbers ([024d29d](https://github.com/BasisHub/bbj-masks/commit/024d29d2112e39f2a14b652129b7cdd2aaa1f09a))
+* Parse date with timezone and locale ([103126c](https://github.com/BasisHub/bbj-masks/commit/103126c0c0bccd5c13aa9fab41817422c5fb0038))
 
 ## v1.8.0 - 22/08/2018
 

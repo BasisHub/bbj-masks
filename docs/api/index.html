@@ -90,23 +90,17 @@ const formattedString = BBj.Masks.Types.string(
 ) // -&gt; ab-cde-fg</code>
 </code></pre>
 <p><strong>With ES6 modules</strong></p>
-<pre><code class="lang-js"><code class="source-code prettyprint">import Types from &apos;bbj-masks&apos;
+<pre><code class="lang-js"><code class="source-code prettyprint">import Types , { NumberMask, DateMask, StringMask} from &apos;bbj-masks&apos;
 
-const formattedNumber = Types.number(
-  -5000.123456789,
-  &apos;$ -#,##0.######&apos;
-) // -&gt; $ -5,000.123457
+Types.number(-5000.123456789,&apos;$ -#,##0.######&apos;) 
+Types.date(&apos;2018-02-15T14:01:06Z&apos;,&apos;%Yz - %Mz - %Dz&apos;)
+Types.string(&apos;abcdefg&apos;,&apos;XX-XXX-XX&apos;)
 
-const formattedDate = Types.date(
-  &apos;2018-02-15T14:01:06Z&apos;,
-  &apos;%Yz - %Mz - %Dz&apos;
-) // -&gt; 18 - 02 - 15
+NumberMask.mask(-5000.123456789,&apos;$ -#,##0.######&apos;) 
 
-const formattedString = Types.string(
-  &apos;abcdefg&apos;,
-  &apos;XX-XXX-XX&apos;
-) // -&gt; ab-cde-fg
-</code>
+DateMask.mask(&apos;2018-02-15T14:01:06Z&apos;,&apos;%Yz - %Mz - %Dz&apos;) 
+
+StringMask.mask(&apos;abcdefg&apos;,&apos;XX-XXX-XX&apos;) </code>
 </code></pre>
 <h2 id="-a-href--https---documentation-basis-com-basishelp-webhelp-commands-date-function-bbj-htm--date-masks--a-"><a href="https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm">Date Masks</a></h2><table>
 <thead>
