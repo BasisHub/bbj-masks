@@ -77,17 +77,36 @@ $ yarn add BasisHub/bbj-masks</code>
 </code></pre><h2 id="usage">Usage</h2><pre><code class="lang-js"><code class="source-code prettyprint">const formattedNumber = BBj.Masks.Types.number(
   -5000.123456789,
   &apos;$ -#,##0.######&apos;
-)
-console.log(formattedNumber) // -&gt; $ -5,000.123457
+) // -&gt; $ -5,000.123457
 
 const formattedDate = BBj.Masks.Types.date(
   &apos;2018-02-15T14:01:06Z&apos;,
   &apos;%Yz - %Mz - %Dz&apos;
-)
-console.log(formattedDate) // -&gt; 18 - 02 - 15
+) // -&gt; 18 - 02 - 15
 
-const formattedString = BBj.Masks.Types.string(&apos;abcdefg&apos;, &apos;XX-XXX-XX&apos;)
-console.log(formattedString) // -&gt; ab-cde-fg</code>
+const formattedString = BBj.Masks.Types.string(
+  &apos;abcdefg&apos;,
+  &apos;XX-XXX-XX&apos;
+) // -&gt; ab-cde-fg</code>
+</code></pre>
+<p><strong>With ES6 modules</strong></p>
+<pre><code class="lang-js"><code class="source-code prettyprint">import Types from &apos;bbj-masks&apos;
+
+const formattedNumber = Types.number(
+  -5000.123456789,
+  &apos;$ -#,##0.######&apos;
+) // -&gt; $ -5,000.123457
+
+const formattedDate = Types.date(
+  &apos;2018-02-15T14:01:06Z&apos;,
+  &apos;%Yz - %Mz - %Dz&apos;
+) // -&gt; 18 - 02 - 15
+
+const formattedString = Types.string(
+  &apos;abcdefg&apos;,
+  &apos;XX-XXX-XX&apos;
+) // -&gt; ab-cde-fg
+</code>
 </code></pre>
 <h2 id="-a-href--https---documentation-basis-com-basishelp-webhelp-commands-date-function-bbj-htm--date-masks--a-"><a href="https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm">Date Masks</a></h2><table>
 <thead>

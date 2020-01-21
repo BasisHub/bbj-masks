@@ -143,7 +143,7 @@ class DateMask {
     locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'
 
     // make sure we have a complete iso string
-    date = fixShortISO(date)
+    date = date instanceof Date ? date : fixShortISO(date)
 
     const dateObject = utcToZonedTime(date, timezone)
     const translation = DateMask._buildTranslation({

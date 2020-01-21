@@ -1473,7 +1473,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NumberMask", function() { return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DateMask", function() { return __WEBPACK_IMPORTED_MODULE_1__DateMask__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StringMask", function() { return __WEBPACK_IMPORTED_MODULE_2__StringMask__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Types", function() { return __WEBPACK_IMPORTED_MODULE_3__Types__["a"]; });
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -1496,6 +1495,7 @@ var Utils = {
     getTimezoneOrOffset: __WEBPACK_IMPORTED_MODULE_1__DateMask__["f" /* getTimezoneOrOffset */]
   }
 };
+/* harmony default export */ __webpack_exports__["default"] = (__WEBPACK_IMPORTED_MODULE_3__Types__["a" /* default */]);
 
 
 /***/ }),
@@ -1902,7 +1902,7 @@ function () {
       timezone = timezone || getTimezoneOrOffset();
       locale = locale || Intl.DateTimeFormat().resolvedOptions().locale || 'en-US'; // make sure we have a complete iso string
 
-      date = fixShortISO(date);
+      date = date instanceof Date ? date : fixShortISO(date);
       var dateObject = Object(__WEBPACK_IMPORTED_MODULE_0_date_fns_tz__["a" /* utcToZonedTime */])(date, timezone);
 
       var translation = DateMask._buildTranslation({
