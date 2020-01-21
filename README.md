@@ -47,23 +47,17 @@ const formattedString = BBj.Masks.Types.string(
 **With ES6 modules**
 
 ```js
-import Types from 'bbj-masks'
+import Types , { NumberMask, DateMask, StringMask} from 'bbj-masks'
 
-const formattedNumber = Types.number(
-  -5000.123456789,
-  '$ -#,##0.######'
-) // -> $ -5,000.123457
+Types.number(-5000.123456789,'$ -#,##0.######') 
+Types.date('2018-02-15T14:01:06Z','%Yz - %Mz - %Dz')
+Types.string('abcdefg','XX-XXX-XX')
 
-const formattedDate = Types.date(
-  '2018-02-15T14:01:06Z',
-  '%Yz - %Mz - %Dz'
-) // -> 18 - 02 - 15
+NumberMask.mask(-5000.123456789,'$ -#,##0.######') 
 
-const formattedString = Types.string(
-  'abcdefg',
-  'XX-XXX-XX'
-) // -> ab-cde-fg
+DateMask.mask('2018-02-15T14:01:06Z','%Yz - %Mz - %Dz') 
 
+StringMask.mask('abcdefg','XX-XXX-XX') 
 ```
 
 ## [Date Masks](https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm)
