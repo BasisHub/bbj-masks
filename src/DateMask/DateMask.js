@@ -10,7 +10,7 @@ import { utcToZonedTime } from 'date-fns-tz'
 import { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'
 
 export const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/
-export const IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/
+export const IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?))$/
 
 /**
  * Find out when the first day of the week based on the passed locale
@@ -52,18 +52,16 @@ export const getDayOfYear = date => {
  */
 export const fixShortISO = date => {
   let value = date
+  let offset = (value.match(/z$|[+\-]\d\d:\d\d$/i) || [])[0]
+  if (!offset) {
+    offset = 'Z'
+    value += offset
+  }
 
   if (IS_TIME_REGEX.test(value)) {
     value = `1970-01-01T${value}`
-    if (
-      /Z$/.test(value) === false &&
-      value.indexOf('+') < 0 &&
-      value.indexOf('-') < 0
-    ) {
-      value += 'Z'
-    }
   } else if (IS_DATE_REGEX.test(value)) {
-    value = `${value}T00:00:00Z`
+    value = `${value.split(offset)[0]}T00:00:00${offset}`
   }
 
   return value

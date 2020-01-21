@@ -804,13 +804,13 @@ function validateTimezone(hours, minutes) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__DateMask__ = __webpack_require__(17);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["e"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["g"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["h"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["d"]; });
-/* unused harmony reexport IS_DATE_REGEX */
-/* unused harmony reexport IS_TIME_REGEX */
-/* unused harmony reexport fixShortISO */
-/* unused harmony reexport getTimezoneOrOffset */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_0__DateMask__["f"]; });
 /*
  * This file is part of bbj-masks lib.
  * (c) Basis Europe <eu@basis.com>
@@ -820,7 +820,7 @@ function validateTimezone(hours, minutes) {
  */
 
 
-/* harmony default export */ __webpack_exports__["a"] = (__WEBPACK_IMPORTED_MODULE_0__DateMask__["a" /* default */]);
+/* harmony default export */ __webpack_exports__["c"] = (__WEBPACK_IMPORTED_MODULE_0__DateMask__["c" /* default */]);
 
 /***/ }),
 /* 8 */
@@ -1471,7 +1471,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__StringMask__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Types__ = __webpack_require__(53);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "NumberMask", function() { return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DateMask", function() { return __WEBPACK_IMPORTED_MODULE_1__DateMask__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "DateMask", function() { return __WEBPACK_IMPORTED_MODULE_1__DateMask__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "StringMask", function() { return __WEBPACK_IMPORTED_MODULE_2__StringMask__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Types", function() { return __WEBPACK_IMPORTED_MODULE_3__Types__["a"]; });
 /*
@@ -1487,9 +1487,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 var Utils = {
   Dates: {
-    getDayOfYear: __WEBPACK_IMPORTED_MODULE_1__DateMask__["b" /* getDayOfYear */],
-    getWeekNumber: __WEBPACK_IMPORTED_MODULE_1__DateMask__["c" /* getWeekNumber */],
-    getWeekStartByLocale: __WEBPACK_IMPORTED_MODULE_1__DateMask__["d" /* getWeekStartByLocale */]
+    getDayOfYear: __WEBPACK_IMPORTED_MODULE_1__DateMask__["e" /* getDayOfYear */],
+    getWeekNumber: __WEBPACK_IMPORTED_MODULE_1__DateMask__["g" /* getWeekNumber */],
+    getWeekStartByLocale: __WEBPACK_IMPORTED_MODULE_1__DateMask__["h" /* getWeekStartByLocale */],
+    IS_DATE_REGEX: __WEBPACK_IMPORTED_MODULE_1__DateMask__["a" /* IS_DATE_REGEX */],
+    IS_TIME_REGEX: __WEBPACK_IMPORTED_MODULE_1__DateMask__["b" /* IS_TIME_REGEX */],
+    fixShortISO: __WEBPACK_IMPORTED_MODULE_1__DateMask__["d" /* fixShortISO */],
+    getTimezoneOrOffset: __WEBPACK_IMPORTED_MODULE_1__DateMask__["f" /* getTimezoneOrOffset */]
   }
 };
 
@@ -1739,13 +1743,13 @@ function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* unused harmony export IS_TIME_REGEX */
-/* unused harmony export IS_DATE_REGEX */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return getWeekStartByLocale; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return getDayOfYear; });
-/* unused harmony export fixShortISO */
-/* unused harmony export getTimezoneOrOffset */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return getWeekNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return IS_TIME_REGEX; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return IS_DATE_REGEX; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return getWeekStartByLocale; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return getDayOfYear; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return fixShortISO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return getTimezoneOrOffset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return getWeekNumber; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_date_fns_tz__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_weekstart__ = __webpack_require__(48);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1753,8 +1757,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
 
 /*
  * This file is part of bbj-masks lib.
@@ -1766,7 +1768,7 @@ function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only")
 
 
 var IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/;
-var IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/;
+var IS_DATE_REGEX = /^(([12]\d{3})-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?))$/;
 /**
  * Find out when the first day of the week based on the passed locale
  *
@@ -1803,15 +1805,17 @@ var getDayOfYear = function getDayOfYear(date) {
 
 var fixShortISO = function fixShortISO(date) {
   var value = date;
+  var offset = (value.match(/z$|[+\-]\d\d:\d\d$/i) || [])[0];
+
+  if (!offset) {
+    offset = 'Z';
+    value += offset;
+  }
 
   if (IS_TIME_REGEX.test(value)) {
     value = "1970-01-01T".concat(value);
-
-    if (/Z$/.test(value) === false && value.indexOf('+') < 0 && value.indexOf('-') < 0) {
-      value += 'Z';
-    }
   } else if (IS_DATE_REGEX.test(value)) {
-    value = "".concat(value, "T00:00:00Z");
+    value = "".concat(value.split(offset)[0], "T00:00:00").concat(offset);
   }
 
   return value;
@@ -1838,8 +1842,8 @@ var getTimezoneOrOffset = function getTimezoneOrOffset() {
     };
 
     var offset = new Date().getTimezoneOffset();
-    offset = (_readOnlyError("offset"), (offset < 0 ? '+' : '-') + // Note the reversed sign!
-    pad(parseInt(Math.abs(offset / 60)), 2) + pad(Math.abs(offset % 60), 2));
+    offset = (offset < 0 ? '+' : '-') + // Note the reversed sign!
+    pad(parseInt(Math.abs(offset / 60)), 2) + pad(Math.abs(offset % 60), 2);
     return offset;
   }
 
@@ -2037,7 +2041,7 @@ function () {
   return DateMask;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = (DateMask);
+/* harmony default export */ __webpack_exports__["c"] = (DateMask);
 
 /***/ }),
 /* 18 */
@@ -5366,7 +5370,7 @@ function () {
   }, {
     key: "date",
     value: function date(_date, mask, locale, timezone) {
-      return __WEBPACK_IMPORTED_MODULE_1__DateMask__["a" /* default */].mask(_date, mask, locale, timezone);
+      return __WEBPACK_IMPORTED_MODULE_1__DateMask__["c" /* default */].mask(_date, mask, locale, timezone);
     }
     /**
      * Mask the given string with the given mask according to BBj rules`

@@ -7,11 +7,14 @@
  */
 
 import NumberMask from './NumberMask'
-import {
+import DateMask, {
   getDayOfYear,
   getWeekNumber,
   getWeekStartByLocale,
-  default as DateMask
+  IS_DATE_REGEX,
+  IS_TIME_REGEX,
+  fixShortISO,
+  getTimezoneOrOffset
 } from './DateMask'
 
 import StringMask from './StringMask'
@@ -21,7 +24,11 @@ const Utils = {
   Dates: {
     getDayOfYear,
     getWeekNumber,
-    getWeekStartByLocale
+    getWeekStartByLocale,
+    IS_DATE_REGEX,
+    IS_TIME_REGEX,
+    fixShortISO,
+    getTimezoneOrOffset
   }
 }
 
