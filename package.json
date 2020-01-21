@@ -9,7 +9,7 @@
     "watch": "./node_modules/.bin/webpack --watch --progress",
     "test:watch": "./node_modules/.bin/mocha-webpack './test/**/*.js' --watch",
     "test": "./node_modules/.bin/mocha-webpack './test/**/*.js'",
-    "build": "./node_modules/.bin/webpack && ./node_modules/.bin/esdoc"
+    "build": "./node_modules/.bin/mocha-webpack './test/**/*.js' && ./node_modules/.bin/webpack && ./node_modules/.bin/esdoc"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
