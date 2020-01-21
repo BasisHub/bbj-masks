@@ -1,7 +1,7 @@
 {
   "name": "bbj-masks",
   "description": "A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.",
-  "main": "dist/bbj-masks.min.js",
+  "main": "src/index.js",
   "version": "2.0.0",
   "private": false,
   "scripts": {
