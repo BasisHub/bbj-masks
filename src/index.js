@@ -33,4 +33,4 @@ const Utils = {
 }
 
 export default Types
-export { NumberMask, DateMask, StringMask, Utils }
+export { Types, NumberMask, DateMask, StringMask, Utils }
