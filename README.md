@@ -31,17 +31,39 @@ $ yarn add BasisHub/bbj-masks
 const formattedNumber = BBj.Masks.Types.number(
   -5000.123456789,
   '$ -#,##0.######'
-)
-console.log(formattedNumber) // -> $ -5,000.123457
+) // -> $ -5,000.123457
 
 const formattedDate = BBj.Masks.Types.date(
   '2018-02-15T14:01:06Z',
   '%Yz - %Mz - %Dz'
-)
-console.log(formattedDate) // -> 18 - 02 - 15
+) // -> 18 - 02 - 15
 
-const formattedString = BBj.Masks.Types.string('abcdefg', 'XX-XXX-XX')
-console.log(formattedString) // -> ab-cde-fg
+const formattedString = BBj.Masks.Types.string(
+  'abcdefg',
+  'XX-XXX-XX'
+) // -> ab-cde-fg
+```
+
+**With ES6 modules**
+
+```js
+import Types from 'bbj-masks'
+
+const formattedNumber = Types.number(
+  -5000.123456789,
+  '$ -#,##0.######'
+) // -> $ -5,000.123457
+
+const formattedDate = Types.date(
+  '2018-02-15T14:01:06Z',
+  '%Yz - %Mz - %Dz'
+) // -> 18 - 02 - 15
+
+const formattedString = Types.string(
+  'abcdefg',
+  'XX-XXX-XX'
+) // -> ab-cde-fg
+
 ```
 
 ## [Date Masks](https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm)
