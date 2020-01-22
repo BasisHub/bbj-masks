@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-import { utcToZonedTime } from 'date-fns-tz'
+import utcToZonedTime from 'date-fns-tz/utcToZonedTime'
 import { getWeekStartByLocale as originalGetWeekStartByLocale } from 'weekstart'
 
 export const IS_TIME_REGEX = /^(2[0-3]|[01][0-9]):?([0-5][0-9]):?([0-5][0-9])(Z|[+-](?:2[0-3]|[01][0-9])(?::?(?:[0-5][0-9]))?)$/
