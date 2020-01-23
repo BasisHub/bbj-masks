@@ -925,7 +925,7 @@
     "__docId__": 59,
     "kind": "file",
     "name": "src/NumberMask/NumberMask.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking \r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass NumberMask {\r\n  /**\r\n   * Mask the given number with the given mask according to BBj rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   *\r\n   * @returns {String} the masked number\r\n   */\r\n  static mask(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\r\n    const maskLength = mask.length\r\n    if (0 === maskLength) return number\r\n\r\n    // Get magnitude and precision of MASK\r\n    let maskBeforeDecimal = 0\r\n    let maskAfterDecimal = 0\r\n    let foundDecimal = false\r\n    for (let i = 0; i < maskLength; ++i) {\r\n      const m = mask.charAt(i)\r\n      if (m == '0' || m == '#') {\r\n        if (foundDecimal) ++maskAfterDecimal\r\n        else ++maskBeforeDecimal\r\n      } else if (m == '.') foundDecimal = true\r\n    }\r\n\r\n    let num = NumberMask._round(number, maskAfterDecimal)\r\n    let digits = NumberMask._toCharArray(num)\r\n\r\n    // Get magnitude and precision of NUMBER\r\n    let numLen = digits.length\r\n    let numBeforeDecimal = 0\r\n    let numAfterDecimal = 0\r\n    foundDecimal = false\r\n    for (let i = 0; i < numLen; i++) {\r\n      if (digits[i] == '.') foundDecimal = true\r\n      else {\r\n        if (foundDecimal) ++numAfterDecimal\r\n        else ++numBeforeDecimal\r\n      }\r\n    }\r\n\r\n    // always ignore mask overflow\r\n    if (numBeforeDecimal > maskBeforeDecimal) return number.toString()\r\n\r\n    // round if mask is for a lower precision number\r\n    if (numAfterDecimal > maskAfterDecimal) {\r\n      num = NumberMask._round(num, maskAfterDecimal)\r\n      digits = NumberMask._toCharArray(num)\r\n      numLen = digits.length\r\n\r\n      // Get new magnitude and precision of NUMBER\r\n      numBeforeDecimal = 0\r\n      numAfterDecimal = 0\r\n      foundDecimal = false\r\n      for (let i = 0; i < numLen; i++) {\r\n        if (digits[i] == '.') foundDecimal = true\r\n        else {\r\n          if (foundDecimal) ++numAfterDecimal\r\n          else ++numBeforeDecimal\r\n        }\r\n      }\r\n\r\n      // always ignore mask overflow\r\n      if (numBeforeDecimal > maskBeforeDecimal) {\r\n        return number.toString()\r\n      }\r\n    }\r\n\r\n    const isNegative = NumberMask._getSign(num) === -1\r\n    let emitDecimal = numLen > 0 || mask.indexOf('0') >= 0\r\n    let foundZero = false\r\n    let currency = false\r\n    let buffer = ''\r\n    foundDecimal = false\r\n\r\n    for (let numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {\r\n      let m = mask.charAt(maskPos)\r\n      switch (m) {\r\n        case '0':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            buffer += '0'\r\n            foundZero = true\r\n          }\r\n          break\r\n\r\n        case '#':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {\r\n            buffer += digits[numPos]\r\n            ++numPos\r\n          } else {\r\n            if (foundDecimal) buffer += '0'\r\n          }\r\n          break\r\n\r\n        case ',':\r\n          if (foundZero || numPos > 0) buffer += groupingSeparator\r\n          break\r\n\r\n        case '-':\r\n        case '(':\r\n        case ')':\r\n          if (isNegative) buffer += m\r\n          break\r\n\r\n        case '+':\r\n          buffer += isNegative ? '-' : '+'\r\n          break\r\n\r\n        case '.':\r\n          if (foundDecimal) buffer += m\r\n          else {\r\n            if (emitDecimal) buffer += decimalSeparator\r\n            foundDecimal = true\r\n            ++numPos\r\n          }\r\n          break\r\n\r\n        case 'C':\r\n          if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {\r\n            if (isNegative) buffer += 'CR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'D':\r\n          if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {\r\n            buffer += isNegative ? 'CR' : 'DR'\r\n            ++maskPos\r\n          } else buffer += m\r\n          break\r\n\r\n        case 'B':\r\n          buffer += ' '\r\n          break\r\n\r\n        default:\r\n          buffer += m\r\n          break\r\n      }\r\n    }\r\n\r\n    return buffer\r\n  }\r\n\r\n  static _shift(number, precision, reverseShift) {\r\n    if (reverseShift) precision = -precision\r\n    var numArray = ('' + number).split('e')\r\n    return +(\r\n      numArray[0] +\r\n      'e' +\r\n      (numArray[1] ? +numArray[1] + precision : precision)\r\n    )\r\n  }\r\n\r\n  static _round(number, precision) {\r\n    return NumberMask._shift(\r\n      Math.round(NumberMask._shift(number, precision, false)),\r\n      precision,\r\n      true\r\n    )\r\n  }\r\n\r\n  static _toCharArray(number) {\r\n    const signum = NumberMask._getSign(number)\r\n    let chars = []\r\n\r\n    if (signum !== 0) {\r\n      let string = signum < 0 ? `${-1 * number.toString()}` : number.toString()\r\n\r\n      if (string.length > 1 && string.charAt(0) == '0')\r\n        string = string.substring(1)\r\n\r\n      // The string contains only [0-9] and '.'\r\n      chars = string.split('')\r\n    }\r\n\r\n    return chars\r\n  }\r\n\r\n  /**\r\n   * Returns the sign of a number\r\n   *\r\n   * @param {Number} x number\r\n   * @returns {Number} A number representing the sign of the given argument.\r\n   *                   If the argument is a positive number, negative number, positive zero\r\n   *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.\r\n   *                   Otherwise, NaN is returned.\r\n   */\r\n  static _getSign(x) {\r\n    return (x > 0) - (x < 0) || +x\r\n  }\r\n}\r\n\r\nexport default NumberMask",
+    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass NumberMask {\r\n  /**\r\n   * Mask the given number with the given mask according to BBj rules\r\n   *\r\n   * @param {Number} number the number to format\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\r\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\r\n   * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces \r\n   *\r\n   * @returns {String} the masked number\r\n   */\r\n  static mask(\r\n    number,\r\n    mask,\r\n    groupingSeparator = ',',\r\n    decimalSeparator = '.',\r\n    forceTrailingZeros = false\r\n  ) {\r\n    const maskLen = mask.length\r\n    if (0 === maskLen) return number\r\n\r\n    // Get magnitude and precision of MASK\r\n    let maskBeforeDecimal = 0\r\n    let maskAfterDecimal = 0\r\n    let foundDecimal = false\r\n    for (let i = 0; i < maskLen; ++i) {\r\n      const m = mask.charAt(i)\r\n      if (m == '0' || m == '#') {\r\n        if (foundDecimal) ++maskAfterDecimal\r\n        else ++maskBeforeDecimal\r\n      } else if (m == '.') foundDecimal = true\r\n    }\r\n\r\n    let num = NumberMask._round(number, maskAfterDecimal)\r\n    let bytes = NumberMask._toCharArray(num)\r\n\r\n    // Get magnitude and precision of NUMBER\r\n    let inLen = bytes.length\r\n    let numBeforeDecimal = 0\r\n    let numAfterDecimal = 0\r\n    foundDecimal = false\r\n    for (let i = 0; i < inLen; ++i) {\r\n      if (bytes[i] == '.') foundDecimal = true\r\n      else {\r\n        if (foundDecimal) ++numAfterDecimal\r\n        else ++numBeforeDecimal\r\n      }\r\n    }\r\n\r\n    // always ignore mask overflow\r\n    if (numBeforeDecimal > maskBeforeDecimal) return number.toString()\r\n\r\n    // round if mask is for a lower precision number\r\n    if (numAfterDecimal > maskAfterDecimal) {\r\n      num = NumberMask._round(num, maskAfterDecimal)\r\n      bytes = NumberMask._toCharArray(num)\r\n      inLen = bytes.length\r\n\r\n      // Get new magnitude and precision of NUMBER\r\n      numBeforeDecimal = 0\r\n      numAfterDecimal = 0\r\n      foundDecimal = false\r\n      for (let i = 0; i < inLen; ++i) {\r\n        if (bytes[i] == '.') foundDecimal = true\r\n        else {\r\n          if (foundDecimal) ++numAfterDecimal\r\n          else ++numBeforeDecimal\r\n        }\r\n      }\r\n\r\n      // always ignore mask overflow\r\n      if (numBeforeDecimal > maskBeforeDecimal) {\r\n        return number.toString()\r\n      }\r\n    }\r\n\r\n    let fillByte = ' ',\r\n      floatByte = ' '\r\n    let inPos = 0,\r\n      outPos = 0,\r\n      floatPos = 0\r\n    if (mask.charAt(0) == '*') fillByte = '*'\r\n\r\n    const fillInit = fillByte\r\n    const isNegative = NumberMask._getSign(num) < 0\r\n    let emitDecimal = inLen > 0 || mask.indexOf('0') >= 0\r\n    let foundZero = false\r\n    let foundDigit = false\r\n    let currency = false\r\n    foundDecimal = false\r\n\r\n    let ret = new Array(maskLen)\r\n\r\n    for (let maskPos = 0; maskPos < maskLen; ++maskPos) {\r\n      let m = mask.charAt(maskPos)\r\n      switch (m) {\r\n        case '0':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && inPos < inLen) {\r\n            ret[outPos] = bytes[inPos]\r\n            ++inPos\r\n            foundDigit = true\r\n          } else {\r\n            ret[outPos] = '0'\r\n            foundZero = true\r\n          }\r\n          ++outPos\r\n          break\r\n\r\n        case '#':\r\n          --maskBeforeDecimal\r\n          if (maskBeforeDecimal < numBeforeDecimal && inPos < inLen) {\r\n            ret[outPos] = bytes[inPos]\r\n            ++inPos\r\n            foundDigit = true\r\n          } else {\r\n            ret[outPos] =\r\n              //foundDecimal &&\r\n              forceTrailingZeros &&\r\n              NumberMask._getSign(num) != 0\r\n                ? '0'\r\n                : fillByte\r\n            if (!foundDecimal) floatPos = maskPos\r\n          }\r\n          ++outPos\r\n          break\r\n\r\n        case ',':\r\n          if (foundZero || inPos > 0) ret[outPos] = groupingSeparator\r\n          else {\r\n            ret[outPos] = fillByte\r\n            if (!foundDecimal) floatPos = maskPos\r\n          }\r\n          ++outPos\r\n          break\r\n\r\n        case '-':\r\n          if (!foundDigit && floatByte == ' ') {\r\n            if (isNegative) floatByte = '-'\r\n            ret[outPos] = fillByte\r\n            floatPos = foundDecimal ? -1 : maskPos\r\n          } else ret[outPos] = isNegative ? '-' : fillByte\r\n          ++outPos\r\n          break\r\n\r\n        case '+':\r\n          if (!foundDigit && floatByte == ' ') {\r\n            floatByte = isNegative ? '-' : '+'\r\n            ret[outPos] = fillByte\r\n            floatPos = foundDecimal ? -1 : maskPos\r\n          } else ret[outPos] = isNegative ? '-' : '+'\r\n          ++outPos\r\n          break\r\n\r\n        case '$':\r\n          if (!foundDigit && floatByte == ' ') {\r\n            floatByte = '$'\r\n            ret[outPos] = fillByte\r\n            floatPos = foundDecimal ? -1 : maskPos\r\n          } else {\r\n            ret[outPos] = '$'\r\n          }\r\n          ++outPos\r\n          break\r\n\r\n        // case '&':\r\n        //   currency = true\r\n        //   if (!foundDigit && floatByte == ' ') {\r\n        //     floatByte = '&'\r\n        //     ret[outPos] = fillByte\r\n        //     floatPos = foundDecimal ? -1 : maskPos\r\n        //   } else {\r\n        //     ret[outPos] = '&'\r\n        //   }\r\n        //   ++outPos\r\n        //   break\r\n\r\n        // case '@':\r\n        //   currency = true\r\n        //   if (!foundDigit && floatByte == ' ') {\r\n        //     floatByte = '@'\r\n        //     ret[outPos] = fillByte\r\n        //     floatPos = foundDecimal ? -1 : maskPos\r\n        //   } else {\r\n        //     ret[outPos] = '@'\r\n        //   }\r\n        //   ++outPos\r\n        //   break\r\n\r\n        case '(':\r\n          if (!foundDigit && floatByte == ' ') {\r\n            if (isNegative) floatByte = '('\r\n            ret[outPos] = fillByte\r\n            floatPos = foundDecimal ? -1 : maskPos\r\n          } else {\r\n            if (isNegative) {\r\n              ret[outPos] = '('\r\n            } else {\r\n              ret[outPos] = foundDecimal ? ' ' : fillByte\r\n            }\r\n          }\r\n          ++outPos\r\n          break\r\n\r\n        case ')':\r\n          if (isNegative) {\r\n            ret[outPos] = ')'\r\n          } else {\r\n            ret[outPos] = foundDecimal ? ' ' : fillByte\r\n          }\r\n          ++outPos\r\n          break\r\n\r\n        case 'C':\r\n          if (maskPos < maskLen - 1 && mask.charAt(maskPos + 1) == 'R') {\r\n            if (isNegative) {\r\n              ret[outPos] = 'C'\r\n              ret[outPos + 1] = 'R'\r\n            } else {\r\n              ret[outPos] = ' '\r\n              ret[outPos + 1] = ' '\r\n            }\r\n            outPos += 2\r\n            ++maskPos\r\n          } else {\r\n            ret[outPos] = 'C'\r\n            ++outPos\r\n          }\r\n          break\r\n        case 'D':\r\n          if (maskPos < maskLen - 1 && mask.charAt(maskPos + 1) == 'R') {\r\n            if (isNegative) {\r\n              ret[outPos] = 'C'\r\n              ret[outPos + 1] = 'R'\r\n            } else {\r\n              ret[outPos] = 'D'\r\n              ret[outPos + 1] = 'R'\r\n            }\r\n            outPos += 2\r\n            ++maskPos\r\n          } else {\r\n            ret[outPos] = 'D'\r\n            ++outPos\r\n          }\r\n          break\r\n\r\n        case '*':\r\n          ret[outPos] = '*'\r\n          ++outPos\r\n          break\r\n\r\n        case '.':\r\n          ret[outPos] = emitDecimal ? decimalSeparator : fillByte\r\n          fillByte = ' '\r\n          foundDecimal = true\r\n          ++inPos\r\n          ++outPos\r\n          break\r\n\r\n        case 'B':\r\n          ret[outPos] = ' '\r\n          ++outPos\r\n          break\r\n\r\n        default:\r\n          ret[outPos] = m\r\n          ++outPos\r\n          break\r\n      }\r\n    }\r\n\r\n    if (floatByte != ' ') {\r\n      if (floatPos < 0) floatPos = outPos\r\n      while (floatPos >= maskLen) --floatPos\r\n      if (ret[floatPos] == fillInit) ret[floatPos] = floatByte\r\n    }\r\n\r\n    return ret.join('')\r\n  }\r\n\r\n  static _shift(number, precision, reverseShift) {\r\n    if (reverseShift) precision = -precision\r\n    var numArray = ('' + number).split('e')\r\n    return +(\r\n      numArray[0] +\r\n      'e' +\r\n      (numArray[1] ? +numArray[1] + precision : precision)\r\n    )\r\n  }\r\n\r\n  static _round(number, precision) {\r\n    return NumberMask._shift(\r\n      Math.round(NumberMask._shift(number, precision, false)),\r\n      precision,\r\n      true\r\n    )\r\n  }\r\n\r\n  static _toCharArray(number) {\r\n    const signum = NumberMask._getSign(number)\r\n    let chars = []\r\n\r\n    if (signum !== 0) {\r\n      let string = signum < 0 ? `${-1 * number.toString()}` : number.toString()\r\n\r\n      if (string.length > 1 && string.charAt(0) == '0')\r\n        string = string.substring(1)\r\n\r\n      // The string contains only [0-9] and '.'\r\n      chars = string.split('')\r\n    }\r\n\r\n    return chars\r\n  }\r\n\r\n  /**\r\n   * Returns the sign of a number\r\n   *\r\n   * @param {Number} x number\r\n   * @returns {Number} A number representing the sign of the given argument.\r\n   *                   If the argument is a positive number, negative number, positive zero\r\n   *                   or negative zero, the function will return 1, -1, 0 or -0 respectively.\r\n   *                   Otherwise, NaN is returned.\r\n   */\r\n  static _getSign(x) {\r\n    return (x > 0) - (x < 0) || +x\r\n  }\r\n}\r\n\r\nexport default NumberMask\r\n",
     "static": true,
     "longname": "/mnt/d/Github/bbj-masks/src/NumberMask/NumberMask.js",
     "access": "public",
@@ -943,7 +943,7 @@
     "export": true,
     "importPath": "bbj-masks/src/NumberMask/NumberMask.js",
     "importStyle": "NumberMask",
-    "description": "NumberMask\n\nA javascript implementation for BBj numbers masking ",
+    "description": "NumberMask\n\nA javascript implementation for BBj numbers masking",
     "lineNumber": 16,
     "unknown": [
       {
@@ -964,7 +964,7 @@
     "longname": "src/NumberMask/NumberMask.js~NumberMask.mask",
     "access": "public",
     "description": "Mask the given number with the given mask according to BBj rules",
-    "lineNumber": 27,
+    "lineNumber": 28,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1015,6 +1015,18 @@
         "defaultRaw": ".",
         "name": "decimalSeparator",
         "description": "a char which will be used as a decimal separator"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "forceTrailingZeros",
+        "description": "when true zero are used to fill the left of decimal number , otherwise empty spaces"
       }
     ],
     "return": {
@@ -1037,7 +1049,7 @@
     "longname": "src/NumberMask/NumberMask.js~NumberMask._shift",
     "access": "private",
     "description": null,
-    "lineNumber": 167,
+    "lineNumber": 297,
     "undocument": true,
     "ignore": true,
     "params": [
@@ -1077,7 +1089,7 @@
     "longname": "src/NumberMask/NumberMask.js~NumberMask._round",
     "access": "private",
     "description": null,
-    "lineNumber": 177,
+    "lineNumber": 307,
     "undocument": true,
     "ignore": true,
     "params": [
@@ -1111,7 +1123,7 @@
     "longname": "src/NumberMask/NumberMask.js~NumberMask._toCharArray",
     "access": "private",
     "description": null,
-    "lineNumber": 185,
+    "lineNumber": 315,
     "undocument": true,
     "ignore": true,
     "params": [
@@ -1139,7 +1151,7 @@
     "longname": "src/NumberMask/NumberMask.js~NumberMask._getSign",
     "access": "private",
     "description": "Returns the sign of a number",
-    "lineNumber": 211,
+    "lineNumber": 341,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1384,7 +1396,7 @@
     "__docId__": 74,
     "kind": "file",
     "name": "src/Types/Types.js",
-    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport NumberMask from '../NumberMask'\nimport DateMask from '../DateMask'\nimport StringMask from '../StringMask'\n\n/**\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass Types {\n  /**\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   *\n   * @return {String} number masked with the given mask\n   */\n  static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {\n    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)\n  }\n\n  /**\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   */\n  static date(date, mask, locale, timezone) {\n    return DateMask.mask(date, mask, locale, timezone)\n  }\n\n  /**\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   */\n  static string(str, mask) {\n    return StringMask.mask(str, mask)\n  }\n}\n\nexport default Types\n",
+    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport NumberMask from '../NumberMask'\nimport DateMask from '../DateMask'\nimport StringMask from '../StringMask'\n\n/**\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass Types {\n  /**\n   * Mask a number according to bbj masking rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces\n   *\n   * @return {String} number masked with the given mask\n   */\n  static number(\n    number,\n    mask,\n    groupingSeparator = ',',\n    decimalSeparator = '.',\n    forceTrailingZeros = false\n  ) {\n    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)\n  }\n\n  /**\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   */\n  static date(date, mask, locale, timezone) {\n    return DateMask.mask(date, mask, locale, timezone)\n  }\n\n  /**\n   * Mask the given string with the given mask according to BBj rules`\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   *\n   * @returns {String} the masked string\n   */\n  static string(str, mask) {\n    return StringMask.mask(str, mask)\n  }\n}\n\nexport default Types\n",
     "static": true,
     "longname": "/mnt/d/Github/bbj-masks/src/Types/Types.js",
     "access": "public",
@@ -1423,7 +1435,7 @@
     "longname": "src/Types/Types.js~Types.number",
     "access": "public",
     "description": "Mask a number according to bbj masking rules",
-    "lineNumber": 31,
+    "lineNumber": 32,
     "params": [
       {
         "nullable": null,
@@ -1468,6 +1480,18 @@
         "defaultRaw": ".",
         "name": "decimalSeparator",
         "description": "a char which will be used as a decimal separator"
+      },
+      {
+        "nullable": null,
+        "types": [
+          "Boolean"
+        ],
+        "spread": false,
+        "optional": true,
+        "defaultValue": "false",
+        "defaultRaw": false,
+        "name": "forceTrailingZeros",
+        "description": "when true zero are used to fill the left of decimal number , otherwise empty spaces"
       }
     ],
     "return": {
@@ -1490,7 +1514,7 @@
     "longname": "src/Types/Types.js~Types.date",
     "access": "public",
     "description": "Mask a date according to bbj masking rules",
-    "lineNumber": 46,
+    "lineNumber": 53,
     "params": [
       {
         "nullable": null,
@@ -1557,7 +1581,7 @@
     "longname": "src/Types/Types.js~Types.string",
     "access": "public",
     "description": "Mask the given string with the given mask according to BBj rules`",
-    "lineNumber": 58,
+    "lineNumber": 65,
     "unknown": [
       {
         "tagName": "@returns",

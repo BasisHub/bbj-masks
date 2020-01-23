@@ -9,7 +9,7 @@
 /**
  * NumberMask
  *
- * A javascript implementation for BBj numbers masking 
+ * A javascript implementation for BBj numbers masking
  *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
@@ -21,18 +21,25 @@ class NumberMask {
    * @param {String} mask the mask to use for formatting
    * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
    * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
+   * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces 
    *
    * @returns {String} the masked number
    */
-  static mask(number, mask, groupingSeparator = ',', decimalSeparator = '.') {
-    const maskLength = mask.length
-    if (0 === maskLength) return number
+  static mask(
+    number,
+    mask,
+    groupingSeparator = ',',
+    decimalSeparator = '.',
+    forceTrailingZeros = false
+  ) {
+    const maskLen = mask.length
+    if (0 === maskLen) return number
 
     // Get magnitude and precision of MASK
     let maskBeforeDecimal = 0
     let maskAfterDecimal = 0
     let foundDecimal = false
-    for (let i = 0; i < maskLength; ++i) {
+    for (let i = 0; i < maskLen; ++i) {
       const m = mask.charAt(i)
       if (m == '0' || m == '#') {
         if (foundDecimal) ++maskAfterDecimal
@@ -41,15 +48,15 @@ class NumberMask {
     }
 
     let num = NumberMask._round(number, maskAfterDecimal)
-    let digits = NumberMask._toCharArray(num)
+    let bytes = NumberMask._toCharArray(num)
 
     // Get magnitude and precision of NUMBER
-    let numLen = digits.length
+    let inLen = bytes.length
     let numBeforeDecimal = 0
     let numAfterDecimal = 0
     foundDecimal = false
-    for (let i = 0; i < numLen; i++) {
-      if (digits[i] == '.') foundDecimal = true
+    for (let i = 0; i < inLen; ++i) {
+      if (bytes[i] == '.') foundDecimal = true
       else {
         if (foundDecimal) ++numAfterDecimal
         else ++numBeforeDecimal
@@ -62,15 +69,15 @@ class NumberMask {
     // round if mask is for a lower precision number
     if (numAfterDecimal > maskAfterDecimal) {
       num = NumberMask._round(num, maskAfterDecimal)
-      digits = NumberMask._toCharArray(num)
-      numLen = digits.length
+      bytes = NumberMask._toCharArray(num)
+      inLen = bytes.length
 
       // Get new magnitude and precision of NUMBER
       numBeforeDecimal = 0
       numAfterDecimal = 0
       foundDecimal = false
-      for (let i = 0; i < numLen; i++) {
-        if (digits[i] == '.') foundDecimal = true
+      for (let i = 0; i < inLen; ++i) {
+        if (bytes[i] == '.') foundDecimal = true
         else {
           if (foundDecimal) ++numAfterDecimal
           else ++numBeforeDecimal
@@ -83,85 +90,208 @@ class NumberMask {
       }
     }
 
-    const isNegative = NumberMask._getSign(num) === -1
-    let emitDecimal = numLen > 0 || mask.indexOf('0') >= 0
+    let fillByte = ' ',
+      floatByte = ' '
+    let inPos = 0,
+      outPos = 0,
+      floatPos = 0
+    if (mask.charAt(0) == '*') fillByte = '*'
+
+    const fillInit = fillByte
+    const isNegative = NumberMask._getSign(num) < 0
+    let emitDecimal = inLen > 0 || mask.indexOf('0') >= 0
     let foundZero = false
+    let foundDigit = false
     let currency = false
-    let buffer = ''
     foundDecimal = false
 
-    for (let numPos = 0, maskPos = 0; maskPos < maskLength; maskPos++) {
+    let ret = new Array(maskLen)
+
+    for (let maskPos = 0; maskPos < maskLen; ++maskPos) {
       let m = mask.charAt(maskPos)
       switch (m) {
         case '0':
           --maskBeforeDecimal
-          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {
-            buffer += digits[numPos]
-            ++numPos
+          if (maskBeforeDecimal < numBeforeDecimal && inPos < inLen) {
+            ret[outPos] = bytes[inPos]
+            ++inPos
+            foundDigit = true
           } else {
-            buffer += '0'
+            ret[outPos] = '0'
             foundZero = true
           }
+          ++outPos
           break
 
         case '#':
           --maskBeforeDecimal
-          if (maskBeforeDecimal < numBeforeDecimal && numPos < numLen) {
-            buffer += digits[numPos]
-            ++numPos
+          if (maskBeforeDecimal < numBeforeDecimal && inPos < inLen) {
+            ret[outPos] = bytes[inPos]
+            ++inPos
+            foundDigit = true
           } else {
-            if (foundDecimal) buffer += '0'
+            ret[outPos] =
+              //foundDecimal &&
+              forceTrailingZeros &&
+              NumberMask._getSign(num) != 0
+                ? '0'
+                : fillByte
+            if (!foundDecimal) floatPos = maskPos
           }
+          ++outPos
           break
 
         case ',':
-          if (foundZero || numPos > 0) buffer += groupingSeparator
+          if (foundZero || inPos > 0) ret[outPos] = groupingSeparator
+          else {
+            ret[outPos] = fillByte
+            if (!foundDecimal) floatPos = maskPos
+          }
+          ++outPos
           break
 
         case '-':
-        case '(':
-        case ')':
-          if (isNegative) buffer += m
+          if (!foundDigit && floatByte == ' ') {
+            if (isNegative) floatByte = '-'
+            ret[outPos] = fillByte
+            floatPos = foundDecimal ? -1 : maskPos
+          } else ret[outPos] = isNegative ? '-' : fillByte
+          ++outPos
           break
 
         case '+':
-          buffer += isNegative ? '-' : '+'
+          if (!foundDigit && floatByte == ' ') {
+            floatByte = isNegative ? '-' : '+'
+            ret[outPos] = fillByte
+            floatPos = foundDecimal ? -1 : maskPos
+          } else ret[outPos] = isNegative ? '-' : '+'
+          ++outPos
           break
 
-        case '.':
-          if (foundDecimal) buffer += m
-          else {
-            if (emitDecimal) buffer += decimalSeparator
-            foundDecimal = true
-            ++numPos
+        case '$':
+          if (!foundDigit && floatByte == ' ') {
+            floatByte = '$'
+            ret[outPos] = fillByte
+            floatPos = foundDecimal ? -1 : maskPos
+          } else {
+            ret[outPos] = '$'
           }
+          ++outPos
+          break
+
+        // case '&':
+        //   currency = true
+        //   if (!foundDigit && floatByte == ' ') {
+        //     floatByte = '&'
+        //     ret[outPos] = fillByte
+        //     floatPos = foundDecimal ? -1 : maskPos
+        //   } else {
+        //     ret[outPos] = '&'
+        //   }
+        //   ++outPos
+        //   break
+
+        // case '@':
+        //   currency = true
+        //   if (!foundDigit && floatByte == ' ') {
+        //     floatByte = '@'
+        //     ret[outPos] = fillByte
+        //     floatPos = foundDecimal ? -1 : maskPos
+        //   } else {
+        //     ret[outPos] = '@'
+        //   }
+        //   ++outPos
+        //   break
+
+        case '(':
+          if (!foundDigit && floatByte == ' ') {
+            if (isNegative) floatByte = '('
+            ret[outPos] = fillByte
+            floatPos = foundDecimal ? -1 : maskPos
+          } else {
+            if (isNegative) {
+              ret[outPos] = '('
+            } else {
+              ret[outPos] = foundDecimal ? ' ' : fillByte
+            }
+          }
+          ++outPos
+          break
+
+        case ')':
+          if (isNegative) {
+            ret[outPos] = ')'
+          } else {
+            ret[outPos] = foundDecimal ? ' ' : fillByte
+          }
+          ++outPos
           break
 
         case 'C':
-          if (maskPos < maskLength - 1 && mask.charAt(maskPos + 1) == 'R') {
-            if (isNegative) buffer += 'CR'
+          if (maskPos < maskLen - 1 && mask.charAt(maskPos + 1) == 'R') {
+            if (isNegative) {
+              ret[outPos] = 'C'
+              ret[outPos + 1] = 'R'
+            } else {
+              ret[outPos] = ' '
+              ret[outPos + 1] = ' '
+            }
+            outPos += 2
             ++maskPos
-          } else buffer += m
+          } else {
+            ret[outPos] = 'C'
+            ++outPos
+          }
+          break
+        case 'D':
+          if (maskPos < maskLen - 1 && mask.charAt(maskPos + 1) == 'R') {
+            if (isNegative) {
+              ret[outPos] = 'C'
+              ret[outPos + 1] = 'R'
+            } else {
+              ret[outPos] = 'D'
+              ret[outPos + 1] = 'R'
+            }
+            outPos += 2
+            ++maskPos
+          } else {
+            ret[outPos] = 'D'
+            ++outPos
+          }
           break
 
-        case 'D':
-          if (maskPos < maskLength - 1 && p_mask.charAt(maskPos + 1) == 'R') {
-            buffer += isNegative ? 'CR' : 'DR'
-            ++maskPos
-          } else buffer += m
+        case '*':
+          ret[outPos] = '*'
+          ++outPos
+          break
+
+        case '.':
+          ret[outPos] = emitDecimal ? decimalSeparator : fillByte
+          fillByte = ' '
+          foundDecimal = true
+          ++inPos
+          ++outPos
           break
 
         case 'B':
-          buffer += ' '
+          ret[outPos] = ' '
+          ++outPos
           break
 
         default:
-          buffer += m
+          ret[outPos] = m
+          ++outPos
           break
       }
     }
 
-    return buffer
+    if (floatByte != ' ') {
+      if (floatPos < 0) floatPos = outPos
+      while (floatPos >= maskLen) --floatPos
+      if (ret[floatPos] == fillInit) ret[floatPos] = floatByte
+    }
+
+    return ret.join('')
   }
 
   static _shift(number, precision, reverseShift) {

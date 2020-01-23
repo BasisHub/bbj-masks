@@ -23,6 +23,9 @@ describe('NumberMask', function() {
       let decimal = item.hasOwnProperty('decimalSeparator')
         ? item.decimalSeparator
         : '.'
+      let forceTrailingZeros = item.hasOwnProperty('forceTrailingZeros')
+      ? item.forceTrailingZeros
+      : false
 
       describe(
         'number = ' +
@@ -33,13 +36,15 @@ describe('NumberMask', function() {
           group +
           "', decimalSep = '" +
           decimal +
+          "', forceTrailingZeros = '" +
+          forceTrailingZeros +
           "'",
         function() {
           it(
             'should returns ' + (item.expected ? item.expected : 'nothing'),
             function() {
               assert.deepEqual(
-                NumberMask.mask(item.number, item.mask, group, decimal),
+                NumberMask.mask(item.number, item.mask, group, decimal , forceTrailingZeros),
                 item.expected
               )
             }

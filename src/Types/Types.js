@@ -25,10 +25,17 @@ class Types {
    * @param {String} mask the mask to use for formatting
    * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
    * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
+   * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces
    *
    * @return {String} number masked with the given mask
    */
-  static number(number, mask, groupingSeparator = ',', decimalSeparator = '.') {
+  static number(
+    number,
+    mask,
+    groupingSeparator = ',',
+    decimalSeparator = '.',
+    forceTrailingZeros = false
+  ) {
     return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)
   }
 
