@@ -6,7 +6,8 @@
  * file that was distributed with this source code.
  */
 
-var assert = typeof chai !== 'undefined' ? chai.assert : require('assert')
+var assert = typeof chai !== 'undefined' ? chai.assert : require('chai').assert
+var assert = typeof chai !== 'undefined' ? chai.assert : require('chai').assert
 var StringMask =
   typeof BBj !== 'undefined'
     ? BBj.Masks.StringMask
@@ -20,15 +21,34 @@ describe('StringMask', function() {
   describe('Accepts all bbj string masks', function() {
     StringsProvider.forEach(function(item) {
       describe(
-        'string = ' + item.string + ', mask = ' + item.mask + "'",
+        'string = ' +
+          item.string +
+          ', mask = ' +
+          item.mask +
+          "', loose = " +
+          (item.hasOwnProperty('throwError') ? false : item.loose || true),
         function() {
           it(
-            'should returns ' + (item.expected ? item.expected : 'nothing'),
+            'should returns ' +
+              (item.expected
+                ? item.expected
+                : item.hasOwnProperty('throwError')
+                ? 'error'
+                : 'nothing'),
             function() {
-              assert.deepEqual(
-                StringMask.mask(item.string, item.mask),
-                item.expected
-              )
+              if (!item.hasOwnProperty('throwError')) {
+                assert.deepEqual(
+                  StringMask.mask(item.string, item.mask, item.loose || true),
+                  item.expected
+                )
+              } else {
+                assert.throws(
+                  function() {
+                    return StringMask.mask(item.string, item.mask, false)
+                  }.bind(this),
+                  item.throwError
+                )
+              }
             }
           )
         }

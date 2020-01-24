@@ -28,6 +28,19 @@ const isUpperCase = str => {
   return str == str.toUpperCase() && str != str.toLowerCase()
 }
 
+const passOrThrowError = (loose, ret, i, str) => {
+  if (!loose) {
+    const char = str.charAt(i)
+    const pos = i + 1
+    throw {
+      name: 'StringMaskError',
+      message: `StringMaskError: error applying mask at position "${pos}" , char "${char}"`,
+      pos,
+      char
+    }
+  } else ret[i] = ' '
+}
+
 /**
  * NumberMask
  *
@@ -41,93 +54,117 @@ class StringMask {
    *
    * @param {String} str the string to mask
    * @param {String} mask the mask to use for formatting
+   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+   *                errors , otherwise it will stop at first error and throw it.
    *
    * @returns {String} the masked string
    */
-  static mask(str, mask) {
+  static mask(str, mask, loose = true) {
     str = String(str)
     mask = String(mask)
     const maskLen = mask.length
     const strLen = str.length
 
-    if (strLen > maskLen) return str // friendly silent fail
+    if (strLen > maskLen) {
+      if (loose) return str
+      // friendly silent fail
+      else
+        throw {
+          name: 'MaskIsTooShortError',
+          message: `MaskIsTooShortError: Mask is shorter than the passed string`
+        }
+    }
 
-    const result = new Array(maskLen)
-    let strPos = 0 // to keep track of the current position in the str
+    const ret = new Array(maskLen)
+    let pos = 0 // to keep track of the current position in the str
     let maskByte = ''
-    let strByte = ''
 
     for (let i = 0; i < maskLen; i++) {
       maskByte = mask.charAt(i)
-      strByte = str.charAt(strPos)
       switch (maskByte) {
         case 'X': // match any character
-          result[i] = strPos < strLen ? strByte : ' '
-          ++strPos
+          ret[i] = pos < strLen ? str.charAt(pos) : ' '
+          ++pos
           break
 
         case 'A': // match letter; force upper case
-          result[i] =
-            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))
-              ? strByte.toUpperCase() // force upper case
-              : ' '
-          ++strPos
+          if (pos < strLen) {
+            const byte = str.charAt(pos)
+            if (isUpperCase(byte)) ret[i] = byte
+            else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()
+            else passOrThrowError(loose, ret, i, str)
+          } else ret[i] = ' '
+          ++pos
           break
 
         case 'a': // match letter
-          result[i] =
-            strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte))
-              ? strByte
-              : ' '
-          ++strPos
+          if (pos < strLen) {
+            const byte = str.charAt(pos)
+            if (isUpperCase(byte) || isLowerCase(byte)) ret[i] = byte
+            else passOrThrowError(loose, ret, i, str)
+          } else ret[i] = ' '
+          ++pos
           break
         case '0': // match digit
-          result[i] =
-            strPos < strLen && isNumberRegex.test(strByte) ? strByte : ' '
-          ++strPos
+          if (pos < strLen) {
+            const byte = str.charAt(pos)
+            if (isNumberRegex.test(byte)) ret[i] = byte
+            else passOrThrowError(loose, ret, i, str)
+          } else ret[i] = ' '
+          ++pos
           break
         case 'Z': // match letter or digit; force upper case
-          result[i] =
-            strPos < strLen &&
-            (isNumberRegex.test(strByte) ||
-              isLowerCase(strByte) ||
-              isUpperCase(strByte))
-              ? strByte.toUpperCase() // force upper case
-              : ' '
-          ++strPos
+          if (pos < strLen) {
+            const byte = str.charAt(pos)
+            if (isUpperCase(byte) || isNumberRegex.test(byte)) ret[i] = byte
+            else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()
+            else passOrThrowError(loose, ret, i, str)
+          } else ret[i] = ' '
+          ++pos
           break
         case 'z': // match letter or digit
-          result[i] =
-            strPos < strLen &&
-            (isNumberRegex.test(strByte) ||
-              isLowerCase(strByte) ||
-              isUpperCase(strByte))
-              ? strByte
-              : ' '
-          ++strPos
+          if (pos < strLen) {
+            const byte = str.charAt(pos)
+            if (
+              isUpperCase(byte) ||
+              isLowerCase(byte) ||
+              isNumberRegex.test(byte)
+            )
+              ret[i] = byte
+            else passOrThrowError(loose, ret, i, str)
+          } else ret[i] = ' '
+          ++pos
+          break
+
           break
         case 'U': // match letter (force upper case), digit, whitespace or punctuation.
-          if (isLowerCase(strByte)) {
-            result[i] = strByte.toUpperCase()
-          } else if (
-            isUpperCase(strByte) ||
-            isNumberRegex.test(strByte) ||
-            isWhitespaceRegex.test(strByte) ||
-            punctuationList.indexOf(strByte) > -1
-          ) {
-            result[i] = strByte
-          } else {
-            result[i] = ' '
-          }
-          ++strPos
+          if (pos < strLen) {
+            const byte = str.charAt(pos)
+            if (isLowerCase(byte)) ret[i] = byte.toUpperCase()
+            else if (
+              isUpperCase(byte) ||
+              isNumberRegex.test(byte) ||
+              isWhitespaceRegex.test(byte) ||
+              punctuationList.indexOf(byte) > -1
+            )
+              ret[i] = byte
+            else passOrThrowError(loose, ret, i, str)
+          } else ret[i] = ' '
+          ++pos
           break
         default:
-            result[i] = maskByte
+          ret[i] = maskByte
           break
       }
     }
 
-    return result.join('')
+    if (pos < strLen) {
+      if (!loose) {
+        throw { name: 'MaskError', message: 'Mask cannot be applied' }
+      }
+    }
+
+    return ret.join('')
   }
 }
 

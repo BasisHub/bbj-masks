@@ -1,6 +1,6 @@
 {
-  "coverage": "70.37%",
-  "expectCount": 27,
+  "coverage": "67.85%",
+  "expectCount": 28,
   "actualCount": 19,
   "files": {
     "src/DateMask/DateMask.js": {
@@ -21,12 +21,13 @@
       ]
     },
     "src/StringMask/StringMask.js": {
-      "expectCount": 7,
+      "expectCount": 8,
       "actualCount": 4,
       "undocumentLines": [
         9,
         10,
-        11
+        11,
+        31
       ]
     },
     "src/Types/Types.js": {

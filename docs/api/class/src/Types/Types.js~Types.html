@@ -162,13 +162,13 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/Types/Types.js~Types.html#static-method-string">string</a></span></span><span class="code" data-ice="signature">(str: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/Types/Types.js~Types.html#static-method-string">string</a></span></span><span class="code" data-ice="signature">(str: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, loose: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
         
         
-        <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules`</p>
+        <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules</p>
 </div>
       </div>
     </td>
@@ -400,18 +400,18 @@
     
     
     
-    <span class="code" data-ice="name">string</span><span class="code" data-ice="signature">(str: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+    <span class="code" data-ice="name">string</span><span class="code" data-ice="signature">(str: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, loose: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/Types/Types.js.html#lineNumber65">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/Types/Types.js.html#lineNumber67">source</a></span></span>
     </span>
   </h3>
 
   
   
   
-  <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules`</p>
+  <div data-ice="description"><p>Mask the given string with the given mask according to BBj rules</p>
 </div>
 
   
@@ -436,6 +436,15 @@
       <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></td>
       <td data-ice="appendix"></td>
       <td data-ice="description"><p>the mask to use for formatting</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">loose</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: true</li></ul></td>
+      <td data-ice="description"><p>when true , errors will be ignored and the method will try at apply the mask
+               errors , otherwise it will stop at first error and throw it.</p>
 </td>
     </tr>
 </tbody>

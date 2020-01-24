@@ -2166,6 +2166,20 @@ var isLowerCase = function isLowerCase(str) {
 var isUpperCase = function isUpperCase(str) {
   return str == str.toUpperCase() && str != str.toLowerCase();
 };
+
+var passOrThrowError = function passOrThrowError(loose, ret, i, str) {
+  if (!loose) {
+    var _char = str.charAt(i);
+
+    var pos = i + 1;
+    throw {
+      name: 'StringMaskError',
+      message: "StringMaskError: error applying mask at position \"".concat(pos, "\" , char \"").concat(_char, "\""),
+      pos: pos,
+      "char": _char
+    };
+  } else ret[i] = ' ';
+};
 /**
  * NumberMask
  *
@@ -2190,85 +2204,124 @@ function () {
      *
      * @param {String} str the string to mask
      * @param {String} mask the mask to use for formatting
+     * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+     *                errors , otherwise it will stop at first error and throw it.
      *
      * @returns {String} the masked string
      */
     value: function mask(str, _mask) {
+      var loose = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
       str = String(str);
       _mask = String(_mask);
       var maskLen = _mask.length;
       var strLen = str.length;
-      if (strLen > maskLen) return str; // friendly silent fail
 
-      var result = new Array(maskLen);
-      var strPos = 0; // to keep track of the current position in the str
+      if (strLen > maskLen) {
+        if (loose) return str; // friendly silent fail
+        else throw {
+            name: 'MaskIsTooShortError',
+            message: "MaskIsTooShortError: Mask is shorter than the passed string"
+          };
+      }
+
+      var ret = new Array(maskLen);
+      var pos = 0; // to keep track of the current position in the str
 
       var maskByte = '';
-      var strByte = '';
 
       for (var i = 0; i < maskLen; i++) {
         maskByte = _mask.charAt(i);
-        strByte = str.charAt(strPos);
 
         switch (maskByte) {
           case 'X':
             // match any character
-            result[i] = strPos < strLen ? strByte : ' ';
-            ++strPos;
+            ret[i] = pos < strLen ? str.charAt(pos) : ' ';
+            ++pos;
             break;
 
           case 'A':
             // match letter; force upper case
-            result[i] = strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte)) ? strByte.toUpperCase() // force upper case
-            : ' ';
-            ++strPos;
+            if (pos < strLen) {
+              var _byte = str.charAt(pos);
+
+              if (isUpperCase(_byte)) ret[i] = _byte;else if (isLowerCase(_byte)) ret[i] = _byte.toUpperCase();else passOrThrowError(loose, ret, i, str);
+            } else ret[i] = ' ';
+
+            ++pos;
             break;
 
           case 'a':
             // match letter
-            result[i] = strPos < strLen && (isLowerCase(strByte) || isUpperCase(strByte)) ? strByte : ' ';
-            ++strPos;
+            if (pos < strLen) {
+              var _byte2 = str.charAt(pos);
+
+              if (isUpperCase(_byte2) || isLowerCase(_byte2)) ret[i] = _byte2;else passOrThrowError(loose, ret, i, str);
+            } else ret[i] = ' ';
+
+            ++pos;
             break;
 
           case '0':
             // match digit
-            result[i] = strPos < strLen && isNumberRegex.test(strByte) ? strByte : ' ';
-            ++strPos;
+            if (pos < strLen) {
+              var _byte3 = str.charAt(pos);
+
+              if (isNumberRegex.test(_byte3)) ret[i] = _byte3;else passOrThrowError(loose, ret, i, str);
+            } else ret[i] = ' ';
+
+            ++pos;
             break;
 
           case 'Z':
             // match letter or digit; force upper case
-            result[i] = strPos < strLen && (isNumberRegex.test(strByte) || isLowerCase(strByte) || isUpperCase(strByte)) ? strByte.toUpperCase() // force upper case
-            : ' ';
-            ++strPos;
+            if (pos < strLen) {
+              var _byte4 = str.charAt(pos);
+
+              if (isUpperCase(_byte4) || isNumberRegex.test(_byte4)) ret[i] = _byte4;else if (isLowerCase(_byte4)) ret[i] = _byte4.toUpperCase();else passOrThrowError(loose, ret, i, str);
+            } else ret[i] = ' ';
+
+            ++pos;
             break;
 
           case 'z':
             // match letter or digit
-            result[i] = strPos < strLen && (isNumberRegex.test(strByte) || isLowerCase(strByte) || isUpperCase(strByte)) ? strByte : ' ';
-            ++strPos;
+            if (pos < strLen) {
+              var _byte5 = str.charAt(pos);
+
+              if (isUpperCase(_byte5) || isLowerCase(_byte5) || isNumberRegex.test(_byte5)) ret[i] = _byte5;else passOrThrowError(loose, ret, i, str);
+            } else ret[i] = ' ';
+
+            ++pos;
+            break;
             break;
 
           case 'U':
             // match letter (force upper case), digit, whitespace or punctuation.
-            if (isLowerCase(strByte)) {
-              result[i] = strByte.toUpperCase();
-            } else if (isUpperCase(strByte) || isNumberRegex.test(strByte) || isWhitespaceRegex.test(strByte) || punctuationList.indexOf(strByte) > -1) {
-              result[i] = strByte;
-            } else {
-              result[i] = ' ';
-            }
+            if (pos < strLen) {
+              var _byte6 = str.charAt(pos);
 
-            ++strPos;
+              if (isLowerCase(_byte6)) ret[i] = _byte6.toUpperCase();else if (isUpperCase(_byte6) || isNumberRegex.test(_byte6) || isWhitespaceRegex.test(_byte6) || punctuationList.indexOf(_byte6) > -1) ret[i] = _byte6;else passOrThrowError(loose, ret, i, str);
+            } else ret[i] = ' ';
+
+            ++pos;
             break;
 
           default:
-            result[i] = maskByte;
+            ret[i] = maskByte;
             break;
         }
       }
 
-      return result.join('');
+      if (pos < strLen) {
+        if (!loose) {
+          throw {
+            name: 'MaskError',
+            message: 'Mask cannot be applied'
+          };
+        }
+      }
+
+      return ret.join('');
     }
   }]);
 
@@ -2370,10 +2423,12 @@ function () {
       return __WEBPACK_IMPORTED_MODULE_1__DateMask__["c" /* default */].mask(_date, mask, locale, timezone);
     }
     /**
-     * Mask the given string with the given mask according to BBj rules`
+     * Mask the given string with the given mask according to BBj rules
      *
      * @param {String} str the string to mask
      * @param {String} mask the mask to use for formatting
+     * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+     *                errors , otherwise it will stop at first error and throw it.
      *
      * @returns {String} the masked string
      */
@@ -2381,7 +2436,8 @@ function () {
   }, {
     key: "string",
     value: function string(str, mask) {
-      return __WEBPACK_IMPORTED_MODULE_2__StringMask__["a" /* default */].mask(str, mask);
+      var loose = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      return __WEBPACK_IMPORTED_MODULE_2__StringMask__["a" /* default */].mask(str, mask, loose);
     }
   }]);
 

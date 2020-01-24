@@ -102,15 +102,17 @@ class Types {
   }
 
   /**
-   * Mask the given string with the given mask according to BBj rules`
+   * Mask the given string with the given mask according to BBj rules
    *
    * @param {String} str the string to mask
    * @param {String} mask the mask to use for formatting
+   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+   *                errors , otherwise it will stop at first error and throw it.
    *
    * @returns {String} the masked string
    */
-  static string(str, mask) {
-    return StringMask.mask(str, mask)
+  static string(str, mask, loose = true) {
+    return StringMask.mask(str, mask, loose)
   }
 }
 
