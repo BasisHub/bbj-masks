@@ -322,8 +322,8 @@ function () {
      * @param {String} mask the mask to use for formatting
      * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
      * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
-     * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces 
-     *
+     * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
+     *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
      * @returns {String} the masked number
      */
     value: function mask(number, _mask) {
@@ -427,8 +427,7 @@ function () {
               ++inPos;
               foundDigit = true;
             } else {
-              ret[outPos] = //foundDecimal &&
-              forceTrailingZeros && NumberMask._getSign(num) != 0 ? '0' : fillByte;
+              ret[outPos] = foundDecimal && forceTrailingZeros && NumberMask._getSign(num) != 0 ? '0' : fillByte;
               if (!foundDecimal) floatPos = maskPos;
             }
 
@@ -2389,21 +2388,21 @@ function () {
     key: "number",
 
     /**
-     * Mask a number according to bbj masking rules
+     * Mask the given number with the given mask according to BBj rules
      *
      * @param {Number} number the number to format
      * @param {String} mask the mask to use for formatting
      * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
      * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
-     * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces
-     *
-     * @return {String} number masked with the given mask
+     * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
+     *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
+     * @returns {String} the masked number
      */
     value: function number(_number, mask) {
       var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       var forceTrailingZeros = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator);
+      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator, forceTrailingZeros);
     }
     /**
      * Mask a date according to bbj masking rules

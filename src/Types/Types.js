@@ -19,15 +19,15 @@ import StringMask from '../StringMask'
  */
 class Types {
   /**
-   * Mask a number according to bbj masking rules
+   * Mask the given number with the given mask according to BBj rules
    *
    * @param {Number} number the number to format
    * @param {String} mask the mask to use for formatting
    * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
    * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
-   * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces
-   *
-   * @return {String} number masked with the given mask
+   * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
+   *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
+   * @returns {String} the masked number
    */
   static number(
     number,
@@ -36,7 +36,13 @@ class Types {
     decimalSeparator = '.',
     forceTrailingZeros = false
   ) {
-    return NumberMask.mask(number, mask, groupingSeparator, decimalSeparator)
+    return NumberMask.mask(
+      number,
+      mask,
+      groupingSeparator,
+      decimalSeparator,
+      forceTrailingZeros
+    )
   }
 
   /**

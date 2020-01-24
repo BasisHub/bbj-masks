@@ -78,9 +78,15 @@
 
     // force trailing Zero
     {
-      number: 1234,
-      mask: '##,##0',
-      expected: '01,234',
+      number: .10,
+      mask: '#.##',
+      expected: ' .1 ',
+      forceTrailingZeros: false
+    },    
+    {
+      number: .10,
+      mask: '#.##',
+      expected: ' .10',
       forceTrailingZeros: true
     }
   ]

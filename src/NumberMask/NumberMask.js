@@ -21,8 +21,8 @@ class NumberMask {
    * @param {String} mask the mask to use for formatting
    * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
    * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
-   * @param {Boolean} [forceTrailingZeros=false] - when true zero are used to fill the left of decimal number , otherwise empty spaces 
-   *
+   * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
+   *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
    * @returns {String} the masked number
    */
   static mask(
@@ -131,7 +131,7 @@ class NumberMask {
             foundDigit = true
           } else {
             ret[outPos] =
-              //foundDecimal &&
+              foundDecimal &&
               forceTrailingZeros &&
               NumberMask._getSign(num) != 0
                 ? '0'
