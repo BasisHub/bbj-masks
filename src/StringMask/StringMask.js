@@ -55,8 +55,12 @@ class StringMask {
    * @param {String} str the string to mask
    * @param {String} mask the mask to use for formatting
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
-   *                errors , otherwise it will stop at first error and throw it.
-   *
+   *                anyway , otherwise it will stop at first error and throw it.
+   * 
+   * @throws {MaskIsTooShortError}
+   * @throws {StringMaskError}
+   * @throws {MaskError}
+   * 
    * @returns {String} the masked string
    */
   static mask(str, mask, loose = true) {

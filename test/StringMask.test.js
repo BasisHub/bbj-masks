@@ -7,7 +7,6 @@
  */
 
 var assert = typeof chai !== 'undefined' ? chai.assert : require('chai').assert
-var assert = typeof chai !== 'undefined' ? chai.assert : require('chai').assert
 var StringMask =
   typeof BBj !== 'undefined'
     ? BBj.Masks.StringMask

@@ -1204,7 +1204,7 @@
     "__docId__": 66,
     "kind": "file",
     "name": "src/StringMask/StringMask.js",
-    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nconst isNumberRegex = /^\\d+$/\r\nconst isWhitespaceRegex = /\\s/\r\nconst punctuationList = '!\"#$%&\\'()*+,-./:;<=>?@[]^_`{|}~'\r\n\r\n/**\r\n * Check if the given string is in lower case\r\n *\r\n * @param {String} str\r\n */\r\nconst isLowerCase = str => {\r\n  return str == str.toLowerCase() && str != str.toUpperCase()\r\n}\r\n\r\n/**\r\n * Check if the given string is in upper case\r\n *\r\n * @param {String} str\r\n */\r\nconst isUpperCase = str => {\r\n  return str == str.toUpperCase() && str != str.toLowerCase()\r\n}\r\n\r\nconst passOrThrowError = (loose, ret, i, str) => {\r\n  if (!loose) {\r\n    const char = str.charAt(i)\r\n    const pos = i + 1\r\n    throw {\r\n      name: 'StringMaskError',\r\n      message: `StringMaskError: error applying mask at position \"${pos}\" , char \"${char}\"`,\r\n      pos,\r\n      char\r\n    }\r\n  } else ret[i] = ' '\r\n}\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass StringMask {\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask\r\n   *                errors , otherwise it will stop at first error and throw it.\r\n   *\r\n   * @returns {String} the masked string\r\n   */\r\n  static mask(str, mask, loose = true) {\r\n    str = String(str)\r\n    mask = String(mask)\r\n    const maskLen = mask.length\r\n    const strLen = str.length\r\n\r\n    if (strLen > maskLen) {\r\n      if (loose) return str\r\n      // friendly silent fail\r\n      else\r\n        throw {\r\n          name: 'MaskIsTooShortError',\r\n          message: `MaskIsTooShortError: Mask is shorter than the passed string`\r\n        }\r\n    }\r\n\r\n    const ret = new Array(maskLen)\r\n    let pos = 0 // to keep track of the current position in the str\r\n    let maskByte = ''\r\n\r\n    for (let i = 0; i < maskLen; i++) {\r\n      maskByte = mask.charAt(i)\r\n      switch (maskByte) {\r\n        case 'X': // match any character\r\n          ret[i] = pos < strLen ? str.charAt(pos) : ' '\r\n          ++pos\r\n          break\r\n\r\n        case 'A': // match letter; force upper case\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isUpperCase(byte)) ret[i] = byte\r\n            else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n\r\n        case 'a': // match letter\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isUpperCase(byte) || isLowerCase(byte)) ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        case '0': // match digit\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isNumberRegex.test(byte)) ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        case 'Z': // match letter or digit; force upper case\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isUpperCase(byte) || isNumberRegex.test(byte)) ret[i] = byte\r\n            else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        case 'z': // match letter or digit\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (\r\n              isUpperCase(byte) ||\r\n              isLowerCase(byte) ||\r\n              isNumberRegex.test(byte)\r\n            )\r\n              ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n\r\n          break\r\n        case 'U': // match letter (force upper case), digit, whitespace or punctuation.\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isLowerCase(byte)) ret[i] = byte.toUpperCase()\r\n            else if (\r\n              isUpperCase(byte) ||\r\n              isNumberRegex.test(byte) ||\r\n              isWhitespaceRegex.test(byte) ||\r\n              punctuationList.indexOf(byte) > -1\r\n            )\r\n              ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        default:\r\n          ret[i] = maskByte\r\n          break\r\n      }\r\n    }\r\n\r\n    if (pos < strLen) {\r\n      if (!loose) {\r\n        throw { name: 'MaskError', message: 'Mask cannot be applied' }\r\n      }\r\n    }\r\n\r\n    return ret.join('')\r\n  }\r\n}\r\n\r\nexport default StringMask\r\n",
+    "content": "/*\r\n * This file is part of bbj-masks lib.\r\n * (c) Basis Europe <eu@basis.com>\r\n *\r\n * For the full copyright and license information, please view the LICENSE\r\n * file that was distributed with this source code.\r\n */\r\n\r\nconst isNumberRegex = /^\\d+$/\r\nconst isWhitespaceRegex = /\\s/\r\nconst punctuationList = '!\"#$%&\\'()*+,-./:;<=>?@[]^_`{|}~'\r\n\r\n/**\r\n * Check if the given string is in lower case\r\n *\r\n * @param {String} str\r\n */\r\nconst isLowerCase = str => {\r\n  return str == str.toLowerCase() && str != str.toUpperCase()\r\n}\r\n\r\n/**\r\n * Check if the given string is in upper case\r\n *\r\n * @param {String} str\r\n */\r\nconst isUpperCase = str => {\r\n  return str == str.toUpperCase() && str != str.toLowerCase()\r\n}\r\n\r\nconst passOrThrowError = (loose, ret, i, str) => {\r\n  if (!loose) {\r\n    const char = str.charAt(i)\r\n    const pos = i + 1\r\n    throw {\r\n      name: 'StringMaskError',\r\n      message: `StringMaskError: error applying mask at position \"${pos}\" , char \"${char}\"`,\r\n      pos,\r\n      char\r\n    }\r\n  } else ret[i] = ' '\r\n}\r\n\r\n/**\r\n * NumberMask\r\n *\r\n * A javascript implementation for BBj numbers masking\r\n *\r\n * @author Hyyan Abo Fakher <habofakher@basis.com>\r\n */\r\nclass StringMask {\r\n  /**\r\n   * Mask the given string with the given mask according to BBj rules\r\n   *\r\n   * @param {String} str the string to mask\r\n   * @param {String} mask the mask to use for formatting\r\n   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask\r\n   *                anyway , otherwise it will stop at first error and throw it.\r\n   * \r\n   * @throws {MaskIsTooShortError}\r\n   * @throws {StringMaskError}\r\n   * @throws {MaskError}\r\n   * \r\n   * @returns {String} the masked string\r\n   */\r\n  static mask(str, mask, loose = true) {\r\n    str = String(str)\r\n    mask = String(mask)\r\n    const maskLen = mask.length\r\n    const strLen = str.length\r\n\r\n    if (strLen > maskLen) {\r\n      if (loose) return str\r\n      // friendly silent fail\r\n      else\r\n        throw {\r\n          name: 'MaskIsTooShortError',\r\n          message: `MaskIsTooShortError: Mask is shorter than the passed string`\r\n        }\r\n    }\r\n\r\n    const ret = new Array(maskLen)\r\n    let pos = 0 // to keep track of the current position in the str\r\n    let maskByte = ''\r\n\r\n    for (let i = 0; i < maskLen; i++) {\r\n      maskByte = mask.charAt(i)\r\n      switch (maskByte) {\r\n        case 'X': // match any character\r\n          ret[i] = pos < strLen ? str.charAt(pos) : ' '\r\n          ++pos\r\n          break\r\n\r\n        case 'A': // match letter; force upper case\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isUpperCase(byte)) ret[i] = byte\r\n            else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n\r\n        case 'a': // match letter\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isUpperCase(byte) || isLowerCase(byte)) ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        case '0': // match digit\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isNumberRegex.test(byte)) ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        case 'Z': // match letter or digit; force upper case\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isUpperCase(byte) || isNumberRegex.test(byte)) ret[i] = byte\r\n            else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        case 'z': // match letter or digit\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (\r\n              isUpperCase(byte) ||\r\n              isLowerCase(byte) ||\r\n              isNumberRegex.test(byte)\r\n            )\r\n              ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n\r\n          break\r\n        case 'U': // match letter (force upper case), digit, whitespace or punctuation.\r\n          if (pos < strLen) {\r\n            const byte = str.charAt(pos)\r\n            if (isLowerCase(byte)) ret[i] = byte.toUpperCase()\r\n            else if (\r\n              isUpperCase(byte) ||\r\n              isNumberRegex.test(byte) ||\r\n              isWhitespaceRegex.test(byte) ||\r\n              punctuationList.indexOf(byte) > -1\r\n            )\r\n              ret[i] = byte\r\n            else passOrThrowError(loose, ret, i, str)\r\n          } else ret[i] = ' '\r\n          ++pos\r\n          break\r\n        default:\r\n          ret[i] = maskByte\r\n          break\r\n      }\r\n    }\r\n\r\n    if (pos < strLen) {\r\n      if (!loose) {\r\n        throw { name: 'MaskError', message: 'Mask cannot be applied' }\r\n      }\r\n    }\r\n\r\n    return ret.join('')\r\n  }\r\n}\r\n\r\nexport default StringMask\r\n",
     "static": true,
     "longname": "D:/Github/bbj-masks/src/StringMask/StringMask.js",
     "access": "public",
@@ -1419,7 +1419,7 @@
     "longname": "src/StringMask/StringMask.js~StringMask.mask",
     "access": "public",
     "description": "Mask the given string with the given mask according to BBj rules",
-    "lineNumber": 62,
+    "lineNumber": 66,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1457,7 +1457,7 @@
         "defaultValue": "true",
         "defaultRaw": true,
         "name": "loose",
-        "description": "when true , errors will be ignored and the method will try at apply the mask\n               errors , otherwise it will stop at first error and throw it."
+        "description": "when true , errors will be ignored and the method will try at apply the mask\n               anyway , otherwise it will stop at first error and throw it."
       }
     ],
     "return": {
@@ -1467,13 +1467,33 @@
       ],
       "spread": false,
       "description": "the masked string"
-    }
+    },
+    "throws": [
+      {
+        "types": [
+          "MaskIsTooShortError"
+        ],
+        "description": ""
+      },
+      {
+        "types": [
+          "StringMaskError"
+        ],
+        "description": ""
+      },
+      {
+        "types": [
+          "MaskError"
+        ],
+        "description": ""
+      }
+    ]
   },
   {
     "__docId__": 75,
     "kind": "file",
     "name": "src/Types/Types.js",
-    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport NumberMask from '../NumberMask'\nimport DateMask from '../DateMask'\nimport StringMask from '../StringMask'\n\n/**\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass Types {\n  /**\n   * Mask the given number with the given mask according to BBj rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with \"#\" characters in the trailing positions is filled.\n   *                                              for example, the function `NumberMask.mask(.10:\"#.##\")` returns ` .10` instead of ` .1 `\n   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask\n   *                anyway , otherwise it will stop at first error and throw it.\n   * \n   * @returns {String} the masked number\n   */\n  static number(\n    number,\n    mask,\n    groupingSeparator = ',',\n    decimalSeparator = '.',\n    forceTrailingZeros = false,\n    loose=true\n  ) {\n    return NumberMask.mask(\n      number,\n      mask,\n      groupingSeparator,\n      decimalSeparator,\n      forceTrailingZeros,\n      loose\n    )\n  }\n\n  /**\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   */\n  static date(date, mask, locale, timezone) {\n    return DateMask.mask(date, mask, locale, timezone)\n  }\n\n  /**\n   * Mask the given string with the given mask according to BBj rules\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask\n   *                errors , otherwise it will stop at first error and throw it.\n   *\n   * @returns {String} the masked string\n   */\n  static string(str, mask, loose = true) {\n    return StringMask.mask(str, mask, loose)\n  }\n}\n\nexport default Types\n",
+    "content": "/*\n * This file is part of bbj-masks lib.\n * (c) Basis Europe <eu@basis.com>\n *\n * For the full copyright and license information, please view the LICENSE\n * file that was distributed with this source code.\n */\n\nimport NumberMask from '../NumberMask'\nimport DateMask from '../DateMask'\nimport StringMask from '../StringMask'\n\n/**\n * Types\n *\n * BBj masks factory\n *\n * @author Hyyan Abo Fakher <habofakher@basis.com>\n */\nclass Types {\n  /**\n   * Mask the given number with the given mask according to BBj rules\n   *\n   * @param {Number} number the number to format\n   * @param {String} mask the mask to use for formatting\n   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator\n   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator\n   * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with \"#\" characters in the trailing positions is filled.\n   *                                              for example, the function `NumberMask.mask(.10:\"#.##\")` returns ` .10` instead of ` .1 `\n   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask\n   *                anyway , otherwise it will stop at first error and throw it.\n   *\n   * @returns {String} the masked number\n   */\n  static number(\n    number,\n    mask,\n    groupingSeparator = ',',\n    decimalSeparator = '.',\n    forceTrailingZeros = false,\n    loose = true\n  ) {\n    return NumberMask.mask(\n      number,\n      mask,\n      groupingSeparator,\n      decimalSeparator,\n      forceTrailingZeros,\n      loose\n    )\n  }\n\n  /**\n   * Mask a date according to bbj masking rules\n   *\n   * @param {String} date date as a string\n   * @param {String} mask mask as a string\n   * @param {String} [locale=Browser's locale] the language to use ex(en-US). default is to the system language\n   * @param {String} [timezone=System timezone] the time zone descriptor (e.g. America/Los_Angeles). default to the system\n   *                          timezone\n   *\n   * @return {String} number masked with the given mask\n   */\n  static date(date, mask, locale, timezone) {\n    return DateMask.mask(date, mask, locale, timezone)\n  }\n\n  /**\n   * Mask the given string with the given mask according to BBj rules\n   *\n   * @param {String} str the string to mask\n   * @param {String} mask the mask to use for formatting\n   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask\n   *                anyway , otherwise it will stop at first error and throw it.\n   *\n   * @throws {MaskIsTooShortError}\n   * @throws {StringMaskError}\n   * @throws {MaskError}\n   *\n   * @returns {String} the masked string\n   */\n  static string(str, mask, loose = true) {\n    return StringMask.mask(str, mask, loose)\n  }\n}\n\nexport default Types\n",
     "static": true,
     "longname": "D:/Github/bbj-masks/src/Types/Types.js",
     "access": "public",
@@ -1676,7 +1696,7 @@
     "longname": "src/Types/Types.js~Types.string",
     "access": "public",
     "description": "Mask the given string with the given mask according to BBj rules",
-    "lineNumber": 78,
+    "lineNumber": 82,
     "unknown": [
       {
         "tagName": "@returns",
@@ -1714,7 +1734,7 @@
         "defaultValue": "true",
         "defaultRaw": true,
         "name": "loose",
-        "description": "when true , errors will be ignored and the method will try at apply the mask\n               errors , otherwise it will stop at first error and throw it."
+        "description": "when true , errors will be ignored and the method will try at apply the mask\n               anyway , otherwise it will stop at first error and throw it."
       }
     ],
     "return": {
@@ -1724,7 +1744,27 @@
       ],
       "spread": false,
       "description": "the masked string"
-    }
+    },
+    "throws": [
+      {
+        "types": [
+          "MaskIsTooShortError"
+        ],
+        "description": ""
+      },
+      {
+        "types": [
+          "StringMaskError"
+        ],
+        "description": ""
+      },
+      {
+        "types": [
+          "MaskError"
+        ],
+        "description": ""
+      }
+    ]
   },
   {
     "kind": "index",

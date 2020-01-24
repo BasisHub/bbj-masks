@@ -4,5 +4,6 @@
             "name": "CD-Store (1)",
             "style": ""
         }
-    }
+    },
+    "liveServer.settings.port": 5501
 }

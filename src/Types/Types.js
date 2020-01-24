@@ -29,7 +29,7 @@ class Types {
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
    *                anyway , otherwise it will stop at first error and throw it.
-   * 
+   *
    * @returns {String} the masked number
    */
   static number(
@@ -38,7 +38,7 @@ class Types {
     groupingSeparator = ',',
     decimalSeparator = '.',
     forceTrailingZeros = false,
-    loose=true
+    loose = true
   ) {
     return NumberMask.mask(
       number,
@@ -71,7 +71,11 @@ class Types {
    * @param {String} str the string to mask
    * @param {String} mask the mask to use for formatting
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
-   *                errors , otherwise it will stop at first error and throw it.
+   *                anyway , otherwise it will stop at first error and throw it.
+   *
+   * @throws {MaskIsTooShortError}
+   * @throws {StringMaskError}
+   * @throws {MaskError}
    *
    * @returns {String} the masked string
    */
