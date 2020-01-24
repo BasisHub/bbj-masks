@@ -88,6 +88,17 @@
       mask: '#.##',
       expected: ' .10',
       forceTrailingZeros: true
+    },
+
+    {
+      number: 1234,
+      mask: '0',
+      throwError: /Number is too large/
+    },
+    {
+      number: 1234,
+      mask: '',
+      throwError: /Mask is empty/
     }
   ]
 

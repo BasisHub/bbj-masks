@@ -27,6 +27,9 @@ class Types {
    * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
    * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
+   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+   *                anyway , otherwise it will stop at first error and throw it.
+   * 
    * @returns {String} the masked number
    */
   static number(
@@ -34,14 +37,16 @@ class Types {
     mask,
     groupingSeparator = ',',
     decimalSeparator = '.',
-    forceTrailingZeros = false
+    forceTrailingZeros = false,
+    loose=true
   ) {
     return NumberMask.mask(
       number,
       mask,
       groupingSeparator,
       decimalSeparator,
-      forceTrailingZeros
+      forceTrailingZeros,
+      loose
     )
   }
 

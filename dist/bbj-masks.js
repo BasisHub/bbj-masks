@@ -324,14 +324,28 @@ function () {
      * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
      * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
      *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
+     * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+     *                anyway , otherwise it will stop at first error and throw it.
+     * 
+     * @throws {MaskError} only if loose is disabled
+     * 
      * @returns {String} the masked number
      */
     value: function mask(number, _mask) {
       var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       var forceTrailingZeros = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
+      var loose = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
       var maskLen = _mask.length;
-      if (0 === maskLen) return number; // Get magnitude and precision of MASK
+
+      if (0 === maskLen) {
+        if (loose) return str; // friendly silent fail
+        else throw {
+            name: 'MaskError',
+            message: "MaskError: Mask is empty"
+          };
+      } // Get magnitude and precision of MASK
+
 
       var maskBeforeDecimal = 0;
       var maskAfterDecimal = 0;
@@ -362,7 +376,14 @@ function () {
       } // always ignore mask overflow
 
 
-      if (numBeforeDecimal > maskBeforeDecimal) return number.toString(); // round if mask is for a lower precision number
+      if (numBeforeDecimal > maskBeforeDecimal) {
+        if (loose) return number.toString(); // friendly silent fail
+        else throw {
+            name: 'MaskError',
+            message: "MaskError: Number is too large for mask"
+          };
+      } // round if mask is for a lower precision number
+
 
       if (numAfterDecimal > maskAfterDecimal) {
         num = NumberMask._round(num, maskAfterDecimal);
@@ -381,7 +402,11 @@ function () {
 
 
         if (numBeforeDecimal > maskBeforeDecimal) {
-          return number.toString();
+          if (loose) return number.toString(); // friendly silent fail
+          else throw {
+              name: 'MaskError',
+              message: "MaskError: Number is too large for mask"
+            };
         }
       }
 
@@ -2396,13 +2421,17 @@ function () {
      * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
      * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
      *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
+     * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+     *                anyway , otherwise it will stop at first error and throw it.
+     * 
      * @returns {String} the masked number
      */
     value: function number(_number, mask) {
       var groupingSeparator = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : ',';
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       var forceTrailingZeros = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
-      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator, forceTrailingZeros);
+      var loose = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
+      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator, forceTrailingZeros, loose);
     }
     /**
      * Mask a date according to bbj masking rules

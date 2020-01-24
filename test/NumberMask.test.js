@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-var assert = typeof chai !== 'undefined' ? chai.assert : require('assert')
+var assert = typeof chai !== 'undefined' ? chai.assert : require('chai').assert
 var NumberMask =
   typeof BBj !== 'undefined'
     ? BBj.Masks.NumberMask
@@ -24,8 +24,8 @@ describe('NumberMask', function() {
         ? item.decimalSeparator
         : '.'
       let forceTrailingZeros = item.hasOwnProperty('forceTrailingZeros')
-      ? item.forceTrailingZeros
-      : false
+        ? item.forceTrailingZeros
+        : false
 
       describe(
         'number = ' +
@@ -38,15 +38,40 @@ describe('NumberMask', function() {
           decimal +
           "', forceTrailingZeros = '" +
           forceTrailingZeros +
-          "'",
+          "'" +
+          "', loose = " +
+          (item.hasOwnProperty('throwError') ? false : item.loose || true),
         function() {
           it(
             'should returns ' + (item.expected ? item.expected : 'nothing'),
             function() {
-              assert.deepEqual(
-                NumberMask.mask(item.number, item.mask, group, decimal , forceTrailingZeros),
-                item.expected
-              )
+              if (!item.hasOwnProperty('throwError')) {
+                assert.deepEqual(
+                  NumberMask.mask(
+                    item.number,
+                    item.mask,
+                    group,
+                    decimal,
+                    forceTrailingZeros,
+                    item.loose
+                  ),
+                  item.expected
+                )
+              } else {
+                assert.throws(
+                  function() {
+                    return NumberMask.mask(
+                      item.number,
+                      item.mask,
+                      group,
+                      decimal,
+                      forceTrailingZeros,
+                      false
+                    )
+                  }.bind(this),
+                  item.throwError
+                )
+              }
             }
           )
         }

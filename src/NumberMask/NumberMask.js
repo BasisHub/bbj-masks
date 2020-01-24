@@ -23,6 +23,11 @@ class NumberMask {
    * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
    * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
+   * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
+   *                anyway , otherwise it will stop at first error and throw it.
+   * 
+   * @throws {MaskError} only if loose is disabled
+   * 
    * @returns {String} the masked number
    */
   static mask(
@@ -30,10 +35,19 @@ class NumberMask {
     mask,
     groupingSeparator = ',',
     decimalSeparator = '.',
-    forceTrailingZeros = false
+    forceTrailingZeros = false,
+    loose = true
   ) {
     const maskLen = mask.length
-    if (0 === maskLen) return number
+    if (0 === maskLen) {
+      if (loose) return str
+      // friendly silent fail
+      else
+        throw {
+          name: 'MaskError',
+          message: `MaskError: Mask is empty`
+        }
+    }
 
     // Get magnitude and precision of MASK
     let maskBeforeDecimal = 0
@@ -64,7 +78,15 @@ class NumberMask {
     }
 
     // always ignore mask overflow
-    if (numBeforeDecimal > maskBeforeDecimal) return number.toString()
+    if (numBeforeDecimal > maskBeforeDecimal) {
+      if (loose) return number.toString()
+      // friendly silent fail
+      else
+        throw {
+          name: 'MaskError',
+          message: `MaskError: Number is too large for mask`
+        }
+    }
 
     // round if mask is for a lower precision number
     if (numAfterDecimal > maskAfterDecimal) {
@@ -86,7 +108,13 @@ class NumberMask {
 
       // always ignore mask overflow
       if (numBeforeDecimal > maskBeforeDecimal) {
-        return number.toString()
+        if (loose) return number.toString()
+        // friendly silent fail
+        else
+          throw {
+            name: 'MaskError',
+            message: `MaskError: Number is too large for mask`
+          }
       }
     }
 
