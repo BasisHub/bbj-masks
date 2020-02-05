@@ -241,7 +241,7 @@ StringMask.mask(&apos;abcdefg&apos;,&apos;XX-XXX-XX&apos;) </code>
 <tr>
 <td style="text-align:center">#</td>
 <td style="text-align:center">&#x2713;</td>
-<td style="text-align:left">The pound sign is used to suppress leading zeroes. It is replaced by the fill character for leading zeroes to the left of the decimal point. For trailing zeros to the right of the decimal point it is replaced by a space or a zero (see SETOPTS Byte 4, Bit $04$ for more detail). Any other time it is replaced by a digit. See SETOPTS for more information.</td>
+<td style="text-align:left">The pound sign is used to suppress leading zeroes. It is replaced by the fill character for leading zeroes to the left of the decimal point. For trailing zeros to the right of the decimal point it is replaced by a space or a zero (see <a href="https://basishub.github.io/bbj-masks/docs/api/class/src/NumberMask/NumberMask.js~NumberMask.html">forceTrailingZeros option</a>). Any other time it is replaced by a digit.</td>
 </tr>
 <tr>
 <td style="text-align:center">,</td>
@@ -313,6 +313,11 @@ StringMask.mask(&apos;abcdefg&apos;,&apos;XX-XXX-XX&apos;) </code>
 <td style="text-align:center">a</td>
 <td style="text-align:center">&#x2713;</td>
 <td style="text-align:left">Any alphabetic character.</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">&#x2713;</td>
+<td style="text-align:left">Any alphabetic character. Converts lower-case alphabetic characters to upper case.</td>
 </tr>
 <tr>
 <td style="text-align:center">0</td>
