@@ -8,7 +8,7 @@
 
 [Pages](https://basishub.github.io/bbj-masks/) | [API](https://basishub.github.io/bbj-masks/docs/api/) <br>
 
-A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.
+A small JavaScript library to format Dates , Numbers & Strings using BBj supported masks.
 
 ## Browsers support
 
