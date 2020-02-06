@@ -1089,6 +1089,7 @@ function getDateTimeFormat(timeZone) {
   if (!dtfCache[timeZone]) {
     dtfCache[timeZone] = new Intl.DateTimeFormat('en-US', {
       hour12: false,
+      // hourCycle: 'h23',
       timeZone: timeZone,
       year: 'numeric',
       month: '2-digit',
