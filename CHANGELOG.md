@@ -1,3 +1,12 @@
+## [1.1.1](https://github.com/BasisHub/bbj-masks/compare/v1.1.0...v1.1.1) (2020-02-18)
+
+
+### Bug Fixes
+
+* update to date-fns-tz@1.0.10 to fix chrome 80 tests failing ([440373a](https://github.com/BasisHub/bbj-masks/commit/440373a27593659a34405eafdb86b8fbe4e79adb))
+
+
+
 # [1.1.0](https://github.com/BasisHub/bbj-masks/compare/v1.0.0...v1.1.0) (2020-02-05)
 
 
