@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/BasisHub/bbj-masks/compare/v1.1.1...v1.2.0) (2020-11-18)
+
+
+### Features
+
+* add support for inputn like number mask style ([a093004](https://github.com/BasisHub/bbj-masks/commit/a093004c46bb712253bc1453bd4eb0a88063a839))
+
+
+
 ## [1.1.1](https://github.com/BasisHub/bbj-masks/compare/v1.1.0...v1.1.1) (2020-02-18)
 
 
