@@ -326,6 +326,14 @@ function () {
      *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
      * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
      *                anyway , otherwise it will stop at first error and throw it.
+     * @param {Boolean} [ignoreFillChar=false] - when true , then the fill char will always be an empty space 
+     *                                         event if the mask start with a `*` 
+     * @param {Boolean} [trimSpaces=false] - When true , the final masked value will not contain any spaces 
+     * @param {Boolean} [floatSpecialChars=true] - When true , then if any of  "-", "+", "$", and "(".  characters 
+     *                                            is present in the mask, the first one encountered will be moved
+     *                                            to the last position where a "#" or "," was replaced by the fill
+     *                                            character. If no such position exists, the float character is 
+     *                                            left where it
      * 
      * @throws {MaskError} only if loose is disabled
      * 
@@ -336,6 +344,9 @@ function () {
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       var forceTrailingZeros = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
       var loose = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
+      var ignoreFillChar = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
+      var trimSpaces = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
+      var floatSpecialChars = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : true;
       var maskLen = _mask.length;
 
       if (0 === maskLen) {
@@ -415,13 +426,12 @@ function () {
       var inPos = 0,
           outPos = 0,
           floatPos = 0;
-      if (_mask.charAt(0) == '*') fillByte = '*';
+      if (_mask.charAt(0) == '*' && ignoreFillChar === false) fillByte = '*';
       var fillInit = fillByte;
       var isNegative = NumberMask._getSign(num) < 0;
       var emitDecimal = inLen > 0 || _mask.indexOf('0') >= 0;
       var foundZero = false;
       var foundDigit = false;
-      var currency = false;
       foundDecimal = false;
       var ret = new Array(maskLen);
 
@@ -468,7 +478,7 @@ function () {
             break;
 
           case '-':
-            if (!foundDigit && floatByte == ' ') {
+            if (!foundDigit && floatByte == ' ' && floatSpecialChars) {
               if (isNegative) floatByte = '-';
               ret[outPos] = fillByte;
               floatPos = foundDecimal ? -1 : maskPos;
@@ -478,7 +488,7 @@ function () {
             break;
 
           case '+':
-            if (!foundDigit && floatByte == ' ') {
+            if (!foundDigit && floatByte == ' ' && floatSpecialChars) {
               floatByte = isNegative ? '-' : '+';
               ret[outPos] = fillByte;
               floatPos = foundDecimal ? -1 : maskPos;
@@ -488,7 +498,7 @@ function () {
             break;
 
           case '$':
-            if (!foundDigit && floatByte == ' ') {
+            if (!foundDigit && floatByte == ' ' && floatSpecialChars) {
               floatByte = '$';
               ret[outPos] = fillByte;
               floatPos = foundDecimal ? -1 : maskPos;
@@ -496,52 +506,39 @@ function () {
               ret[outPos] = '$';
             }
 
+            ret[outPos] = '$';
             ++outPos;
             break;
-          // case '&':
-          //   currency = true
-          //   if (!foundDigit && floatByte == ' ') {
-          //     floatByte = '&'
-          //     ret[outPos] = fillByte
-          //     floatPos = foundDecimal ? -1 : maskPos
-          //   } else {
-          //     ret[outPos] = '&'
-          //   }
-          //   ++outPos
-          //   break
-          // case '@':
-          //   currency = true
-          //   if (!foundDigit && floatByte == ' ') {
-          //     floatByte = '@'
-          //     ret[outPos] = fillByte
-          //     floatPos = foundDecimal ? -1 : maskPos
-          //   } else {
-          //     ret[outPos] = '@'
-          //   }
-          //   ++outPos
-          //   break
 
           case '(':
-            if (!foundDigit && floatByte == ' ') {
-              if (isNegative) floatByte = '(';
-              ret[outPos] = fillByte;
-              floatPos = foundDecimal ? -1 : maskPos;
-            } else {
-              if (isNegative) {
-                ret[outPos] = '(';
+            if (floatSpecialChars) {
+              if (!foundDigit && floatByte == ' ') {
+                if (isNegative) floatByte = '(';
+                ret[outPos] = fillByte;
+                floatPos = foundDecimal ? -1 : maskPos;
               } else {
-                ret[outPos] = foundDecimal ? ' ' : fillByte;
+                if (isNegative) {
+                  ret[outPos] = '(';
+                } else {
+                  ret[outPos] = foundDecimal ? ' ' : fillByte;
+                }
               }
+            } else {
+              ret[outPos] = '(';
             }
 
             ++outPos;
             break;
 
           case ')':
-            if (isNegative) {
-              ret[outPos] = ')';
+            if (floatSpecialChars) {
+              if (isNegative) {
+                ret[outPos] = ')';
+              } else {
+                ret[outPos] = foundDecimal ? ' ' : fillByte;
+              }
             } else {
-              ret[outPos] = foundDecimal ? ' ' : fillByte;
+              ret[outPos] = ')';
             }
 
             ++outPos;
@@ -620,7 +617,9 @@ function () {
         if (ret[floatPos] == fillInit) ret[floatPos] = floatByte;
       }
 
-      return ret.join('');
+      ret = ret.join('');
+      if (trimSpaces) ret = ret.replace(/\s/g, '');
+      return ret;
     }
   }, {
     key: "_shift",
@@ -2453,7 +2452,17 @@ function () {
      *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
      * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
      *                anyway , otherwise it will stop at first error and throw it.
+     * @param {Boolean} [ignoreFillChar=false] - when true , then the fill char will always be an empty space 
+     *                                         event if the mask start with a `*` 
+     * @param {Boolean} [trimSpaces=false] - When true , the final masked value will not contain any spaces 
+     * @param {Boolean} [floatSpecialChars=true] - When true , then if any of  "-", "+", "$", and "(".  characters 
+     *                                            is present in the mask, the first one encountered will be moved
+     *                                            to the last position where a "#" or "," was replaced by the fill
+     *                                            character. If no such position exists, the float character is 
+     *                                            left where it
      *
+     * @throws {MaskError} only if loose is disabled
+     * 
      * @returns {String} the masked number
      */
     value: function number(_number, mask) {
@@ -2461,7 +2470,10 @@ function () {
       var decimalSeparator = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : '.';
       var forceTrailingZeros = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
       var loose = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : true;
-      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator, forceTrailingZeros, loose);
+      var ignoreFillChar = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
+      var trimSpaces = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
+      var floatSpecialChars = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : true;
+      return __WEBPACK_IMPORTED_MODULE_0__NumberMask__["a" /* default */].mask(_number, mask, groupingSeparator, decimalSeparator, forceTrailingZeros, loose, ignoreFillChar, trimSpaces, floatSpecialChars);
     }
     /**
      * Mask a date according to bbj masking rules

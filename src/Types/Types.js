@@ -29,7 +29,17 @@ class Types {
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
    *                anyway , otherwise it will stop at first error and throw it.
+   * @param {Boolean} [ignoreFillChar=false] - when true , then the fill char will always be an empty space 
+   *                                         event if the mask start with a `*` 
+   * @param {Boolean} [trimSpaces=false] - When true , the final masked value will not contain any spaces 
+   * @param {Boolean} [floatSpecialChars=true] - When true , then if any of  "-", "+", "$", and "(".  characters 
+   *                                            is present in the mask, the first one encountered will be moved
+   *                                            to the last position where a "#" or "," was replaced by the fill
+   *                                            character. If no such position exists, the float character is 
+   *                                            left where it
    *
+   * @throws {MaskError} only if loose is disabled
+   * 
    * @returns {String} the masked number
    */
   static number(
@@ -38,7 +48,10 @@ class Types {
     groupingSeparator = ',',
     decimalSeparator = '.',
     forceTrailingZeros = false,
-    loose = true
+    loose = true,
+    ignoreFillChar = false,
+    trimSpaces = false,
+    floatSpecialChars = true
   ) {
     return NumberMask.mask(
       number,
@@ -46,7 +59,10 @@ class Types {
       groupingSeparator,
       decimalSeparator,
       forceTrailingZeros,
-      loose
+      loose,
+      ignoreFillChar,
+      trimSpaces,
+      floatSpecialChars
     )
   }
 

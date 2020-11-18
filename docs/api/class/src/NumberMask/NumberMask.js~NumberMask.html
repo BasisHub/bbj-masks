@@ -104,7 +104,7 @@
           
           
           
-          <span class="code" data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html#static-method-mask">mask</a></span></span><span class="code" data-ice="signature">(number: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, groupingSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, decimalSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forceTrailingZeros: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, loose: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+          <span class="code" data-ice="name"><span><a href="class/src/NumberMask/NumberMask.js~NumberMask.html#static-method-mask">mask</a></span></span><span class="code" data-ice="signature">(number: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, groupingSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, decimalSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forceTrailingZeros: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, loose: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, ignoreFillChar: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, trimSpaces: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, floatSpecialChars: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
         </p>
       </div>
       <div>
@@ -139,11 +139,11 @@
     
     
     
-    <span class="code" data-ice="name">mask</span><span class="code" data-ice="signature">(number: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, groupingSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, decimalSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forceTrailingZeros: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, loose: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
+    <span class="code" data-ice="name">mask</span><span class="code" data-ice="signature">(number: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></span>, mask: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, groupingSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, decimalSeparator: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span>, forceTrailingZeros: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, loose: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, ignoreFillChar: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, trimSpaces: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>, floatSpecialChars: <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span>): <span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></span></span>
     <span class="right-info">
       
       
-      <span data-ice="source"><span><a href="file/src/NumberMask/NumberMask.js.html#lineNumber33">source</a></span></span>
+      <span data-ice="source"><span><a href="file/src/NumberMask/NumberMask.js.html#lineNumber41">source</a></span></span>
     </span>
   </h3>
 
@@ -209,6 +209,35 @@
 <li>default: true</li></ul></td>
       <td data-ice="description"><p>when true , errors will be ignored and the method will try at apply the mask
                anyway , otherwise it will stop at first error and throw it.</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">ignoreFillChar</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>when true , then the fill char will always be an empty space 
+                                        event if the mask start with a <code>*</code></p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">trimSpaces</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: false</li></ul></td>
+      <td data-ice="description"><p>When true , the final masked value will not contain any spaces</p>
+</td>
+    </tr>
+<tr data-ice="property" data-depth="0">
+      <td data-ice="name" class="code" data-depth="0">floatSpecialChars</td>
+      <td data-ice="type" class="code"><span><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></span></td>
+      <td data-ice="appendix"><ul><li>optional</li>
+<li>default: true</li></ul></td>
+      <td data-ice="description"><p>When true , then if any of  &quot;-&quot;, &quot;+&quot;, &quot;$&quot;, and &quot;(&quot;.  characters 
+                                           is present in the mask, the first one encountered will be moved
+                                           to the last position where a &quot;#&quot; or &quot;,&quot; was replaced by the fill
+                                           character. If no such position exists, the float character is 
+                                           left where it</p>
 </td>
     </tr>
 </tbody>

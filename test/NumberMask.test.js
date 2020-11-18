@@ -16,9 +16,9 @@ var numbersProvider =
     ? NumbersProvider
     : require('./providers/NumbersProvider.js')
 
-describe('NumberMask', function() {
-  describe('Accepts all bbj number masks', function() {
-    numbersProvider.forEach(function(item) {
+describe('NumberMask', function () {
+  describe('Accepts all bbj number masks', function () {
+    numbersProvider.forEach(function (item) {
       let group = item.hasOwnProperty('groupingSep') ? item.groupingSep : ','
       let decimal = item.hasOwnProperty('decimalSeparator')
         ? item.decimalSeparator
@@ -27,24 +27,11 @@ describe('NumberMask', function() {
         ? item.forceTrailingZeros
         : false
 
-      describe(
-        'number = ' +
-          item.number +
-          ', mask = ' +
-          item.mask +
-          ", groupSep = '" +
-          group +
-          "', decimalSep = '" +
-          decimal +
-          "', forceTrailingZeros = '" +
-          forceTrailingZeros +
-          "'" +
-          "', loose = " +
-          (item.hasOwnProperty('throwError') ? false : item.loose || true),
-        function() {
+      describe('number = ' + item.number + ', mask = ' + item.mask,
+        function () {
           it(
             'should returns ' + (item.expected ? item.expected : 'nothing'),
-            function() {
+            function () {
               if (!item.hasOwnProperty('throwError')) {
                 assert.deepEqual(
                   NumberMask.mask(
@@ -53,20 +40,26 @@ describe('NumberMask', function() {
                     group,
                     decimal,
                     forceTrailingZeros,
-                    item.loose
+                    item.loose,
+                    item.ignoreFillChar,
+                    item.trimSpaces,
+                    item.floatSpecialChars
                   ),
                   item.expected
                 )
               } else {
                 assert.throws(
-                  function() {
+                  function () {
                     return NumberMask.mask(
                       item.number,
                       item.mask,
                       group,
                       decimal,
                       forceTrailingZeros,
-                      false
+                      false,
+                      item.ignoreFillChar,
+                      item.trimSpaces,
+                      item.floatSpecialChars
                     )
                   }.bind(this),
                   item.throwError

@@ -25,6 +25,14 @@ class NumberMask {
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
    *                anyway , otherwise it will stop at first error and throw it.
+   * @param {Boolean} [ignoreFillChar=false] - when true , then the fill char will always be an empty space 
+   *                                         event if the mask start with a `*` 
+   * @param {Boolean} [trimSpaces=false] - When true , the final masked value will not contain any spaces 
+   * @param {Boolean} [floatSpecialChars=true] - When true , then if any of  "-", "+", "$", and "(".  characters 
+   *                                            is present in the mask, the first one encountered will be moved
+   *                                            to the last position where a "#" or "," was replaced by the fill
+   *                                            character. If no such position exists, the float character is 
+   *                                            left where it
    * 
    * @throws {MaskError} only if loose is disabled
    * 
@@ -36,7 +44,10 @@ class NumberMask {
     groupingSeparator = ',',
     decimalSeparator = '.',
     forceTrailingZeros = false,
-    loose = true
+    loose = true,
+    ignoreFillChar = false,
+    trimSpaces = false,
+    floatSpecialChars = true
   ) {
     const maskLen = mask.length
     if (0 === maskLen) {
@@ -123,14 +134,13 @@ class NumberMask {
     let inPos = 0,
       outPos = 0,
       floatPos = 0
-    if (mask.charAt(0) == '*') fillByte = '*'
+    if (mask.charAt(0) == '*' && ignoreFillChar === false) fillByte = '*'
 
     const fillInit = fillByte
     const isNegative = NumberMask._getSign(num) < 0
     let emitDecimal = inLen > 0 || mask.indexOf('0') >= 0
     let foundZero = false
     let foundDigit = false
-    let currency = false
     foundDecimal = false
 
     let ret = new Array(maskLen)
@@ -160,8 +170,8 @@ class NumberMask {
           } else {
             ret[outPos] =
               foundDecimal &&
-              forceTrailingZeros &&
-              NumberMask._getSign(num) != 0
+                forceTrailingZeros &&
+                NumberMask._getSign(num) != 0
                 ? '0'
                 : fillByte
             if (!foundDecimal) floatPos = maskPos
@@ -179,7 +189,7 @@ class NumberMask {
           break
 
         case '-':
-          if (!foundDigit && floatByte == ' ') {
+          if (!foundDigit && (floatByte == ' ' && floatSpecialChars)) {
             if (isNegative) floatByte = '-'
             ret[outPos] = fillByte
             floatPos = foundDecimal ? -1 : maskPos
@@ -188,7 +198,7 @@ class NumberMask {
           break
 
         case '+':
-          if (!foundDigit && floatByte == ' ') {
+          if (!foundDigit && (floatByte == ' ' && floatSpecialChars)) {
             floatByte = isNegative ? '-' : '+'
             ret[outPos] = fillByte
             floatPos = foundDecimal ? -1 : maskPos
@@ -197,61 +207,48 @@ class NumberMask {
           break
 
         case '$':
-          if (!foundDigit && floatByte == ' ') {
+          if (!foundDigit && (floatByte == ' ' && floatSpecialChars)) {
             floatByte = '$'
             ret[outPos] = fillByte
             floatPos = foundDecimal ? -1 : maskPos
           } else {
             ret[outPos] = '$'
           }
+          ret[outPos] = '$'
           ++outPos
           break
 
-        // case '&':
-        //   currency = true
-        //   if (!foundDigit && floatByte == ' ') {
-        //     floatByte = '&'
-        //     ret[outPos] = fillByte
-        //     floatPos = foundDecimal ? -1 : maskPos
-        //   } else {
-        //     ret[outPos] = '&'
-        //   }
-        //   ++outPos
-        //   break
-
-        // case '@':
-        //   currency = true
-        //   if (!foundDigit && floatByte == ' ') {
-        //     floatByte = '@'
-        //     ret[outPos] = fillByte
-        //     floatPos = foundDecimal ? -1 : maskPos
-        //   } else {
-        //     ret[outPos] = '@'
-        //   }
-        //   ++outPos
-        //   break
-
         case '(':
-          if (!foundDigit && floatByte == ' ') {
-            if (isNegative) floatByte = '('
-            ret[outPos] = fillByte
-            floatPos = foundDecimal ? -1 : maskPos
-          } else {
-            if (isNegative) {
-              ret[outPos] = '('
+          if(floatSpecialChars) {
+            if (!foundDigit && (floatByte == ' ')) {
+              if (isNegative) floatByte = '('
+              ret[outPos] = fillByte
+              floatPos = foundDecimal ? -1 : maskPos
             } else {
-              ret[outPos] = foundDecimal ? ' ' : fillByte
+              if (isNegative) {
+                ret[outPos] = '('
+              } else {
+                ret[outPos] = foundDecimal ? ' ' : fillByte
+              }
             }
+          } else {
+            ret[outPos] = '('
           }
+
           ++outPos
           break
 
         case ')':
-          if (isNegative) {
-            ret[outPos] = ')'
+          if(floatSpecialChars) {
+            if (isNegative) {
+              ret[outPos] = ')'
+            } else {
+              ret[outPos] = foundDecimal ? ' ' : fillByte
+            }
           } else {
-            ret[outPos] = foundDecimal ? ' ' : fillByte
+            ret[outPos] = ')'
           }
+          
           ++outPos
           break
 
@@ -319,7 +316,11 @@ class NumberMask {
       if (ret[floatPos] == fillInit) ret[floatPos] = floatByte
     }
 
-    return ret.join('')
+    ret = ret.join('')
+
+    if (trimSpaces) ret = ret.replace(/\s/g, '')
+
+    return ret
   }
 
   static _shift(number, precision, reverseShift) {

@@ -1,5 +1,5 @@
-;(function(root, undefined) {
-  var NumbersProvider = [
+; (function (root, undefined) {
+  var NumbersProvider = [    
     { number: 123, mask: '000', expected: '123' },
     { number: 123, mask: '0000', expected: '0123' },
     { number: 1234, mask: '##,##0', expected: ' 1,234' },
@@ -99,7 +99,92 @@
       number: 1234,
       mask: '',
       throwError: /Mask is empty/
-    }
+    },
+
+    // ignoreFillChar
+    // floatSpecialChars
+    // trimSpaces
+    {
+      number: -12345.00,
+      mask: '*-$###,###,###.##',
+      expected: '*-$12,345.00',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },
+    {
+      number: 12345.00,
+      mask: '*-$###,###,###.##',
+      expected: '*$12,345.00',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },    
+    {
+      number: 123.45,
+      mask: '*-$###,###,###.##',
+      expected: '*$123.45',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },   
+    {
+      number: -123.45,
+      mask: '*-$###,###,###.##',
+      expected: '*-$123.45',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },        
+    {
+      number: -12345.00,
+      mask: '($###,###,###.##)',
+      expected: '($12,345.00)',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },
+    {
+      number: 12345.00,
+      mask: '($###,###,###.##)',
+      expected: '($12,345.00)',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },   
+    {
+      number: -12345.00,
+      mask: '($###,###,###.##)',
+      expected: '($12,345.00)',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },   
+    {
+      number: -123.45,
+      mask: '($###,###,###.##)',
+      expected: '($123.45)',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    }, 
+    {
+      number: 123.45,
+      mask: '($###,###,###.##)',
+      expected: '($123.45)',
+      trimSpaces: true,
+      ignoreFillChar: true,
+      forceTrailingZeros: true,
+      floatSpecialChars: false
+    },                
   ]
 
   if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
