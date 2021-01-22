@@ -1,5 +1,6 @@
 ;(function(root, undefined) {
   var StringsProvider = [
+    { string: 'a23', mask: 'AA-00', expected: 'A -3' },
     // { string: 123, mask: '0000', expected: '0123' },
     { string: 'abcdefg', mask: 'XX-XXX-XX', expected: 'ab-cde-fg' },
     { string: 'abcdefg', mask: 'AA-AAA-AA', expected: 'AB-CDE-FG' },
@@ -45,7 +46,7 @@
     {
       string: 'ab-',
       mask: 'AA-00',
-      expected: 'AB-  '
+      expected: 'AB- '
     },
     {
       string: '00-bc',

@@ -305,9 +305,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  *
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
-var NumberMask =
-/*#__PURE__*/
-function () {
+var NumberMask = /*#__PURE__*/function () {
   function NumberMask() {
     _classCallCheck(this, NumberMask);
   }
@@ -806,9 +804,7 @@ var getWeekNumber = function getWeekNumber(date, weekStart) {
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
 
-var DateMask =
-/*#__PURE__*/
-function () {
+var DateMask = /*#__PURE__*/function () {
   function DateMask() {
     _classCallCheck(this, DateMask);
   }
@@ -2238,9 +2234,7 @@ var passOrThrowError = function passOrThrowError(loose, ret, i, str) {
  */
 
 
-var StringMask =
-/*#__PURE__*/
-function () {
+var StringMask = /*#__PURE__*/function () {
   function StringMask() {
     _classCallCheck(this, StringMask);
   }
@@ -2298,7 +2292,7 @@ function () {
               var _byte = str.charAt(pos);
 
               if (isUpperCase(_byte)) ret[i] = _byte;else if (isLowerCase(_byte)) ret[i] = _byte.toUpperCase();else passOrThrowError(loose, ret, i, str);
-            } else ret[i] = ' ';
+            } else ret[i] = '';
 
             ++pos;
             break;
@@ -2309,7 +2303,7 @@ function () {
               var _byte2 = str.charAt(pos);
 
               if (isUpperCase(_byte2) || isLowerCase(_byte2)) ret[i] = _byte2;else passOrThrowError(loose, ret, i, str);
-            } else ret[i] = ' ';
+            } else ret[i] = '';
 
             ++pos;
             break;
@@ -2320,7 +2314,7 @@ function () {
               var _byte3 = str.charAt(pos);
 
               if (isNumberRegex.test(_byte3)) ret[i] = _byte3;else passOrThrowError(loose, ret, i, str);
-            } else ret[i] = ' ';
+            } else ret[i] = '';
 
             ++pos;
             break;
@@ -2331,7 +2325,7 @@ function () {
               var _byte4 = str.charAt(pos);
 
               if (isUpperCase(_byte4) || isNumberRegex.test(_byte4)) ret[i] = _byte4;else if (isLowerCase(_byte4)) ret[i] = _byte4.toUpperCase();else passOrThrowError(loose, ret, i, str);
-            } else ret[i] = ' ';
+            } else ret[i] = '';
 
             ++pos;
             break;
@@ -2342,7 +2336,7 @@ function () {
               var _byte5 = str.charAt(pos);
 
               if (isUpperCase(_byte5) || isLowerCase(_byte5) || isNumberRegex.test(_byte5)) ret[i] = _byte5;else passOrThrowError(loose, ret, i, str);
-            } else ret[i] = ' ';
+            } else ret[i] = '';
 
             ++pos;
             break;
@@ -2431,9 +2425,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  * @author Hyyan Abo Fakher <habofakher@basis.com>
  */
 
-var Types =
-/*#__PURE__*/
-function () {
+var Types = /*#__PURE__*/function () {
   function Types() {
     _classCallCheck(this, Types);
   }

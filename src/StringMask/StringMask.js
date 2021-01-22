@@ -97,7 +97,7 @@ class StringMask {
             if (isUpperCase(byte)) ret[i] = byte
             else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()
             else passOrThrowError(loose, ret, i, str)
-          } else ret[i] = ' '
+          } else ret[i] = ''
           ++pos
           break
 
@@ -106,7 +106,7 @@ class StringMask {
             const byte = str.charAt(pos)
             if (isUpperCase(byte) || isLowerCase(byte)) ret[i] = byte
             else passOrThrowError(loose, ret, i, str)
-          } else ret[i] = ' '
+          } else ret[i] = ''
           ++pos
           break
         case '0': // match digit
@@ -114,7 +114,7 @@ class StringMask {
             const byte = str.charAt(pos)
             if (isNumberRegex.test(byte)) ret[i] = byte
             else passOrThrowError(loose, ret, i, str)
-          } else ret[i] = ' '
+          } else ret[i] = ''
           ++pos
           break
         case 'Z': // match letter or digit; force upper case
@@ -123,7 +123,7 @@ class StringMask {
             if (isUpperCase(byte) || isNumberRegex.test(byte)) ret[i] = byte
             else if (isLowerCase(byte)) ret[i] = byte.toUpperCase()
             else passOrThrowError(loose, ret, i, str)
-          } else ret[i] = ' '
+          } else ret[i] = ''
           ++pos
           break
         case 'z': // match letter or digit
@@ -136,7 +136,7 @@ class StringMask {
             )
               ret[i] = byte
             else passOrThrowError(loose, ret, i, str)
-          } else ret[i] = ' '
+          } else ret[i] = ''
           ++pos
           break
 
