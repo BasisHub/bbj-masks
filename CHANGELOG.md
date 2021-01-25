@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/BasisHub/bbj-masks/compare/v1.2.1...v1.3.0) (2021-01-25)
+
+
+### Reverts
+
+* fix(StringMask): space should be the pad char for X & U only ([c973ace](https://github.com/BasisHub/bbj-masks/commit/c973ace3d7cb7f0f8ccca8ceb67f18b117ae67a5))
+
+
+
 ## [1.2.1](https://github.com/BasisHub/bbj-masks/compare/v1.2.0...v1.2.1) (2021-01-22)
 
 
