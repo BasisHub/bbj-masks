@@ -1,3 +1,12 @@
+## [1.4.1](https://github.com/BasisHub/bbj-masks/compare/v1.4.0...v1.4.1) (2021-05-10)
+
+
+### Bug Fixes
+
+* **NumberMask:** floatSpecialChars is applied wrongly for "(" & ")" chars ([e62d305](https://github.com/BasisHub/bbj-masks/commit/e62d305e205748fcc1e20b027d29bb350d4a8869))
+
+
+
 # [1.4.0](https://github.com/BasisHub/bbj-masks/compare/v1.3.0...v1.4.0) (2021-05-04)
 
 
