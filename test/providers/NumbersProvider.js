@@ -152,7 +152,7 @@
     {
       number: 12345.00,
       mask: '($###,###,###.##)',
-      expected: '($12,345.00)',
+      expected: '$12,345.00',
       trimSpaces: true,
       ignoreFillChar: true,
       forceTrailingZeros: true,
@@ -179,7 +179,7 @@
     {
       number: 123.45,
       mask: '($###,###,###.##)',
-      expected: '($123.45)',
+      expected: '$123.45',
       trimSpaces: true,
       ignoreFillChar: true,
       forceTrailingZeros: true,

@@ -266,35 +266,53 @@ class NumberMask {
           break
 
         case &apos;(&apos;:
-          if(floatSpecialChars) {
-            if (!foundDigit &amp;&amp; (floatByte == &apos; &apos;)) {
-              if (isNegative) floatByte = &apos;(&apos;
-              ret[outPos] = fillByte
-              floatPos = foundDecimal ? -1 : maskPos
-            } else {
-              if (isNegative) {
-                ret[outPos] = &apos;(&apos;
-              } else {
-                ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
-              }
-            }
+          if (!foundDigit &amp;&amp; (floatByte == &apos; &apos;) &amp;&amp; floatSpecialChars) {
+            if (isNegative) floatByte = &apos;(&apos;
+            ret[outPos] = fillByte
+            floatPos = foundDecimal ? -1 : maskPos
           } else {
-            ret[outPos] = &apos;(&apos;
+            if (isNegative) {
+              ret[outPos] = &apos;(&apos;
+            } else {
+              ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
+            }
           }
+
+          // if(floatSpecialChars) {
+          //   if (!foundDigit &amp;&amp; (floatByte == &apos; &apos;)) {
+          //     if (isNegative) floatByte = &apos;(&apos;
+          //     ret[outPos] = fillByte
+          //     floatPos = foundDecimal ? -1 : maskPos
+          //   } else {
+          //     if (isNegative) {
+          //       ret[outPos] = &apos;(&apos;
+          //     } else {
+          //       ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
+          //     }
+          //   }
+          // } else {
+          //   ret[outPos] = &apos;(&apos;
+          // }
 
           ++outPos
           break
 
         case &apos;)&apos;:
-          if(floatSpecialChars) {
-            if (isNegative) {
-              ret[outPos] = &apos;)&apos;
-            } else {
-              ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
-            }
-          } else {
+          if (isNegative) {
             ret[outPos] = &apos;)&apos;
+          } else {
+            ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
           }
+          
+          // if(floatSpecialChars) {
+          //   if (isNegative) {
+          //     ret[outPos] = &apos;)&apos;
+          //   } else {
+          //     ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
+          //   }
+          // } else {
+          //   ret[outPos] = &apos;)&apos;
+          // }
           
           ++outPos
           break

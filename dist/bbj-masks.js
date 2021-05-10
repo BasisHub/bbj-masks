@@ -509,35 +509,51 @@ var NumberMask = /*#__PURE__*/function () {
             break;
 
           case '(':
-            if (floatSpecialChars) {
-              if (!foundDigit && floatByte == ' ') {
-                if (isNegative) floatByte = '(';
-                ret[outPos] = fillByte;
-                floatPos = foundDecimal ? -1 : maskPos;
-              } else {
-                if (isNegative) {
-                  ret[outPos] = '(';
-                } else {
-                  ret[outPos] = foundDecimal ? ' ' : fillByte;
-                }
-              }
+            if (!foundDigit && floatByte == ' ' && floatSpecialChars) {
+              if (isNegative) floatByte = '(';
+              ret[outPos] = fillByte;
+              floatPos = foundDecimal ? -1 : maskPos;
             } else {
-              ret[outPos] = '(';
-            }
+              if (isNegative) {
+                ret[outPos] = '(';
+              } else {
+                ret[outPos] = foundDecimal ? ' ' : fillByte;
+              }
+            } // if(floatSpecialChars) {
+            //   if (!foundDigit && (floatByte == ' ')) {
+            //     if (isNegative) floatByte = '('
+            //     ret[outPos] = fillByte
+            //     floatPos = foundDecimal ? -1 : maskPos
+            //   } else {
+            //     if (isNegative) {
+            //       ret[outPos] = '('
+            //     } else {
+            //       ret[outPos] = foundDecimal ? ' ' : fillByte
+            //     }
+            //   }
+            // } else {
+            //   ret[outPos] = '('
+            // }
+
 
             ++outPos;
             break;
 
           case ')':
-            if (floatSpecialChars) {
-              if (isNegative) {
-                ret[outPos] = ')';
-              } else {
-                ret[outPos] = foundDecimal ? ' ' : fillByte;
-              }
-            } else {
+            if (isNegative) {
               ret[outPos] = ')';
-            }
+            } else {
+              ret[outPos] = foundDecimal ? ' ' : fillByte;
+            } // if(floatSpecialChars) {
+            //   if (isNegative) {
+            //     ret[outPos] = ')'
+            //   } else {
+            //     ret[outPos] = foundDecimal ? ' ' : fillByte
+            //   }
+            // } else {
+            //   ret[outPos] = ')'
+            // }
+
 
             ++outPos;
             break;
