@@ -184,7 +184,16 @@
       ignoreFillChar: true,
       forceTrailingZeros: true,
       floatSpecialChars: false
-    },                
+    },  
+    {
+      number: 9704.25,
+      mask: '$###,###.00',
+      expected: '$9,704.25',
+      forceTrailingZeros: false,
+      ignoreFillChar: false,
+      trimSpaces: true,
+      floatSpecialChars: true
+    },                        
   ]
 
   if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {

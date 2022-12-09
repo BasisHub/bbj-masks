@@ -214,7 +214,7 @@ class NumberMask {
           } else {
             ret[outPos] = '$'
           }
-          ret[outPos] = '$'
+          // ret[outPos] = '$'
           ++outPos
           break
 

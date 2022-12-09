@@ -502,9 +502,9 @@ var NumberMask = /*#__PURE__*/function () {
               floatPos = foundDecimal ? -1 : maskPos;
             } else {
               ret[outPos] = '$';
-            }
+            } // ret[outPos] = '$'
 
-            ret[outPos] = '$';
+
             ++outPos;
             break;
 
