@@ -1,3 +1,12 @@
+## [1.4.2](https://github.com/BasisHub/bbj-masks/compare/v1.4.1...v1.4.2) (2022-12-09)
+
+
+### Bug Fixes
+
+* `$` is floating correctly, but another `$` also appears at the beginning ([3fb71ba](https://github.com/BasisHub/bbj-masks/commit/3fb71ba64472fd7b4f7765ada6086f6892695163))
+
+
+
 ## [1.4.1](https://github.com/BasisHub/bbj-masks/compare/v1.4.0...v1.4.1) (2021-05-10)
 
 
