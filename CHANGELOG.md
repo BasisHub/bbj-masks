@@ -1,3 +1,7 @@
+# [1.5.0](https://github.com/BasisHub/bbj-masks/compare/v1.4.2...v1.5.0) (2023-02-03)
+
+
+
 ## [1.4.2](https://github.com/BasisHub/bbj-masks/compare/v1.4.1...v1.4.2) (2022-12-09)
 
 
