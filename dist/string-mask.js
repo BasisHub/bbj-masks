@@ -2,12 +2,12 @@
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define("BBj", [], factory);
 	else if(typeof exports === 'object')
 		exports["BBj"] = factory();
 	else
-		root["BBj"] = root["BBj"] || {}, root["BBj"]["Masks"] = factory();
-})(self, () => {
+		root["BBj"] = root["BBj"] || {}, root["BBj"]["Masks"] = root["BBj"]["Masks"] || {}, root["BBj"]["Masks"]["String"] = factory();
+})((typeof self !== 'undefined' ? self : this), () => {
 return /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
