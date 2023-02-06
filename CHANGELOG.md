@@ -1,3 +1,12 @@
+## [1.5.1](https://github.com/BasisHub/bbj-masks/compare/v1.5.0...v1.5.1) (2023-02-06)
+
+
+### Bug Fixes
+
+* fix `1.5.0` broken build for node ([a6540d7](https://github.com/BasisHub/bbj-masks/commit/a6540d79012e962f69083455b537f04ac462fa84))
+
+
+
 # [1.5.0](https://github.com/BasisHub/bbj-masks/compare/v1.4.2...v1.5.0) (2023-02-03)
 
 
