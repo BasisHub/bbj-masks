@@ -47,14 +47,13 @@
 <div class="content" data-ice="content"><div data-ice="index" class="github-markdown"><h1 id="bbj-masks">BBj Masks</h1><p><a href="https://travis-ci.com/BasisHub/bbj-masks"><img src="https://travis-ci.com/BasisHub/bbj-masks.svg?branch=master" alt="Build Status"></a>
 <img src="https://img.shields.io/github/license/BasisHub/bbj-masks" alt="GitHub">
 <img src="https://img.shields.io/github/size/BasisHub/bbj-masks/dist/bbj-masks.min.js" alt="GitHub file size in bytes">
-<img src="https://img.shields.io/github/v/tag/BasisHub/bbj-masks" alt="GitHub tag (latest by date)">
-<img src="https://img.shields.io/david/BasisHub/bbj-masks" alt="David"></p>
-<p><a href="https://basishub.github.io/bbj-masks/">Pages</a> | <a href="https://basishub.github.io/bbj-masks/docs/api/">API</a> <br></p>
+<img src="https://img.shields.io/github/v/tag/BasisHub/bbj-masks" alt="GitHub tag (latest by date)"></p>
+<p><a href="https://basishub.github.io/bbj-masks/docs/api/">Browse API</a> <br></p>
 <p>A small JavaScript library to format Dates , Numbers &amp; Strings using BBj supported masks.</p>
 <h2 id="browsers-support">Browsers support</h2><table>
 <thead>
 <tr>
-<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" width="24px" height="24px"></a><br>IE / Edge</th>
+<th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" width="24px" height="24px"></a><br>Edge</th>
 <th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" width="24px" height="24px"></a><br>Firefox</th>
 <th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" width="24px" height="24px"></a><br>Chrome</th>
 <th style="text-align:center"><a href="http://godban.github.io/browsers-support-badges/"><img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" width="24px" height="24px"></a><br>Safari</th>
@@ -63,7 +62,7 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">IE11, Edge</td>
+<td style="text-align:center">last 2 versions</td>
 <td style="text-align:center">last 2 versions</td>
 <td style="text-align:center">last 2 versions</td>
 <td style="text-align:center">last 2 versions</td>
@@ -71,7 +70,6 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Note :</strong> To support IE11 browser include the <a href="https://github.com/formatjs/date-time-format-timezone/">date-time-format-timezone</a> polyfill</p>
 <h2 id="install">Install</h2><pre><code><code class="source-code prettyprint">$ npm install BasisHub/bbj-masks
 $ yarn add BasisHub/bbj-masks</code>
 </code></pre><h2 id="usage">Usage</h2><pre><code class="lang-js"><code class="source-code prettyprint">const formattedNumber = BBj.Masks.Types.number(
@@ -84,23 +82,20 @@ const formattedDate = BBj.Masks.Types.date(
   &apos;%Yz - %Mz - %Dz&apos;
 ) // -&gt; 18 - 02 - 15
 
-const formattedString = BBj.Masks.Types.string(
-  &apos;abcdefg&apos;,
-  &apos;XX-XXX-XX&apos;
-) // -&gt; ab-cde-fg</code>
+const formattedString = BBj.Masks.Types.string(&apos;abcdefg&apos;, &apos;XX-XXX-XX&apos;) // -&gt; ab-cde-fg</code>
 </code></pre>
 <p><strong>With ES6 modules</strong></p>
-<pre><code class="lang-js"><code class="source-code prettyprint">import Types , { NumberMask, DateMask, StringMask} from &apos;bbj-masks&apos;
+<pre><code class="lang-js"><code class="source-code prettyprint">import Types, { NumberMask, DateMask, StringMask } from &apos;bbj-masks&apos;
 
-Types.number(-5000.123456789,&apos;$ -#,##0.######&apos;) 
-Types.date(&apos;2018-02-15T14:01:06Z&apos;,&apos;%Yz - %Mz - %Dz&apos;)
-Types.string(&apos;abcdefg&apos;,&apos;XX-XXX-XX&apos;)
+Types.number(-5000.123456789, &apos;$ -#,##0.######&apos;)
+Types.date(&apos;2018-02-15T14:01:06Z&apos;, &apos;%Yz - %Mz - %Dz&apos;)
+Types.string(&apos;abcdefg&apos;, &apos;XX-XXX-XX&apos;)
 
-NumberMask.mask(-5000.123456789,&apos;$ -#,##0.######&apos;) 
+NumberMask.mask(-5000.123456789, &apos;$ -#,##0.######&apos;)
 
-DateMask.mask(&apos;2018-02-15T14:01:06Z&apos;,&apos;%Yz - %Mz - %Dz&apos;) 
+DateMask.mask(&apos;2018-02-15T14:01:06Z&apos;, &apos;%Yz - %Mz - %Dz&apos;)
 
-StringMask.mask(&apos;abcdefg&apos;,&apos;XX-XXX-XX&apos;) </code>
+StringMask.mask(&apos;abcdefg&apos;, &apos;XX-XXX-XX&apos;)</code>
 </code></pre>
 <h2 id="-a-href--https---documentation-basis-com-basishelp-webhelp-commands-date-function-bbj-htm--date-masks--a-"><a href="https://documentation.basis.com/BASISHelp/WebHelp/commands/date_function_bbj.htm">Date Masks</a></h2><table>
 <thead>
