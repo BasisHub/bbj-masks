@@ -1,7 +1,5 @@
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin
 const path = require('path')
 
 module.exports = {
@@ -108,10 +106,6 @@ module.exports = {
     new UglifyJsPlugin({
       include: /\.min\.js$/
     }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false
-    })
   ],
   watchOptions: {
     ignored: /node_modules/
