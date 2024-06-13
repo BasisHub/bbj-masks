@@ -15,9 +15,9 @@
       "expectCount": 6,
       "actualCount": 3,
       "undocumentLines": [
-        344,
-        354,
-        362
+        349,
+        359,
+        367
       ]
     },
     "src/StringMask/StringMask.js": {

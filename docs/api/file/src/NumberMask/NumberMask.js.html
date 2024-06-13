@@ -96,6 +96,8 @@ class NumberMask {
     trimSpaces = false,
     floatSpecialChars = true
   ) {
+    const groupingSeparatorPlaceholder = &apos;__GROUPING__SEPARATOR__PLACEHOLDER__&apos;;
+    const decimalSeparatorPlaceholder = &apos;__DECIMAL__SEPARATOR__PLACEHOLDER__&apos;
     const maskLen = mask.length
     if (0 === maskLen) {
       if (loose) return str
@@ -227,7 +229,7 @@ class NumberMask {
           break
 
         case &apos;,&apos;:
-          if (foundZero || inPos &gt; 0) ret[outPos] = groupingSeparator
+          if (foundZero || inPos &gt; 0) ret[outPos] = groupingSeparatorPlaceholder
           else {
             ret[outPos] = fillByte
             if (!foundDecimal) floatPos = maskPos
@@ -303,7 +305,7 @@ class NumberMask {
           } else {
             ret[outPos] = foundDecimal ? &apos; &apos; : fillByte
           }
-          
+
           // if(floatSpecialChars) {
           //   if (isNegative) {
           //     ret[outPos] = &apos;)&apos;
@@ -313,7 +315,7 @@ class NumberMask {
           // } else {
           //   ret[outPos] = &apos;)&apos;
           // }
-          
+
           ++outPos
           break
 
@@ -356,7 +358,7 @@ class NumberMask {
           break
 
         case &apos;.&apos;:
-          ret[outPos] = emitDecimal ? decimalSeparator : fillByte
+          ret[outPos] = emitDecimal ? decimalSeparatorPlaceholder : fillByte
           fillByte = &apos; &apos;
           foundDecimal = true
           ++inPos
@@ -384,6 +386,9 @@ class NumberMask {
     ret = ret.join(&apos;&apos;)
 
     if (trimSpaces) ret = ret.replace(/\s/g, &apos;&apos;)
+
+    ret = ret.replaceAll(groupingSeparatorPlaceholder, groupingSeparator);
+    ret = ret.replaceAll(decimalSeparatorPlaceholder, decimalSeparator);
 
     return ret
   }

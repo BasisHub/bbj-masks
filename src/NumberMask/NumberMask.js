@@ -19,8 +19,8 @@ class NumberMask {
    *
    * @param {Number} number the number to format
    * @param {String} mask the mask to use for formatting
-   * @param {String} [groupingSeparatorPlaceholder=,] - a char which will be used as a grouping separator
-   * @param {String} [decimalSeparatorPlaceholder=.]  - a char which will be used as a decimal separator
+   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
+   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
    * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask

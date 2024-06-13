@@ -409,6 +409,8 @@ var NumberMask = /*#__PURE__*/function () {
       var ignoreFillChar = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : false;
       var trimSpaces = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
       var floatSpecialChars = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : true;
+      var groupingSeparatorPlaceholder = '__GROUPING__SEPARATOR__PLACEHOLDER__';
+      var decimalSeparatorPlaceholder = '__DECIMAL__SEPARATOR__PLACEHOLDER__';
       var maskLen = _mask.length;
       if (0 === maskLen) {
         if (loose) return str;
@@ -520,7 +522,7 @@ var NumberMask = /*#__PURE__*/function () {
             ++outPos;
             break;
           case ',':
-            if (foundZero || inPos > 0) ret[outPos] = groupingSeparator;else {
+            if (foundZero || inPos > 0) ret[outPos] = groupingSeparatorPlaceholder;else {
               ret[outPos] = fillByte;
               if (!foundDecimal) floatPos = maskPos;
             }
@@ -640,7 +642,7 @@ var NumberMask = /*#__PURE__*/function () {
             ++outPos;
             break;
           case '.':
-            ret[outPos] = emitDecimal ? decimalSeparator : fillByte;
+            ret[outPos] = emitDecimal ? decimalSeparatorPlaceholder : fillByte;
             fillByte = ' ';
             foundDecimal = true;
             ++inPos;
@@ -663,6 +665,8 @@ var NumberMask = /*#__PURE__*/function () {
       }
       ret = ret.join('');
       if (trimSpaces) ret = ret.replace(/\s/g, '');
+      ret = ret.replaceAll(groupingSeparatorPlaceholder, groupingSeparator);
+      ret = ret.replaceAll(decimalSeparatorPlaceholder, decimalSeparator);
       return ret;
     }
   }, {
