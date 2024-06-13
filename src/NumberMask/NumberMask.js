@@ -19,8 +19,8 @@ class NumberMask {
    *
    * @param {Number} number the number to format
    * @param {String} mask the mask to use for formatting
-   * @param {String} [groupingSeparator=,] - a char which will be used as a grouping separator
-   * @param {String} [decimalSeparator=.]  - a char which will be used as a decimal separator
+   * @param {String} [groupingSeparatorPlaceholder=,] - a char which will be used as a grouping separator
+   * @param {String} [decimalSeparatorPlaceholder=.]  - a char which will be used as a decimal separator
    * @param {Boolean} [forceTrailingZeros=false] - Affects the output by switching the way a mask with "#" characters in the trailing positions is filled.
    *                                              for example, the function `NumberMask.mask(.10:"#.##")` returns ` .10` instead of ` .1 `
    * @param {Boolean} [loose=true] when true , errors will be ignored and the method will try at apply the mask
@@ -49,6 +49,8 @@ class NumberMask {
     trimSpaces = false,
     floatSpecialChars = true
   ) {
+    const groupingSeparatorPlaceholder = '__GROUPING__SEPARATOR__PLACEHOLDER__';
+    const decimalSeparatorPlaceholder = '__DECIMAL__SEPARATOR__PLACEHOLDER__'
     const maskLen = mask.length
     if (0 === maskLen) {
       if (loose) return str
@@ -180,7 +182,7 @@ class NumberMask {
           break
 
         case ',':
-          if (foundZero || inPos > 0) ret[outPos] = groupingSeparator
+          if (foundZero || inPos > 0) ret[outPos] = groupingSeparatorPlaceholder
           else {
             ret[outPos] = fillByte
             if (!foundDecimal) floatPos = maskPos
@@ -256,7 +258,7 @@ class NumberMask {
           } else {
             ret[outPos] = foundDecimal ? ' ' : fillByte
           }
-          
+
           // if(floatSpecialChars) {
           //   if (isNegative) {
           //     ret[outPos] = ')'
@@ -266,7 +268,7 @@ class NumberMask {
           // } else {
           //   ret[outPos] = ')'
           // }
-          
+
           ++outPos
           break
 
@@ -309,7 +311,7 @@ class NumberMask {
           break
 
         case '.':
-          ret[outPos] = emitDecimal ? decimalSeparator : fillByte
+          ret[outPos] = emitDecimal ? decimalSeparatorPlaceholder : fillByte
           fillByte = ' '
           foundDecimal = true
           ++inPos
@@ -337,6 +339,9 @@ class NumberMask {
     ret = ret.join('')
 
     if (trimSpaces) ret = ret.replace(/\s/g, '')
+
+    ret = ret.replaceAll(groupingSeparatorPlaceholder, groupingSeparator);
+    ret = ret.replaceAll(decimalSeparatorPlaceholder, decimalSeparator);
 
     return ret
   }

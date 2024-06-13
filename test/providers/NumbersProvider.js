@@ -193,7 +193,18 @@
       ignoreFillChar: false,
       trimSpaces: true,
       floatSpecialChars: true
-    },                        
+    },
+    {
+      number: 12345,
+      mask: '##,###,###.00',
+      expected: '12 345,00',
+      forceTrailingZeros: true,
+      decimalSeparator: ',',
+      groupingSep: ' ',
+      ignoreFillChar: true,
+      trimSpaces: true,
+      floatSpecialChars: false
+    }                        
   ]
 
   if (typeof exports === 'object' && typeof exports.nodeName !== 'string') {
