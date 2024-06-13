@@ -3,7 +3,7 @@
   "description": "A small library to format Javascript Dates , Numbers & Strings using BBj supported masks.",
   "main": "dist/bbj-masks.js",
   "module": "src/index.js",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "private": false,
   "scripts": {
     "watch": "./node_modules/.bin/webpack --watch --progress",

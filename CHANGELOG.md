@@ -1,3 +1,12 @@
+## [1.5.2](https://github.com/BasisHub/bbj-masks/compare/v1.5.1...v1.5.2) (2024-06-13)
+
+
+### Bug Fixes
+
+* NumberMask does not allow empty space as a grouping chat ([425ad0f](https://github.com/BasisHub/bbj-masks/commit/425ad0fb78d88a1aca551c137c665e27534a2702))
+
+
+
 ## [1.5.1](https://github.com/BasisHub/bbj-masks/compare/v1.5.0...v1.5.1) (2023-02-06)
 
 
