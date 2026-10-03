@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test & Coverage
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enable Yarn (Corepack)
+        run: corepack enable
+        env:
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        env:
+          COREPACK_ENABLE_DOWNLOAD_PROMPT: '0'
+
+      - name: Run node tests with coverage
+        run: yarn test:coverage
+
+      - name: Run browser tests (Chrome & Firefox headless)
+        run: yarn test:browser
+
+      - name: Generate coverage summary
+        if: always() && hashFiles('coverage/cobertura-coverage.xml') != ''
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage/cobertura-coverage.xml
+          badge: true
+          format: markdown
+          output: both
+          indicators: true
+          hide_complexity: true
+
+      - name: Add coverage to job summary
+        if: always() && hashFiles('code-coverage-results.md') != ''
+        run: cat code-coverage-results.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment coverage on pull request
+        if: >-
+          always() &&
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository &&
+          hashFiles('code-coverage-results.md') != ''
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: coverage
+          path: code-coverage-results.md
+
+      - name: Upload coverage report
+        if: always() && hashFiles('coverage/**') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            coverage/
+            !coverage/tmp/
+          retention-days: 14

@@ -12,6 +12,7 @@
     "test:watch": "./node_modules/.bin/concurrently --kill-others \"yarn test:watch:node\" \"yarn test:watch:browser\"",
     "test:node": "./node_modules/.bin/instant-mocha \"./test/**/*.test.js\"",
     "test:browser": "./node_modules/.bin/karma start --single-run --browsers ChromeHeadless,FirefoxHeadless karma.conf.js",
+    "test:coverage": "./node_modules/.bin/c8 --all --src src --include \"src/**\" --reporter text --reporter lcov --reporter cobertura --reporter json-summary ./node_modules/.bin/mocha \"./test/**/*.test.js\"",
     "test": "yarn test:node && yarn test:browser",
     "doc": "./node_modules/.bin/esdoc",
     "build": "yarn test && yarn doc && ./node_modules/.bin/webpack"
