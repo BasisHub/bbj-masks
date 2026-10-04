@@ -2,8 +2,9 @@ name: CI
 
 on:
   push:
+    branches: [master, main]
   pull_request:
-  workflow_dispatch:
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: read
@@ -70,12 +71,12 @@ jobs:
           header: coverage
           path: code-coverage-results.md
 
-      - name: Upload coverage report
-        if: always() && hashFiles('coverage/**') != ''
+      - name: Upload coverage report on failure
+        if: failure() && hashFiles('coverage/**') != ''
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: |
             coverage/
             !coverage/tmp/
-          retention-days: 14
+          retention-days: 2
