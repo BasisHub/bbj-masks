@@ -1,0 +1,23 @@
+{
+  "source": {
+    "include": ["./src"],
+    "exclude": ["./src/index.js"],
+    "includePattern": "\\.js$"
+  },
+  "recurseDepth": 10,
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "opts": {
+    "destination": "./docs/api",
+    "recurse": true,
+    "readme": "./README.md"
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false,
+    "default": {
+      "includeDate": false
+    }
+  }
+}

@@ -14,7 +14,7 @@
     "test:browser": "./node_modules/.bin/karma start --single-run --browsers ChromeHeadless,FirefoxHeadless karma.conf.js",
     "test:coverage": "./node_modules/.bin/c8 --all --src src --include \"src/**\" --reporter text --reporter lcov --reporter cobertura --reporter json-summary ./node_modules/.bin/mocha \"./test/**/*.test.js\"",
     "test": "yarn test:node && yarn test:browser",
-    "doc": "./node_modules/.bin/esdoc",
+    "doc": "./node_modules/.bin/jsdoc -c jsdoc.json",
     "build": "yarn test && yarn doc && ./node_modules/.bin/webpack"
   },
   "devDependencies": {
@@ -24,9 +24,8 @@
     "c8": "^12.0.0",
     "chai": "^4.2.0",
     "concurrently": "^5.0.2",
-    "esdoc": "^1.1.0",
-    "esdoc-standard-plugin": "^1.0.0",
     "instant-mocha": "^1.5.0",
+    "jsdoc": "^4.0.5",
     "karma": "^6.4.4",
     "karma-babel-preprocessor": "^8.0.1",
     "karma-chai": "^0.1.0",
